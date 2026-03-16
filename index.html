@@ -153,18 +153,19 @@
       white-space:nowrap;
     }
 
-    /* ★ カードを大きめに表示 */
+    /* ▼ カードを1列＆大きく表示 */
     .picker {
       display:flex;
-      flex-wrap:wrap;
+      flex-direction:column;
       gap:24px;
       margin-top:16px;
-      justify-content:center;
+      align-items:center;
     }
 
     .tcard {
-      flex:1 1 300px;
-      max-width:420px;
+      flex:0 0 auto;
+      width:100%;
+      max-width:540px;
       border:none;
       padding:0;
       background:transparent;
@@ -205,12 +206,11 @@
       background:#fdf3f8;
     }
 
-    /* ★ 画像を縦に大きく */
     .card-art img {
       display:block;
       width:100%;
       height:auto;
-      max-height:380px;
+      max-height:none;      /* 高さ制限なしで大きく */
       object-fit:cover;
     }
 
@@ -450,17 +450,6 @@
       text-align:center;
     }
 
-    /* PC では 2列寄せ、スマホは1列でドーン */
-    @media (min-width:1024px) {
-      .picker {
-        justify-content:center;
-      }
-      .tcard {
-        flex:1 1 45%;
-        max-width:460px;
-      }
-    }
-
     @media (max-width:768px) {
       body {
         padding:12px 8px 24px;
@@ -477,14 +466,10 @@
         border-radius:18px;
       }
       .picker {
-        flex-direction:column;
         gap:18px;
       }
       .tcard {
         max-width:100%;
-      }
-      .card-art img {
-        max-height:none;
       }
       .cta-line {
         border-radius:20px;
