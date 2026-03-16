@@ -34,7 +34,7 @@
     .wrap{max-width:860px;margin:0 auto;padding:16px 16px 64px}
 
     .hero{
-      background:rgba(255,255,255,.78);
+      background:rgba(255,255,255,.8);
       border:1px solid rgba(240,214,226,.9);
       box-shadow:var(--shadow);
       border-radius:18px;
@@ -67,7 +67,6 @@
       font-size:.98rem;
     }
 
-    /* カード選択ブロック */
     .picker{
       margin-top:14px;
       background:var(--card);
@@ -97,7 +96,7 @@
 
     .cards{
       display:grid;
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(3,1fr);
       gap:12px;
       margin-top:10px;
     }
@@ -110,13 +109,12 @@
       cursor:pointer;
       text-align:left;
     }
-
     .card-shell{
       background:#fff;
       border-radius:18px;
       padding:10px 10px 12px;
       box-shadow:0 10px 24px rgba(30,10,20,.10);
-      border:1px solid rgba(240,214,226,.9);
+      border:1px solid rgba(240,214,226,.95);
       transition:.18s ease transform,.18s ease box-shadow,.18s ease border-color;
       position:relative;
       overflow:hidden;
@@ -136,39 +134,13 @@
       border-radius:14px;
       height:140px;
       margin-bottom:8px;
-      position:relative;
       overflow:hidden;
     }
-
-    /* テーマ別イラスト風（ここを変えればテーマ変更できる） */
-    .card-theme-1-a{
-      background:
-        radial-gradient(circle at 15% 0%, rgba(255,255,255,.8), transparent 60%),
-        linear-gradient(145deg,#ffe6f0,#f9d4ff);
-    }
-    .card-theme-1-b{
-      background:
-        radial-gradient(circle at 80% 0%, rgba(255,255,255,.8), transparent 60%),
-        linear-gradient(145deg,#fff0d6,#ffd1a3);
-    }
-    .card-theme-1-c{
-      background:
-        radial-gradient(circle at 20% 0%, rgba(255,255,255,.8), transparent 60%),
-        linear-gradient(145deg,#e3f2ff,#d3d5ff);
-    }
-
-    .card-symbol{
-      position:absolute;
-      inset:16px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.8);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.8rem;
-      color:rgba(255,255,255,.96);
-      text-shadow:0 4px 10px rgba(0,0,0,.18);
-      letter-spacing:.06em;
+    .card-art img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
     .tname{
@@ -292,33 +264,33 @@
 
         <div class="cards" aria-label="タロット三択">
 
-          <!-- テーマ別イラストカード A -->
+          <!-- Aカード：窓＋月の画像（見守る） -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
             <div class="card-shell">
-              <div class="card-art card-theme-1-a">
-                <div class="card-symbol">月</div>
+              <div class="card-art">
+                <img src="card-a.png" alt="心を休めるカード">
               </div>
               <p class="tname">心を休めるカード</p>
               <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ。</p>
             </div>
           </button>
 
-          <!-- テーマ別イラストカード B -->
+          <!-- Bカード：扉を開ける女の子の画像（動き出す） -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
             <div class="card-shell">
-              <div class="card-art card-theme-1-b">
-                <div class="card-symbol">扉</div>
+              <div class="card-art">
+                <img src="card-b.png" alt="一歩踏み出すカード">
               </div>
               <p class="tname">一歩踏み出すカード</p>
               <p class="tdesc">本当は、自分から動きたい気持ちがあるあなたへ。</p>
             </div>
           </button>
 
-          <!-- テーマ別イラストカード C -->
+          <!-- Cカード：朝焼け＋女性シルエットの画像（手放して変わる） -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
             <div class="card-shell">
-              <div class="card-art card-theme-1-c">
-                <div class="card-symbol">朝</div>
+              <div class="card-art">
+                <img src="card-c.png" alt="新しい朝へ進むカード">
               </div>
               <p class="tname">新しい朝へ進むカード</p>
               <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ。</p>
@@ -345,13 +317,13 @@
       </div>
     </section>
 
-    <!-- 結果共通のイントロ -->
+    <!-- 結果共通イントロ -->
     <section class="sec result" id="intro">
       <p class="rlabel">あなたが選んだカードから、今のあなたと彼の恋の流れを読み解いたメッセージです。</p>
       <p class="footnote">当てはまる部分だけ、心に留めていただければ大丈夫です。</p>
     </section>
 
-    <!-- Aの結果 -->
+    <!-- A結果 -->
     <section class="sec result" id="resA">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【A：見守るカード】</h2>
@@ -374,7 +346,7 @@
       </p>
     </section>
 
-    <!-- Bの結果 -->
+    <!-- B結果 -->
     <section class="sec result" id="resB">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【B：動き出すカード】</h2>
@@ -397,7 +369,7 @@
       </p>
     </section>
 
-    <!-- Cの結果 -->
+    <!-- C結果 -->
     <section class="sec result" id="resC">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【C：手放して変わるカード】</h2>
@@ -420,7 +392,7 @@
       </p>
     </section>
 
-    <!-- ラストメッセージ＋LINE誘導 -->
+    <!-- ラストメッセージ -->
     <section class="sec result" id="after">
       <p class="footnote">
         ※この結果は、あなたが今のタイミングで選んだカードからのメッセージです。<br>
