@@ -15,8 +15,8 @@
       --accent:#e25c8d;
       --accent2:#f47da5;
       --line:#f0d6e2;
-      --shadow:0 12px 28px rgba(30, 10, 20, .10);
-      --shadow2:0 8px 18px rgba(30, 10, 20, .08);
+      --shadow:0 12px 28px rgba(30,10,20,.10);
+      --shadow2:0 8px 18px rgba(30,10,20,.08);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -32,8 +32,9 @@
     }
     a{color:inherit}
     .wrap{max-width:860px;margin:0 auto;padding:16px 16px 64px}
+
     .hero{
-      background:rgba(255,255,255,.75);
+      background:rgba(255,255,255,.78);
       border:1px solid rgba(240,214,226,.9);
       box-shadow:var(--shadow);
       border-radius:18px;
@@ -66,6 +67,7 @@
       font-size:.98rem;
     }
 
+    /* カード選択ブロック */
     .picker{
       margin-top:14px;
       background:var(--card);
@@ -96,74 +98,116 @@
     .cards{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
-      gap:10px;
+      gap:12px;
       margin-top:10px;
     }
+
     .tcard{
-      appearance:none;border:0;padding:0;
-      cursor:pointer;background:transparent;text-align:left;
-    }
-    .tcard-inner{
-      position:relative;
-      border-radius:18px;
-      padding:14px 12px 12px;
-      min-height:168px;
-      border:1px solid rgba(240,214,226,.95);
-      box-shadow:0 14px 28px rgba(30, 10, 20, .10);
-      background:
-        radial-gradient(380px 200px at 20% 0%, rgba(244,125,165,.20), transparent 55%),
-        radial-gradient(340px 180px at 100% 40%, rgba(226,92,141,.18), transparent 55%),
-        linear-gradient(180deg, #ffffff, #fff6fa);
-      overflow:hidden;
-      transform: translateZ(0);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .tcard:hover .tcard-inner{
-      transform: translateY(-3px);
-      box-shadow:0 18px 34px rgba(30, 10, 20, .14);
-      border-color: rgba(226,92,141,.55);
-    }
-    .tcard-inner::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius:18px;
-      padding:1px;
-      background:linear-gradient(135deg, rgba(244,125,165,.55), rgba(226,92,141,.35), rgba(240,214,226,.85));
-      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor;
-      mask-composite:exclude;
-      pointer-events:none;
-    }
-    .sig{
-      display:inline-flex;align-items:center;gap:8px;
-      font-weight:800;letter-spacing:.02em;
-      color:#b54b74;margin-bottom:6px;font-size:.95rem;
-    }
-    .chip{
-      font-size:.72rem;padding:3px 9px;border-radius:999px;
-      background:rgba(226,92,141,.12);color:#a23b64;
-      border:1px solid rgba(226,92,141,.18);
-    }
-    .tname{margin:0 0 6px;font-size:1.02rem;line-height:1.3}
-    .tdesc{margin:0;font-size:.86rem;color:#4e444a;line-height:1.55}
-    .orn{
-      position:absolute;right:-18px;bottom:-18px;
-      width:92px;height:92px;border-radius:99px;
-      background:radial-gradient(circle at 30% 30%, rgba(244,125,165,.35), rgba(226,92,141,.08), transparent 70%);
-      filter: blur(.2px);pointer-events:none;
-    }
-    .tcard[aria-pressed="true"] .tcard-inner{
-      border-color: rgba(226,92,141,.8);
-      box-shadow:0 18px 38px rgba(226,92,141,.18);
-      transform: translateY(-2px);
+      appearance:none;
+      border:0;
+      padding:0;
+      background:transparent;
+      cursor:pointer;
+      text-align:left;
     }
 
-    .disclaimer{margin:10px 0 0;font-size:.8rem;color:var(--muted)}
-    details.more{margin-top:12px;border-top:1px dashed rgba(240,214,226,.9);padding-top:10px}
-    summary{cursor:pointer;user-select:none;font-weight:700;color:#6a4a59;list-style:none}
+    .card-shell{
+      background:#fff;
+      border-radius:18px;
+      padding:10px 10px 12px;
+      box-shadow:0 10px 24px rgba(30,10,20,.10);
+      border:1px solid rgba(240,214,226,.9);
+      transition:.18s ease transform,.18s ease box-shadow,.18s ease border-color;
+      position:relative;
+      overflow:hidden;
+    }
+    .tcard:hover .card-shell{
+      transform:translateY(-3px);
+      box-shadow:0 16px 32px rgba(30,10,20,.16);
+      border-color:rgba(226,92,141,.55);
+    }
+    .tcard[aria-pressed="true"] .card-shell{
+      border-color:rgba(226,92,141,.85);
+      box-shadow:0 18px 38px rgba(226,92,141,.22);
+      transform:translateY(-2px);
+    }
+
+    .card-art{
+      border-radius:14px;
+      height:140px;
+      margin-bottom:8px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* テーマ別イラスト風（ここを変えればテーマ変更できる） */
+    .card-theme-1-a{
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,.8), transparent 60%),
+        linear-gradient(145deg,#ffe6f0,#f9d4ff);
+    }
+    .card-theme-1-b{
+      background:
+        radial-gradient(circle at 80% 0%, rgba(255,255,255,.8), transparent 60%),
+        linear-gradient(145deg,#fff0d6,#ffd1a3);
+    }
+    .card-theme-1-c{
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,.8), transparent 60%),
+        linear-gradient(145deg,#e3f2ff,#d3d5ff);
+    }
+
+    .card-symbol{
+      position:absolute;
+      inset:16px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.8rem;
+      color:rgba(255,255,255,.96);
+      text-shadow:0 4px 10px rgba(0,0,0,.18);
+      letter-spacing:.06em;
+    }
+
+    .tname{
+      margin:0 0 4px;
+      font-weight:700;
+      font-size:.98rem;
+    }
+    .tdesc{
+      margin:0;
+      font-size:.86rem;
+      color:#4e444a;
+      line-height:1.6;
+    }
+
+    .disclaimer{
+      margin:10px 0 0;
+      font-size:.8rem;
+      color:var(--muted);
+    }
+
+    details.more{
+      margin-top:12px;
+      border-top:1px dashed rgba(240,214,226,.9);
+      padding-top:10px;
+    }
+    summary{
+      cursor:pointer;
+      user-select:none;
+      font-weight:700;
+      color:#6a4a59;
+      list-style:none;
+    }
     summary::-webkit-details-marker{display:none}
-    summary::after{content:"  ▼";font-weight:700;font-size:.9em;color:#8a6a79}
+    summary::after{
+      content:"  ▼";
+      font-weight:700;
+      font-size:.9em;
+      color:#8a6a79;
+    }
     details[open] summary::after{content:"  ▲"}
     .more p{margin:10px 0;color:#2f2a2d}
 
@@ -180,7 +224,7 @@
     .rlabel{color:#8a6a79;font-size:.9rem;margin:0 0 6px}
     .rsub{font-weight:900;color:#b54b74;margin:6px 0 10px}
     .tips{
-      background:linear-gradient(180deg, #fff7fb, #fff);
+      background:linear-gradient(180deg,#fff7fb,#fff);
       border:1px dashed rgba(226,92,141,.35);
       border-radius:12px;
       padding:10px 12px;
@@ -188,31 +232,45 @@
       font-size:.92rem;
     }
     .cta{
-      display:block;width:100%;text-align:center;
+      display:block;
+      width:100%;
+      text-align:center;
       background:linear-gradient(135deg,var(--accent2),var(--accent));
-      color:#fff;text-decoration:none;border-radius:999px;
-      padding:14px 12px;font-weight:900;letter-spacing:.02em;
-      margin-top:10px;box-shadow:0 14px 30px rgba(226,92,141,.22);
+      color:#fff;
+      text-decoration:none;
+      border-radius:999px;
+      padding:14px 12px;
+      font-weight:900;
+      letter-spacing:.02em;
+      margin-top:10px;
+      box-shadow:0 14px 30px rgba(226,92,141,.22);
     }
     .cta:active{transform:translateY(1px)}
     .footnote{font-size:.82rem;color:var(--muted);margin-top:10px}
+
     .reset{
-      margin-top:10px;width:100%;
+      margin-top:10px;
+      width:100%;
       border:1px solid rgba(240,214,226,.95);
-      background:#fff;border-radius:999px;
-      padding:12px 12px;font-weight:800;
-      cursor:pointer;color:#6a4a59;
+      background:#fff;
+      border-radius:999px;
+      padding:12px 12px;
+      font-weight:800;
+      cursor:pointer;
+      color:#6a4a59;
     }
 
     @media (max-width:720px){
       h1{font-size:1.35rem}
       .cards{grid-template-columns:1fr;gap:10px}
-      .tcard-inner{min-height:152px}
+      .card-art{height:150px}
     }
   </style>
 </head>
 <body>
   <div class="wrap">
+
+    <!-- ファーストビュー ＋ カード3枚 -->
     <section class="hero" id="top">
       <div class="tag"><span class="dot"></span>恋に悩むあなたへ・無料タロット三択鑑定</div>
 
@@ -226,42 +284,52 @@
       <div class="picker" id="cards">
         <div class="picker-head">
           <div>
-            <p class="picker-title"><b>気になる彼のことを思い浮かべて、1枚だけ選んでください。</b></p>
+            <p class="picker-title"><b>気になる彼のことを思い浮かべて、今のあなたに一番しっくりくる1枚を選んでください。</b></p>
             <p class="picker-note">正解・不正解はありません。「これかも」と感じたカードをタップするだけでOKです。</p>
           </div>
           <div class="mini">所要：10秒</div>
         </div>
 
         <div class="cards" aria-label="タロット三択">
+
+          <!-- テーマ別イラストカード A -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
-            <div class="tcard-inner">
-              <div class="sig"><span class="chip">A / WAIT</span></div>
-              <p class="tname"><b>見守るカード</b></p>
-              <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ</p>
-              <span class="orn"></span>
+            <div class="card-shell">
+              <div class="card-art card-theme-1-a">
+                <div class="card-symbol">月</div>
+              </div>
+              <p class="tname">心を休めるカード</p>
+              <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ。</p>
             </div>
           </button>
 
+          <!-- テーマ別イラストカード B -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
-            <div class="tcard-inner">
-              <div class="sig"><span class="chip">B / MOVE</span></div>
-              <p class="tname"><b>動き出すカード</b></p>
-              <p class="tdesc">本当は、自分から一歩動きたい気持ちがあるあなたへ</p>
-              <span class="orn"></span>
+            <div class="card-shell">
+              <div class="card-art card-theme-1-b">
+                <div class="card-symbol">扉</div>
+              </div>
+              <p class="tname">一歩踏み出すカード</p>
+              <p class="tdesc">本当は、自分から動きたい気持ちがあるあなたへ。</p>
             </div>
           </button>
 
+          <!-- テーマ別イラストカード C -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
-            <div class="tcard-inner">
-              <div class="sig"><span class="chip">C / CHANGE</span></div>
-              <p class="tname"><b>手放して変わるカード</b></p>
-              <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ</p>
-              <span class="orn"></span>
+            <div class="card-shell">
+              <div class="card-art card-theme-1-c">
+                <div class="card-symbol">朝</div>
+              </div>
+              <p class="tname">新しい朝へ進むカード</p>
+              <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ。</p>
             </div>
           </button>
+
         </div>
 
-        <p class="disclaimer">※選んだカードの鑑定結果だけが表示されます。他のカードの結果は見られない仕様です。</p>
+        <p class="disclaimer">
+          ※選んだカードの鑑定結果だけが表示されます。他のカードの結果は見られない仕様です。
+        </p>
 
         <details class="more">
           <summary>「この鑑定について」もう少し読む</summary>
@@ -277,16 +345,17 @@
       </div>
     </section>
 
+    <!-- 結果共通のイントロ -->
     <section class="sec result" id="intro">
-      <p class="rlabel">あなたが選んだカードから、今の恋の流れを読み解きます。</p>
+      <p class="rlabel">あなたが選んだカードから、今のあなたと彼の恋の流れを読み解いたメッセージです。</p>
       <p class="footnote">当てはまる部分だけ、心に留めていただければ大丈夫です。</p>
     </section>
 
+    <!-- Aの結果 -->
     <section class="sec result" id="resA">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【A：見守るカード】</h2>
       <p class="rsub">今は“追いかけすぎないこと”が、彼との関係を守る鍵かもしれません。</p>
-
       <p>
         今の彼は、あなたのことを嫌いになったわけではなさそうです。<br>
         ただ、恋愛以外のことで心に余裕がなくなっている可能性が高いカードです。
@@ -295,23 +364,21 @@
         不安をぶつけすぎると、彼は“責められている”と感じて距離を取ってしまうかもしれません。<br>
         大切なのは <b>彼のペースを無理に変えようとしないこと</b>。あなた自身の心地よい時間を増やしていくことです。
       </p>
-
       <div class="tips">
         <b>今できる小さな一歩</b><br>
         ・すぐに返事を求めるLINEは、今は控える<br>
         ・1週間ほどは、自分の予定を先に埋めてから、彼のことを考える
       </div>
-
       <p class="footnote">
         「距離感が分からない」「連絡の言い方が不安」など、状況に合わせて深掘りしたい方は、公式LINEから個別鑑定もご案内できます。必要だと感じたタイミングでだけで大丈夫です。
       </p>
     </section>
 
+    <!-- Bの結果 -->
     <section class="sec result" id="resB">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【B：動き出すカード】</h2>
       <p class="rsub">小さな一歩が、二人の空気をあたため直すきっかけになりそうです。</p>
-
       <p>
         このカードは、あなたの中に「本当は動きたい」という気持ちがあるサイン。<br>
         彼も“嫌い”ではなく、“どうしていいか分からない迷い”の中にいる可能性があります。
@@ -320,23 +387,21 @@
         今は、重くなりすぎない形で <b>会話の糸口をそっと投げる</b> タイミング。<br>
         長文や答えを迫る連絡より、「最近どうしてる？」「これ見て思い出したよ」くらいの軽い一言が効きやすいです。
       </p>
-
       <div class="tips">
         <b>今できる小さな一歩</b><br>
         ・今日〜3日以内に、彼を責めない一言LINEを送ってみる<br>
         ・「返信は気にしないでね」と添えて、圧を下げる
       </div>
-
       <p class="footnote">
         「どんな内容なら重くならない？」「今動いて大丈夫？」が不安なら、個別鑑定で“内容とタイミング”まで一緒に整えられます。
       </p>
     </section>
 
+    <!-- Cの結果 -->
     <section class="sec result" id="resC">
       <p class="rlabel">あなたが選んだのは…</p>
       <h2>【C：手放して変わるカード】</h2>
       <p class="rsub">“このままではしんどい”という、心からのSOSに気づくタイミングかもしれません。</p>
-
       <p>
         このカードは、「今の関係のままだと、あなたが消耗しやすい」暗示。<br>
         彼との未来がゼロとは限りませんが、いったん <b>距離を置く・手放す</b> 選択肢も、あなたを守るために必要かもしれません。
@@ -345,18 +410,17 @@
         手放すことは負けではありません。<b>自分を大切にするための勇気ある決断</b>です。<br>
         SNSチェックをやめる、待機モードを降りる、予定を入れるなど、心のスペースを少しずつ空けていきましょう。
       </p>
-
       <div class="tips">
         <b>今できる小さな一歩</b><br>
         ・今日から1週間、彼の連絡だけに心を縛られない予定を入れる<br>
         ・「自分を守るために距離を置く」と心の中で宣言する
       </div>
-
       <p class="footnote">
         「本当に手放していいのか怖い」「区切りをつけたい」などは、個別鑑定で気持ちの整理から一緒にできます。
       </p>
     </section>
 
+    <!-- ラストメッセージ＋LINE誘導 -->
     <section class="sec result" id="after">
       <p class="footnote">
         ※この結果は、あなたが今のタイミングで選んだカードからのメッセージです。<br>
@@ -373,6 +437,7 @@
 
       <p class="footnote">※無料三択鑑定だけで完結していただいても大丈夫です。※しつこい勧誘は一切ありません。</p>
     </section>
+
   </div>
 
   <script>
@@ -393,17 +458,17 @@
         intro.classList.remove('on');
         after.classList.remove('on');
         Object.values(res).forEach(x => x.classList.remove('on'));
-        cardBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+        cardBtns.forEach(b => b.setAttribute('aria-pressed','false'));
       }
 
-      function show(type){
+      function show(t){
         hideAll();
         intro.classList.add('on');
-        res[type].classList.add('on');
+        res[t].classList.add('on');
         after.classList.add('on');
 
-        const btn = cardBtns.find(b => b.getAttribute('data-card') === type);
-        if (btn) btn.setAttribute('aria-pressed', 'true');
+        const btn = cardBtns.find(b => b.getAttribute('data-card') === t);
+        if(btn) btn.setAttribute('aria-pressed','true');
 
         intro.scrollIntoView({behavior:'smooth', block:'start'});
       }
@@ -415,7 +480,7 @@
         });
       });
 
-      if (resetBtn){
+      if(resetBtn){
         resetBtn.addEventListener('click', () => {
           hideAll();
           document.getElementById('cards').scrollIntoView({behavior:'smooth', block:'start'});
