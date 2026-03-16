@@ -4,882 +4,741 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>待つべき？動くべき？三択タロット無料鑑定</title>
-  <meta name="description" content="待つべき？動くべき？その迷いに、あなたが“選ぶ”三択タロット。3つのカードから直感で1枚選ぶだけで、今のあなたに合う次の一歩が見えてきます。" />
+  <meta name="description" content="待つべき？動くべき？その迷いに、あなたが選ぶ三択タロット。彼の本音・連絡が来ない理由・復縁の可能性…今のあなたに合う“次の一歩”が見えてきます。" />
   <style>
-    :root{
+    :root {
       --bg1:#fff3f7;
-      --bg2:#fffafc;
+      --bg2:#fff4fc;
       --card:#ffffff;
       --ink:#1f1f1f;
       --muted:#6c6168;
       --accent:#e25c8d;
-      --accent2:#f47da5;
+      --accent2:#ffb4d5;
       --line:#f0d6e2;
-      --shadow:0 12px 28px rgba(30,10,20,.10);
-      --shadow2:0 8px 18px rgba(30,10,20,.08);
+      --shadow:0 18px 40px rgba(210,140,180,.45);
+      --shadow-soft:0 10px 24px rgba(0,0,0,.08);
+      --radius-lg:28px;
+      --radius-md:20px;
+      --radius-sm:12px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+
+    * {
+      box-sizing:border-box;
+    }
+
+    html,body {
+      height:100%;
       margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+      padding:0;
+    }
+
+    body {
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
       color:var(--ink);
-      background:
-        radial-gradient(1100px 600px at 20% -10%, rgba(226,92,141,.18), transparent 55%),
-        radial-gradient(900px 520px at 90% 10%, rgba(244,125,165,.16), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      line-height:1.75;
-    }
-    a{color:inherit}
-    .wrap{max-width:860px;margin:0 auto;padding:16px 16px 64px}
-
-    .hero{
-      background:rgba(255,255,255,.8);
-      border:1px solid rgba(240,214,226,.9);
-      box-shadow:var(--shadow);
-      border-radius:18px;
-      padding:18px 16px;
-      backdrop-filter: blur(8px);
-    }
-    .tag{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      font-size:.88rem;
-      color:#8a6a79;
-      letter-spacing:.02em;
-      margin-bottom:8px;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:99px;
-      background:linear-gradient(135deg,var(--accent2),var(--accent));
-      box-shadow:0 0 0 3px rgba(226,92,141,.10);
-    }
-    h1{
-      margin:0 0 10px;
-      font-size:1.55rem;
-      line-height:1.35;
-      letter-spacing:.01em;
-    }
-    .sub{
-      margin:0 0 12px;
-      color:#3a3438;
-      font-size:.98rem;
-    }
-
-    .picker{
-      margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px 12px;
-      box-shadow:var(--shadow2);
-    }
-    .picker-head{
+      background:radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
+      justify-content:center;
+      padding:24px 12px 40px;
+    }
+
+    .page {
+      width:100%;
+      max-width:960px;
+      background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,245,252,.96));
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      padding:24px 20px 32px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .page::before {
+      content:"";
+      position:absolute;
+      inset:-60px -40px auto auto;
+      background:radial-gradient(circle at top,#ffe7f7 0,transparent 60%);
+      opacity:.7;
+      pointer-events:none;
+    }
+
+    .page-inner {
+      position:relative;
+      z-index:1;
+    }
+
+    .chip {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(255,192,216,.7);
+      font-size:11px;
+      color:#b34a77;
       margin-bottom:10px;
     }
-    .picker-title{
-      margin:0;
-      font-size:1.05rem;
-      line-height:1.35;
+
+    .chip-dot {
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ff77aa,#ffb4e0);
+      box-shadow:0 0 8px rgba(255,105,180,.7);
     }
-    .picker-note{
-      margin:2px 0 0;
-      font-size:.84rem;
+
+    h1 {
+      margin:0 0 8px;
+      font-size:26px;
+      line-height:1.5;
+      letter-spacing:.04em;
+    }
+
+    h1 span {
+      display:block;
+    }
+
+    .sub {
+      margin:0 0 16px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .hero-note {
+      font-size:11px;
+      color:#a08a96;
+      margin-top:8px;
+    }
+
+    .card-section {
+      margin-top:10px;
+      padding:14px 14px 18px;
+      border-radius:var(--radius-lg);
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(255,210,232,.9);
+      box-shadow:var(--shadow-soft);
+    }
+
+    .card-headline {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:8px;
+      margin-bottom:10px;
+      border-bottom:1px dashed var(--line);
+      padding-bottom:8px;
+    }
+
+    .card-headline-main {
+      font-size:14px;
+      font-weight:600;
+      line-height:1.6;
+    }
+
+    .card-headline-main span {
+      display:block;
+      font-size:12px;
+      font-weight:500;
       color:var(--muted);
     }
-    .mini{font-size:.82rem;color:var(--muted)}
 
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
+    .time-chip {
+      font-size:10px;
+      color:#a58a99;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#fff6fb;
+      border:1px solid #f5d7ea;
+      white-space:nowrap;
+    }
+
+    .picker {
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
       margin-top:10px;
     }
 
-    .tcard{
-      appearance:none;
-      border:0;
+    .tcard {
+      flex:1 1 280px;
+      max-width:360px;
+      border:none;
       padding:0;
       background:transparent;
       cursor:pointer;
       text-align:left;
     }
-    .card-shell{
-      background:#fff;
-      border-radius:18px;
-      padding:10px 10px 12px;
-      box-shadow:0 10px 24px rgba(30,10,20,.10);
-      border:1px solid rgba(240,214,226,.95);
-      transition:.18s ease transform,.18s ease box-shadow,.18s ease border-color;
-      position:relative;
-      overflow:hidden;
-    }
-    .tcard:hover .card-shell{
-      transform:translateY(-3px);
-      box-shadow:0 16px 32px rgba(30,10,20,.16);
-      border-color:rgba(226,92,141,.55);
-    }
-    .tcard[aria-pressed="true"] .card-shell{
-      border-color:rgba(226,92,141,.85);
-      box-shadow:0 18px 38px rgba(226,92,141,.22);
-      transform:translateY(-2px);
+
+    .tcard:focus-visible {
+      outline:2px solid #ff9dcf;
+      outline-offset:3px;
     }
 
-    .card-art{
-      border-radius:14px;
-      height:140px;
-      margin-bottom:8px;
+    .card-shell {
+      background:var(--card);
+      border-radius:var(--radius-md);
+      box-shadow:var(--shadow-soft);
       overflow:hidden;
-    }
-    .card-art img{
-      width:100%;
+      display:flex;
+      flex-direction:column;
       height:100%;
-      object-fit:cover;
+      transition:transform .18s ease,box-shadow .18s ease,border .18s ease;
+      border:1px solid rgba(255,210,230,.8);
+    }
+
+    .tcard:hover .card-shell {
+      transform:translateY(-4px);
+      box-shadow:0 18px 38px rgba(0,0,0,.12);
+    }
+
+    .tcard[aria-pressed="true"] .card-shell {
+      transform:translateY(-2px) scale(1.01);
+      box-shadow:0 20px 40px rgba(228,118,162,.45);
+      border:1px solid #ff8fbe;
+    }
+
+    .card-art {
+      width:100%;
+      background:#fdf3f8;
+    }
+
+    .card-art img {
       display:block;
+      width:100%;
+      height:auto;
+      max-height:280px;
+      object-fit:cover;
     }
 
-    .tname{
-      margin:0 0 4px;
-      font-weight:700;
-      font-size:.98rem;
+    .card-text {
+      padding:10px 14px 14px;
     }
-    .tdesc{
+
+    .tname {
+      font-size:14px;
+      font-weight:600;
+      margin:0 0 6px;
+    }
+
+    .tdesc {
       margin:0;
-      font-size:.86rem;
-      color:#4e444a;
-      line-height:1.6;
-    }
-
-    .disclaimer{
-      margin:10px 0 0;
-      font-size:.8rem;
+      font-size:12px;
+      line-height:1.7;
       color:var(--muted);
     }
 
-    details.more{
-      margin-top:12px;
-      border-top:1px dashed rgba(240,214,226,.9);
-      padding-top:10px;
+    .card-footnote {
+      margin-top:10px;
+      font-size:11px;
+      color:#9b8190;
     }
-    summary{
+
+    .card-footnote span {
+      color:#c25a86;
+      font-weight:600;
+    }
+
+    details.more {
+      margin-top:16px;
+      padding:10px 12px 12px;
+      border-radius:var(--radius-md);
+      background:linear-gradient(135deg,rgba(255,245,252,.95),rgba(255,255,255,.95));
+      border:1px dashed #f0cde2;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    details.more summary {
       cursor:pointer;
-      user-select:none;
-      font-weight:700;
-      color:#6a4a59;
+      list-style:none;
+      font-weight:600;
+      color:#b45583;
+    }
+
+    details.more summary::-webkit-details-marker { display:none; }
+
+    details.more summary::after {
+      content:"▼";
+      display:inline-block;
+      font-size:10px;
+      margin-left:6px;
+      transform:translateY(-1px);
+    }
+
+    details.more[open] summary::after {
+      content:"▲";
+    }
+
+    details.more p {
+      margin:8px 0 0;
+      line-height:1.7;
+    }
+
+    .result {
+      margin-top:20px;
+      padding:16px 14px 18px;
+      border-radius:var(--radius-lg);
+      background:rgba(255,255,255,.97);
+      border:1px solid rgba(229,190,216,.9);
+      box-shadow:var(--shadow-soft);
+      display:none;
+    }
+
+    .result-title {
+      font-size:15px;
+      font-weight:600;
+      margin:0 0 6px;
+    }
+
+    .result-tag {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:#b14c7e;
+      margin-bottom:10px;
+    }
+
+    .result-tag-dot {
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:conic-gradient(from 160deg,#ff9bc5,#ffc3dd,#ff9bc5);
+      box-shadow:0 0 12px rgba(255,140,190,.65);
+    }
+
+    .result-body {
+      font-size:13px;
+      line-height:1.9;
+      color:var(--ink);
+      margin-bottom:10px;
+    }
+
+    .result-body p {
+      margin:0 0 10px;
+    }
+
+    .result-next {
+      font-size:12px;
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:var(--radius-md);
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border:1px dashed #efc2de;
+    }
+
+    .cta-line {
+      margin-top:18px;
+      padding:14px 14px 16px;
+      border-radius:var(--radius-lg);
+      background:linear-gradient(135deg,#ffe5f5,#fff2fb);
+      border:1px solid rgba(230,150,189,.9);
+      box-shadow:0 16px 34px rgba(222,120,170,.4);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .cta-line-title {
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .cta-line-text {
+      font-size:12px;
+      line-height:1.8;
+      color:#583d4a;
+    }
+
+    .cta-btn {
+      align-self:flex-start;
+      padding:9px 16px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#ff6ba5,#ff9bc8);
+      color:#fff;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.05em;
+      cursor:pointer;
+      box-shadow:0 12px 26px rgba(212,80,140,.55);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;
+    }
+
+    .cta-btn span {
+      font-size:11px;
+      opacity:.9;
+    }
+
+    .cta-btn:hover {
+      transform:translateY(-1px);
+      box-shadow:0 15px 32px rgba(212,80,140,.65);
+      filter:brightness(1.02);
+    }
+
+    .cta-btn:active {
+      transform:translateY(1px);
+      box-shadow:0 8px 18px rgba(212,80,140,.5);
+    }
+
+    .cta-btn::after {
+      content:"▶";
+      font-size:10px;
+    }
+
+    .reset-area {
+      margin-top:10px;
+      text-align:right;
+    }
+
+    .reset-btn {
+      border:none;
+      background:transparent;
+      font-size:11px;
+      color:#9a6f8a;
+      text-decoration:underline;
+      cursor:pointer;
+      padding:4px 0;
+    }
+
+    .faq {
+      margin-top:24px;
+      padding-top:14px;
+      border-top:1px dashed var(--line);
+    }
+
+    .faq h2 {
+      margin:0 0 10px;
+      font-size:15px;
+    }
+
+    .faq details {
+      border-radius:var(--radius-md);
+      background:rgba(255,255,255,.96);
+      border:1px solid #f2d6e6;
+      padding:9px 11px 10px;
+      font-size:12px;
+      color:var(--ink);
+      margin-bottom:6px;
+    }
+
+    .faq summary {
+      cursor:pointer;
+      font-weight:600;
       list-style:none;
     }
-    summary::-webkit-details-marker{display:none}
-    summary::after{
-      content:"  ▼";
-      font-weight:700;
-      font-size:.9em;
-      color:#8a6a79;
-    }
-    details[open] summary::after{content:"  ▲"}
-    .more p{margin:10px 0;color:#2f2a2d}
 
-    .sec{
-      margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px 14px;
-      box-shadow:var(--shadow2);
+    .faq summary::-webkit-details-marker { display:none; }
+
+    .faq p {
+      margin:6px 0 0;
+      line-height:1.7;
+      color:var(--muted);
     }
-    .result{display:none}
-    .result.on{display:block}
-    .rlabel{color:#8a6a79;font-size:.9rem;margin:0 0 6px}
-    .rsub{font-weight:900;color:#b54b74;margin:6px 0 10px}
-    .tips{
-      background:linear-gradient(180deg,#fff7fb,#fff);
-      border:1px dashed rgba(226,92,141,.35);
-      border-radius:12px;
-      padding:10px 12px;
-      margin-top:10px;
-      font-size:.92rem;
-    }
-    .cta{
-      display:block;
-      width:100%;
+
+    .footer-note {
+      margin-top:12px;
+      font-size:11px;
+      color:#a58d9a;
       text-align:center;
-      background:linear-gradient(135deg,var(--accent2),var(--accent));
-      color:#fff;
-      text-decoration:none;
-      border-radius:999px;
-      padding:14px 12px;
-      font-weight:900;
-      letter-spacing:.02em;
-      margin-top:10px;
-      box-shadow:0 14px 30px rgba(226,92,141,.22);
-    }
-    .cta:active{transform:translateY(1px)}
-    .footnote{font-size:.82rem;color:var(--muted);margin-top:10px}
-
-    .reset{
-      margin-top:10px;
-      width:100%;
-      border:1px solid rgba(240,214,226,.95);
-      background:#fff;
-      border-radius:999px;
-      padding:12px 12px;
-      font-weight:800;
-      cursor:pointer;
-      color:#6a4a59;
     }
 
-    @media (max-width:720px){
-      h1{font-size:1.35rem}
-      .cards{grid-template-columns:1fr;gap:10px}
-      .card-art{height:150px}
+    @media (max-width:768px) {
+      body {
+        padding:12px 8px 24px;
+      }
+      .page {
+        border-radius:22px;
+        padding:18px 12px 24px;
+      }
+      h1 {
+        font-size:20px;
+      }
+      .card-section {
+        padding:12px 10px 14px;
+        border-radius:18px;
+      }
+      .picker {
+        flex-direction:column;
+      }
+      .tcard {
+        max-width:100%;
+      }
+      .card-art img {
+        max-height:none;
+      }
+      .cta-line {
+        border-radius:20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <main class="page">
+    <div class="page-inner">
+      <div class="chip">
+        <span class="chip-dot"></span>
+        恋に悩むあなたへ・無料タロット三択鑑定
+      </div>
 
-    <section class="hero" id="top">
-      <div class="tag"><span class="dot"></span>恋に悩むあなたへ・無料タロット三択鑑定</div>
-
-      <h1>待つべき？動くべき？<br>その迷いに、あなたが“選ぶ”三択タロット。</h1>
+      <h1>
+        <span>待つべき？動くべき？</span>
+        <span>その迷いに、あなたが“選ぶ”三択タロット。</span>
+      </h1>
 
       <p class="sub">
-        彼の本音・連絡が来ない理由・復縁の可能性…。<br>
-        3つのカードから直感で1枚選ぶだけで、今のあなたに合う“次の一歩”が見えてきます。
+        彼の本音、連絡が来ない理由、復縁の可能性…。<br>
+        3つのカードから直感で1枚選ぶだけで、今のあなたに合う「次の一歩」が見えてきます。
       </p>
+      <p class="hero-note">※占い結果はあくまで「今の状態」をもとにしたメッセージです。現実を強制するものではありません。</p>
 
-      <div class="picker" id="cards">
-        <div class="picker-head">
-          <div>
-            <p class="picker-title"><b>気になる彼のことを思い浮かべて、今のあなたに一番しっくりくる1枚を選んでください。</b></p>
-            <p class="picker-note">正解・不正解はありません。「これかも」と感じたカードをタップするだけでOKです。</p>
+      <section class="card-section" id="cards">
+        <div class="card-headline">
+          <div class="card-headline-main">
+            気になる彼のことを思い浮かべて、今のあなたに一番しっくりくる1枚を選んでください。<br>
+            <span>正解・不正解はありません。「これかも」と感じたカードをタップするだけでOKです。</span>
           </div>
-          <div class="mini">所要：10秒</div>
+          <div class="time-chip">所要：10秒</div>
         </div>
 
-        <div class="cards" aria-label="タロット三択">
-
-          <!-- Aカード：0317Acard.png -->
+        <div class="picker">
+          <!-- カードA -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
                 <img src="0317Acard.png" alt="心を休めるカード">
               </div>
-              <p class="tname">心を休めるカード</p>
-              <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ。</p>
+              <div class="card-text">
+                <p class="tname">心を休めるカード</p>
+                <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ。</p>
+              </div>
             </div>
           </button>
 
-          <!-- Bカード：0317Bcard.png -->
+          <!-- カードB -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
                 <img src="0317Bcard.png" alt="一歩踏み出すカード">
               </div>
-              <p class="tname">一歩踏み出すカード</p>
-              <p class="tdesc">本当は、自分から動きたい気持ちがあるあなたへ。</p>
+              <div class="card-text">
+                <p class="tname">一歩踏み出すカード</p>
+                <p class="tdesc">本当は、自分から動きたい気持ちがあるあなたへ。</p>
+              </div>
             </div>
           </button>
 
-          <!-- Cカード：0317Ccard.png -->
+          <!-- カードC -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
                 <img src="0317Ccard.png" alt="新しい朝へ進むカード">
               </div>
-              <p class="tname">新しい朝へ進むカード</p>
-              <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ。</p>
+              <div class="card-text">
+                <p class="tname">新しい朝へ進むカード</p>
+                <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ。</p>
+              </div>
             </div>
           </button>
-
         </div>
 
-        <p class="disclaimer">
-          ※選んだカードの鑑定結果だけが表示されます。他のカードの結果は見られない仕様です。
+        <p class="card-footnote">
+          ※<span>選んだカードの鑑定結果だけ</span>が表示されます。他のカードの結果は見られない仕組みです。
         </p>
+      </section>
 
-        <details class="more">
-          <summary>「この鑑定について」もう少し読む</summary>
+      <details class="more">
+        <summary>「この鑑定について」もう少し読む▼</summary>
+        <p>
+          この三択タロットは、YouTubeショートで流れてきた“あの恋愛テーマ”をもとに作られた、<br>
+          恋に悩む女性のための無料ミニ鑑定です。<br>
+          「彼は今どう思っているの？」「待ったほうがいい？それとも、私から動くべき？」と<br>
+          ひとりで抱え込みがちな迷いを、カードのメッセージを通してやさしく整理していきます。
+        </p>
+        <p>
+          本格的な個別鑑定の“入り口”として、まずは気軽に直感で選んでみてください。<br>
+          楽しみながら、今の恋に必要なヒントを受け取れるようデザインしています。
+        </p>
+      </details>
+
+      <section class="result" id="result">
+        <div class="result-tag">
+          <span class="result-tag-dot"></span>
+          今、あなたが選んだカードのメッセージ
+        </div>
+        <h2 class="result-title" id="result-title"></h2>
+        <div class="result-body" id="result-body"></div>
+        <div class="result-next">
+          「なんでこの結果になったの？」「この先どうなりそう？」と感じた方は、<br>
+          あなたとお相手の状況や生年月日なども踏まえた <strong>あなただけの深掘り鑑定</strong> で、より具体的な流れと対策を一緒に見ていきます。
+        </div>
+        <div class="reset-area">
+          <button type="button" class="reset-btn" id="reset">別のカードを選び直す</button>
+        </div>
+      </section>
+
+      <section class="cta-line" id="line-cta">
+        <div class="cta-line-title">もっと自分たちだけの状況で見てほしい方へ</div>
+        <div class="cta-line-text">
+          選んだカードの内容が「当たってるかも…」「これ以上を知りたい」と感じた方には、<br>
+          <strong>公式LINE限定</strong>で、あなたとお相手の性別・生年月日・今の距離感などをお聞きしたうえで、<br>
+          タロットと数秘・西洋占星術を組み合わせた個別深掘り鑑定をご案内しています。
+        </div>
+        <button class="cta-btn" type="button">
+          LINEで個別鑑定の案内を受け取る
+          <span>※まずは無料メッセージから</span>
+        </button>
+      </section>
+
+      <section class="faq">
+        <h2>よくあるご質問</h2>
+
+        <details>
+          <summary>本当に無料ですか？あとから高額請求がきたりしませんか？</summary>
           <p>
-            夜になると、つい彼のことばかり考えてしまう。<br>
-            連絡が減ったり、温度差を感じたりして、<br>
-            「このまま待っていていいのかな…」「自分から動くべき？」と、答えの出ない迷いの中にいませんか？
-          </p>
-          <p>
-            この無料の三択タロット鑑定は、<b>“待つ” “動く” “手放して変わる”</b> の3つの方向性から、今のあなたに合う一歩を、カードを通して一緒に探していくためのものです。
+            このページの三択タロット鑑定は完全無料です。<br>
+            公式LINEにご登録いただいたあと、希望された方にだけ有料の個別鑑定をご案内しています。<br>
+            もちろん「無料の結果だけ見て終わり」でも大丈夫です。
           </p>
         </details>
-      </div>
-    </section>
 
-    <section class="sec result" id="intro">
-      <p class="rlabel">あなたが選んだカードから、今のあなたと彼の恋の流れを読み解いたメッセージです。</p>
-      <p class="footnote">当てはまる部分だけ、心に留めていただければ大丈夫です。</p>
-    </section>
-
-    <section class="sec result" id="resA">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【A：見守るカード】</h2>
-      <p class="rsub">今は“追いかけすぎないこと”が、彼との関係を守る鍵かもしれません。</p>
-      <p>
-        今の彼は、あなたのことを嫌いになったわけではなさそうです。<br>
-        ただ、恋愛以外のことで心に余裕がなくなっている可能性が高いカードです。
-      </p>
-      <p>
-        不安をぶつけすぎると、彼は“責められている”と感じて距離を取ってしまうかもしれません。<br>
-        大切なのは <b>彼のペースを無理に変えようとしないこと</b>。あなた自身の心地よい時間を増やしていくことです。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・すぐに返事を求めるLINEは、今は控える<br>
-        ・1週間ほどは、自分の予定を先に埋めてから、彼のことを考える
-      </div>
-      <p class="footnote">
-        「距離感が分からない」「連絡の言い方が不安」など、状況に合わせて深掘りしたい方は、公式LINEから個別鑑定もご案内できます。
-      </p>
-    </section>
-
-    <section class="sec result" id="resB">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【B：動き出すカード】</h2>
-      <p class="rsub">小さな一歩が、二人の空気をあたため直すきっかけになりそうです。</p>
-      <p>
-        このカードは、あなたの中に「本当は動きたい」という気持ちがあるサイン。<br>
-        彼も“嫌い”ではなく、“どうしていいか分からない迷い”の中にいる可能性があります。
-      </p>
-      <p>
-        今は、重くなりすぎない形で <b>会話の糸口をそっと投げる</b> タイミング。<br>
-        長文や答えを迫る連絡より、「最近どうしてる？」「これ見て思い出したよ」くらいの軽い一言が効きやすいです。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・今日〜3日以内に、彼を責めない一言LINEを送ってみる<br>
-        ・「返信は気にしないでね」と添えて、圧を下げる
-      </div>
-      <p class="footnote">
-        「どんな内容なら重くならない？」「今動いて大丈夫？」が不安なら、個別鑑定で“内容とタイミング”まで一緒に整えられます。
-      </p>
-    </section>
-
-    <section class="sec result" id="resC">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【C：手放して変わるカード】</h2>
-      <p class="rsub">“このままではしんどい”という、心からのSOSに気づくタイミングかもしれません。</p>
-      <p>
-        このカードは、「今の関係のままだと、あなたが消耗しやすい」暗示。<br>
-        彼との未来がゼロとは限りませんが、いったん <b>距離を置く・手放す</b> 選択肢も、あなたを守るために必要かもしれません。
-      </p>
-      <p>
-        手放すことは負けではありません。<b>自分を大切にするための勇気ある決断</b>です。<br>
-        SNSチェックをやめる、待機モードを降りる、予定を入れるなど、心のスペースを少しずつ空けていきましょう。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・今日から1週間、彼の連絡だけに心を縛られない予定を入れる<br>
-        ・「自分を守るために距離を置く」と心の中で宣言する
-      </div>
-      <p class="footnote">
-        「本当に手放していいのか怖い」「区切りをつけたい」などは、個別鑑定で気持ちの整理から一緒にできます。
-      </p>
-    </section>
-
-    <section class="sec result" id="after">
-      <p class="footnote">
-        ※この結果は、あなたが今のタイミングで選んだカードからのメッセージです。<br>
-        他のカードの結果は、あえて見られないようにしています。<br>
-        <b>比べて迷うより、今のあなたが選んだ答えを大切にしてあげてください。</b>
-      </p>
-
-      <h3>この先を、もう少しだけ一緒に見ていきませんか？</h3>
-      <p class="footnote">「もっと自分の状況に合わせて詳しく知りたい」と感じたら、公式LINEから個別鑑定のご案内もお届けしています。</p>
-
-      <a class="cta" href="YOUR_LINE_URL_HERE" rel="noopener">無料で公式LINEに登録して、続きのメッセージを受け取る</a>
-
-      <button class="reset" type="button" id="resetBtn">別のカードを選び直す</button>
-
-      <p class="footnote">※無料三択鑑定だけで完結していただいても大丈夫です。※しつこい勧誘は一切ありません。</p>
-    </section>
-
-  </div>
-
-  <script>
-    (function(){
-      const intro = document.getElementById('intro');
-      const after = document.getElementById('after');
-      const resetBtn = document.getElementById('resetBtn');
-
-      const res = {
-        A: document.getElementById('resA'),
-        B: document.getElementById('resB'),
-        C: document.getElementById('resC')
-      };
-
-      const cardBtns = Array.from(document.querySelectorAll('[data-card]'));
-
-      function hideAll(){
-        intro.classList.remove('on');
-        after.classList.remove('on');
-        Object.values(res).forEach(x => x.classList.remove('on'));
-        cardBtns.forEach(b => b.setAttribute('aria-pressed','false'));
-      }
-
-      function show(t){
-        hideAll();
-        intro.classList.add('on');
-        res[t].classList.add('on');
-        after.classList.add('on');
-
-        const btn = cardBtns.find(b => b.getAttribute('data-card') === t);
-        if(btn) btn.setAttribute('aria-pressed','true');
-
-        intro.scrollIntoView({behavior:'smooth', block:'start'});
-      }
-
-      cardBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const t = btn.getAttribute('data-card');
-          show(t);
-        });
-      });
-
-      if(resetBtn){
-        resetBtn.addEventListener('click', () => {
-          hideAll();
-          document.getElementById('cards').scrollIntoView({behavior:'smooth', block:'start'});
-        });
-      }
-    })();
-  </script>
-</body>
-</html>      background:rgba(255,255,255,.8);
-      border:1px solid rgba(240,214,226,.9);
-      box-shadow:var(--shadow);
-      border-radius:18px;
-      padding:18px 16px;
-      backdrop-filter: blur(8px);
-    }
-    .tag{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      font-size:.88rem;
-      color:#8a6a79;
-      letter-spacing:.02em;
-      margin-bottom:8px;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:99px;
-      background:linear-gradient(135deg,var(--accent2),var(--accent));
-      box-shadow:0 0 0 3px rgba(226,92,141,.10);
-    }
-    h1{
-      margin:0 0 10px;
-      font-size:1.55rem;
-      line-height:1.35;
-      letter-spacing:.01em;
-    }
-    .sub{
-      margin:0 0 12px;
-      color:#3a3438;
-      font-size:.98rem;
-    }
-
-    .picker{
-      margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px 12px;
-      box-shadow:var(--shadow2);
-    }
-    .picker-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
-    }
-    .picker-title{
-      margin:0;
-      font-size:1.05rem;
-      line-height:1.35;
-    }
-    .picker-note{
-      margin:2px 0 0;
-      font-size:.84rem;
-      color:var(--muted);
-    }
-    .mini{font-size:.82rem;color:var(--muted)}
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:10px;
-    }
-
-    .tcard{
-      appearance:none;
-      border:0;
-      padding:0;
-      background:transparent;
-      cursor:pointer;
-      text-align:left;
-    }
-    .card-shell{
-      background:#fff;
-      border-radius:18px;
-      padding:10px 10px 12px;
-      box-shadow:0 10px 24px rgba(30,10,20,.10);
-      border:1px solid rgba(240,214,226,.95);
-      transition:.18s ease transform,.18s ease box-shadow,.18s ease border-color;
-      position:relative;
-      overflow:hidden;
-    }
-    .tcard:hover .card-shell{
-      transform:translateY(-3px);
-      box-shadow:0 16px 32px rgba(30,10,20,.16);
-      border-color:rgba(226,92,141,.55);
-    }
-    .tcard[aria-pressed="true"] .card-shell{
-      border-color:rgba(226,92,141,.85);
-      box-shadow:0 18px 38px rgba(226,92,141,.22);
-      transform:translateY(-2px);
-    }
-
-    .card-art{
-      border-radius:14px;
-      height:140px;
-      margin-bottom:8px;
-      overflow:hidden;
-    }
-    .card-art img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .tname{
-      margin:0 0 4px;
-      font-weight:700;
-      font-size:.98rem;
-    }
-    .tdesc{
-      margin:0;
-      font-size:.86rem;
-      color:#4e444a;
-      line-height:1.6;
-    }
-
-    .disclaimer{
-      margin:10px 0 0;
-      font-size:.8rem;
-      color:var(--muted);
-    }
-
-    details.more{
-      margin-top:12px;
-      border-top:1px dashed rgba(240,214,226,.9);
-      padding-top:10px;
-    }
-    summary{
-      cursor:pointer;
-      user-select:none;
-      font-weight:700;
-      color:#6a4a59;
-      list-style:none;
-    }
-    summary::-webkit-details-marker{display:none}
-    summary::after{
-      content:"  ▼";
-      font-weight:700;
-      font-size:.9em;
-      color:#8a6a79;
-    }
-    details[open] summary::after{content:"  ▲"}
-    .more p{margin:10px 0;color:#2f2a2d}
-
-    .sec{
-      margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px 14px;
-      box-shadow:var(--shadow2);
-    }
-    .result{display:none}
-    .result.on{display:block}
-    .rlabel{color:#8a6a79;font-size:.9rem;margin:0 0 6px}
-    .rsub{font-weight:900;color:#b54b74;margin:6px 0 10px}
-    .tips{
-      background:linear-gradient(180deg,#fff7fb,#fff);
-      border:1px dashed rgba(226,92,141,.35);
-      border-radius:12px;
-      padding:10px 12px;
-      margin-top:10px;
-      font-size:.92rem;
-    }
-    .cta{
-      display:block;
-      width:100%;
-      text-align:center;
-      background:linear-gradient(135deg,var(--accent2),var(--accent));
-      color:#fff;
-      text-decoration:none;
-      border-radius:999px;
-      padding:14px 12px;
-      font-weight:900;
-      letter-spacing:.02em;
-      margin-top:10px;
-      box-shadow:0 14px 30px rgba(226,92,141,.22);
-    }
-    .cta:active{transform:translateY(1px)}
-    .footnote{font-size:.82rem;color:var(--muted);margin-top:10px}
-
-    .reset{
-      margin-top:10px;
-      width:100%;
-      border:1px solid rgba(240,214,226,.95);
-      background:#fff;
-      border-radius:999px;
-      padding:12px 12px;
-      font-weight:800;
-      cursor:pointer;
-      color:#6a4a59;
-    }
-
-    @media (max-width:720px){
-      h1{font-size:1.35rem}
-      .cards{grid-template-columns:1fr;gap:10px}
-      .card-art{height:150px}
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-
-    <!-- ファーストビュー ＋ カード3枚 -->
-    <section class="hero" id="top">
-      <div class="tag"><span class="dot"></span>恋に悩むあなたへ・無料タロット三択鑑定</div>
-
-      <h1>待つべき？動くべき？<br>その迷いに、あなたが“選ぶ”三択タロット。</h1>
-
-      <p class="sub">
-        彼の本音・連絡が来ない理由・復縁の可能性…。<br>
-        3つのカードから直感で1枚選ぶだけで、今のあなたに合う“次の一歩”が見えてきます。
-      </p>
-
-      <div class="picker" id="cards">
-        <div class="picker-head">
-          <div>
-            <p class="picker-title"><b>気になる彼のことを思い浮かべて、今のあなたに一番しっくりくる1枚を選んでください。</b></p>
-            <p class="picker-note">正解・不正解はありません。「これかも」と感じたカードをタップするだけでOKです。</p>
-          </div>
-          <div class="mini">所要：10秒</div>
-        </div>
-
-        <div class="cards" aria-label="タロット三択">
-
-          <!-- Aカード：窓＋月の画像（見守る） -->
-          <button class="tcard" type="button" data-card="A" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="card-a.png" alt="心を休めるカード">
-              </div>
-              <p class="tname">心を休めるカード</p>
-              <p class="tdesc">今は、彼をそっと見守るべきかも…と感じているあなたへ。</p>
-            </div>
-          </button>
-
-          <!-- Bカード：扉を開ける女の子の画像（動き出す） -->
-          <button class="tcard" type="button" data-card="B" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="card-b.png" alt="一歩踏み出すカード">
-              </div>
-              <p class="tname">一歩踏み出すカード</p>
-              <p class="tdesc">本当は、自分から動きたい気持ちがあるあなたへ。</p>
-            </div>
-          </button>
-
-          <!-- Cカード：朝焼け＋女性シルエットの画像（手放して変わる） -->
-          <button class="tcard" type="button" data-card="C" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="card-c.png" alt="新しい朝へ進むカード">
-              </div>
-              <p class="tname">新しい朝へ進むカード</p>
-              <p class="tdesc">この恋を手放すべきか、新しい流れに進むべきか揺れているあなたへ。</p>
-            </div>
-          </button>
-
-        </div>
-
-        <p class="disclaimer">
-          ※選んだカードの鑑定結果だけが表示されます。他のカードの結果は見られない仕様です。
-        </p>
-
-        <details class="more">
-          <summary>「この鑑定について」もう少し読む</summary>
+        <details>
+          <summary>どこまで詳しいことがわかりますか？</summary>
           <p>
-            夜になると、つい彼のことばかり考えてしまう。<br>
-            連絡が減ったり、温度差を感じたりして、<br>
-            「このまま待っていていいのかな…」「自分から動くべき？」と、答えの出ない迷いの中にいませんか？
-          </p>
-          <p>
-            この無料の三択タロット鑑定は、<b>“待つ” “動く” “手放して変わる”</b> の3つの方向性から、今のあなたに合う一歩を、カードを通して一緒に探していくためのものです。
+            三択鑑定では、<strong>「今の二人のテーマ」と「次の一歩の方向性」</strong>をメインにお伝えします。<br>
+            具体的な時期や細かい状況の読み取りは、個別鑑定のほうで詳しく視ていきます。
           </p>
         </details>
-      </div>
-    </section>
 
-    <!-- 結果共通イントロ -->
-    <section class="sec result" id="intro">
-      <p class="rlabel">あなたが選んだカードから、今のあなたと彼の恋の流れを読み解いたメッセージです。</p>
-      <p class="footnote">当てはまる部分だけ、心に留めていただければ大丈夫です。</p>
-    </section>
+        <details>
+          <summary>どんな人に向いていますか？</summary>
+          <p>
+            ・彼の本音がわからず不安になっている方<br>
+            ・連絡が減った／途切れた理由が知りたい方<br>
+            ・復縁を待つべきか、新しい恋に進むべきか迷っている方 に向けて作っています。
+          </p>
+        </details>
 
-    <!-- A結果 -->
-    <section class="sec result" id="resA">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【A：見守るカード】</h2>
-      <p class="rsub">今は“追いかけすぎないこと”が、彼との関係を守る鍵かもしれません。</p>
-      <p>
-        今の彼は、あなたのことを嫌いになったわけではなさそうです。<br>
-        ただ、恋愛以外のことで心に余裕がなくなっている可能性が高いカードです。
-      </p>
-      <p>
-        不安をぶつけすぎると、彼は“責められている”と感じて距離を取ってしまうかもしれません。<br>
-        大切なのは <b>彼のペースを無理に変えようとしないこと</b>。あなた自身の心地よい時間を増やしていくことです。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・すぐに返事を求めるLINEは、今は控える<br>
-        ・1週間ほどは、自分の予定を先に埋めてから、彼のことを考える
-      </div>
-      <p class="footnote">
-        「距離感が分からない」「連絡の言い方が不安」など、状況に合わせて深掘りしたい方は、公式LINEから個別鑑定もご案内できます。必要だと感じたタイミングでだけで大丈夫です。
-      </p>
-    </section>
+        <details>
+          <summary>LINE登録は必須ですか？</summary>
+          <p>
+            三択タロットの結果は、このページ上で完結しますので、LINE登録は必須ではありません。<br>
+            ただし、「もっと自分たちの状況で見てほしい」と感じた方には、公式LINEからのご相談をお願いしています。
+          </p>
+        </details>
 
-    <!-- B結果 -->
-    <section class="sec result" id="resB">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【B：動き出すカード】</h2>
-      <p class="rsub">小さな一歩が、二人の空気をあたため直すきっかけになりそうです。</p>
-      <p>
-        このカードは、あなたの中に「本当は動きたい」という気持ちがあるサイン。<br>
-        彼も“嫌い”ではなく、“どうしていいか分からない迷い”の中にいる可能性があります。
-      </p>
-      <p>
-        今は、重くなりすぎない形で <b>会話の糸口をそっと投げる</b> タイミング。<br>
-        長文や答えを迫る連絡より、「最近どうしてる？」「これ見て思い出したよ」くらいの軽い一言が効きやすいです。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・今日〜3日以内に、彼を責めない一言LINEを送ってみる<br>
-        ・「返信は気にしないでね」と添えて、圧を下げる
-      </div>
-      <p class="footnote">
-        「どんな内容なら重くならない？」「今動いて大丈夫？」が不安なら、個別鑑定で“内容とタイミング”まで一緒に整えられます。
-      </p>
-    </section>
+        <details>
+          <summary>有料鑑定は絶対に申し込まないとダメですか？</summary>
+          <p>
+            いいえ、強制ではありません。LINEにご登録いただいたあとも、<br>
+            ご案内の内容を見て「合わない」と感じた場合は、そのままスルーしていただいて大丈夫です。
+          </p>
+        </details>
 
-    <!-- C結果 -->
-    <section class="sec result" id="resC">
-      <p class="rlabel">あなたが選んだのは…</p>
-      <h2>【C：手放して変わるカード】</h2>
-      <p class="rsub">“このままではしんどい”という、心からのSOSに気づくタイミングかもしれません。</p>
-      <p>
-        このカードは、「今の関係のままだと、あなたが消耗しやすい」暗示。<br>
-        彼との未来がゼロとは限りませんが、いったん <b>距離を置く・手放す</b> 選択肢も、あなたを守るために必要かもしれません。
+        <details>
+          <summary>結果が怖い内容だったらどうしよう…</summary>
+          <p>
+            当たる・当たらないよりも、<strong>「どうすれば今より少し楽になれるか」</strong>を大切にお伝えしています。<br>
+            不安をあおるような言い方や、脅すような表現は使いませんのでご安心ください。
+          </p>
+        </details>
+
+        <details>
+          <summary>復縁や音信不通でも見てもらえますか？</summary>
+          <p>
+            はい、むしろそういったご相談が多いです。復縁の可能性や、動くべきタイミングなどを、<br>
+            今の状況をお伺いしながら一緒に整理していきます。
+          </p>
+        </details>
+
+        <details>
+          <summary>個別鑑定ではどんな情報が必要ですか？</summary>
+          <p>
+            お名前（ニックネーム可）、性別、生年月日、お相手との関係性や今の距離感などをお聞きします。<br>
+            いただいた情報は鑑定のためだけに使用し、第三者に共有することはありません。
+          </p>
+        </details>
+      </section>
+
+      <p class="footer-note">
+        ※このタロット鑑定は、医療・法律・投資などの専門的な判断を代替するものではありません。<br>
+        あくまで心の整理と気づきのためのヒントとしてお楽しみください。
       </p>
-      <p>
-        手放すことは負けではありません。<b>自分を大切にするための勇気ある決断</b>です。<br>
-        SNSチェックをやめる、待機モードを降りる、予定を入れるなど、心のスペースを少しずつ空けていきましょう。
-      </p>
-      <div class="tips">
-        <b>今できる小さな一歩</b><br>
-        ・今日から1週間、彼の連絡だけに心を縛られない予定を入れる<br>
-        ・「自分を守るために距離を置く」と心の中で宣言する
-      </div>
-      <p class="footnote">
-        「本当に手放していいのか怖い」「区切りをつけたい」などは、個別鑑定で気持ちの整理から一緒にできます。
-      </p>
-    </section>
-
-    <!-- ラストメッセージ -->
-    <section class="sec result" id="after">
-      <p class="footnote">
-        ※この結果は、あなたが今のタイミングで選んだカードからのメッセージです。<br>
-        他のカードの結果は、あえて見られないようにしています。<br>
-        <b>比べて迷うより、今のあなたが選んだ答えを大切にしてあげてください。</b>
-      </p>
-
-      <h3>この先を、もう少しだけ一緒に見ていきませんか？</h3>
-      <p class="footnote">「もっと自分の状況に合わせて詳しく知りたい」と感じたら、公式LINEから個別鑑定のご案内もお届けしています。</p>
-
-      <a class="cta" href="YOUR_LINE_URL_HERE" rel="noopener">無料で公式LINEに登録して、続きのメッセージを受け取る</a>
-
-      <button class="reset" type="button" id="resetBtn">別のカードを選び直す</button>
-
-      <p class="footnote">※無料三択鑑定だけで完結していただいても大丈夫です。※しつこい勧誘は一切ありません。</p>
-    </section>
-
-  </div>
+    </div>
+  </main>
 
   <script>
-    (function(){
-      const intro = document.getElementById('intro');
-      const after = document.getElementById('after');
-      const resetBtn = document.getElementById('resetBtn');
+    const cards = document.querySelectorAll(".tcard");
+    const resultBox = document.getElementById("result");
+    const resultTitle = document.getElementById("result-title");
+    const resultBody = document.getElementById("result-body");
+    const resetBtn = document.getElementById("reset");
 
-      const res = {
-        A: document.getElementById('resA'),
-        B: document.getElementById('resB'),
-        C: document.getElementById('resC')
-      };
-
-      const cardBtns = Array.from(document.querySelectorAll('[data-card]'));
-
-      function hideAll(){
-        intro.classList.remove('on');
-        after.classList.remove('on');
-        Object.values(res).forEach(x => x.classList.remove('on'));
-        cardBtns.forEach(b => b.setAttribute('aria-pressed','false'));
+    const messages = {
+      A: {
+        title: "心を休めるカードを選んだあなたへ",
+        html: `
+          <p>今のあなたは、彼のことを考えすぎて、心も身体も少しお疲れ気味かもしれません。</p>
+          <p>カードは、「<strong>いったん立ち止まって、自分の心を最優先にしてあげて</strong>」と伝えています。<br>
+          今すぐに動かないことは、諦めることとは違います。むしろ、落ち着いた自分にもどることで、<br>
+          彼との距離をどうしていきたいのか、本当の気持ちが見えてきそうです。</p>
+          <p>連絡を待つ時間は、不安でいっぱいになりがちですが、<br>
+          その時間を「彼のため」だけでなく、「自分を整える時間」に変えてみてください。<br>
+          睡眠・食事・好きなこと…あなたが満たされるほど、恋の流れも自然と整っていきます。</p>
+        `
+      },
+      B: {
+        title: "一歩踏み出すカードを選んだあなたへ",
+        html: `
+          <p>今のあなたの心の奥には、「本当は私から動きたい」という前向きなエネルギーが灯っています。</p>
+          <p>カードは、「<strong>小さな一歩でいいから、あなた発信のアクションを</strong>」と背中を押しています。<br>
+          いきなり重いメッセージを送る必要はありません。<br>
+          さりげない一言や、近況報告のようなライトな連絡からで十分です。</p>
+          <p>大切なのは、「嫌われないように」ではなく、<br>
+          「<strong>今の自分らしさが伝わるかどうか</strong>」。<br>
+          あなたが自然体でいられる言葉を選ぶほど、相手にも安心感として届いていきます。</p>
+        `
+      },
+      C: {
+        title: "新しい朝へ進むカードを選んだあなたへ",
+        html: `
+          <p>このカードを選んだあなたは、心のどこかで「そろそろ区切りをつけるべきかも」と感じているのかもしれません。</p>
+          <p>カードは、「<strong>無理に手放さなくてもいい。でも、自分の未来も同じくらい大切にして</strong>」と伝えています。<br>
+          一度、彼との関係だけでなく、あなた自身の人生全体を見つめ直すことで、<br>
+          新しいご縁やチャンスがスッと入りやすくなっていきます。</p>
+          <p>「この恋を続ける」か「次のステージに進む」か、どちらを選んでも、<br>
+          あなたが自分を雑に扱わない限り、未来はちゃんと開けていきます。<br>
+          まずは、あなた自身が笑顔でいられる時間を少しずつ増やしていきましょう。</p>
+        `
       }
+    };
 
-      function show(t){
-        hideAll();
-        intro.classList.add('on');
-        res[t].classList.add('on');
-        after.classList.add('on');
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const key = card.dataset.card;
+        const msg = messages[key];
+        if (!msg) return;
 
-        const btn = cardBtns.find(b => b.getAttribute('data-card') === t);
-        if(btn) btn.setAttribute('aria-pressed','true');
+        cards.forEach(c => c.setAttribute("aria-pressed","false"));
+        card.setAttribute("aria-pressed","true");
 
-        intro.scrollIntoView({behavior:'smooth', block:'start'});
-      }
+        resultTitle.textContent = msg.title;
+        resultBody.innerHTML = msg.html;
+        resultBox.style.display = "block";
 
-      cardBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const t = btn.getAttribute('data-card');
-          show(t);
-        });
+        resultBox.scrollIntoView({ behavior:"smooth", block:"start" });
       });
+    });
 
-      if(resetBtn){
-        resetBtn.addEventListener('click', () => {
-          hideAll();
-          document.getElementById('cards').scrollIntoView({behavior:'smooth', block:'start'});
-        });
-      }
-    })();
+    resetBtn.addEventListener("click", () => {
+      cards.forEach(c => c.setAttribute("aria-pressed","false"));
+      resultBox.style.display = "none";
+      document.getElementById("cards").scrollIntoView({ behavior:"smooth", block:"start" });
+    });
   </script>
 </body>
 </html>
