@@ -153,19 +153,18 @@
       white-space:nowrap;
     }
 
-    /* ▼ カードを1列＆大きく表示 */
+    /* ▼ PC：3枚横並び、スマホ：1列で大きめ */
     .picker {
       display:flex;
-      flex-direction:column;
-      gap:24px;
+      flex-wrap:wrap;
+      gap:20px;
       margin-top:16px;
-      align-items:center;
+      justify-content:space-between;
     }
 
     .tcard {
-      flex:0 0 auto;
-      width:100%;
-      max-width:540px;
+      flex:1 1 30%;
+      max-width:300px;
       border:none;
       padding:0;
       background:transparent;
@@ -210,7 +209,7 @@
       display:block;
       width:100%;
       height:auto;
-      max-height:none;      /* 高さ制限なしで大きく */
+      max-height:340px;
       object-fit:cover;
     }
 
@@ -466,10 +465,14 @@
         border-radius:18px;
       }
       .picker {
-        gap:18px;
+        flex-direction:column;
+        align-items:center;
       }
       .tcard {
         max-width:100%;
+      }
+      .card-art img {
+        max-height:none;
       }
       .cta-line {
         border-radius:20px;
@@ -506,7 +509,6 @@
         </div>
 
         <div class="picker">
-          <!-- カードA -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
@@ -519,7 +521,6 @@
             </div>
           </button>
 
-          <!-- カードB -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
@@ -532,7 +533,6 @@
             </div>
           </button>
 
-          <!-- カードC -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
