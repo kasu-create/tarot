@@ -22,9 +22,7 @@
       --radius-sm:12px;
     }
 
-    * {
-      box-sizing:border-box;
-    }
+    * { box-sizing:border-box; }
 
     html,body {
       height:100%;
@@ -94,9 +92,7 @@
       letter-spacing:.04em;
     }
 
-    h1 span {
-      display:block;
-    }
+    h1 span { display:block; }
 
     .sub {
       margin:0 0 16px;
@@ -153,7 +149,7 @@
       white-space:nowrap;
     }
 
-    /* ▼ PC：3枚横並び、スマホ：1列で大きめ */
+    /* ▼ PC：3枚横並び、スマホ：1列 */
     .picker {
       display:flex;
       flex-wrap:wrap;
@@ -209,7 +205,7 @@
       display:block;
       width:100%;
       height:auto;
-      max-height:340px;
+      max-height:320px;
       object-fit:cover;
     }
 
@@ -268,9 +264,7 @@
       transform:translateY(-1px);
     }
 
-    details.more[open] summary::after {
-      content:"▲";
-    }
+    details.more[open] summary::after { content:"▲"; }
 
     details.more p {
       margin:8px 0 0;
@@ -317,9 +311,7 @@
       margin-bottom:10px;
     }
 
-    .result-body p {
-      margin:0 0 10px;
-    }
+    .result-body p { margin:0 0 10px; }
 
     .result-next {
       font-size:12px;
@@ -457,9 +449,7 @@
         border-radius:22px;
         padding:18px 12px 24px;
       }
-      h1 {
-        font-size:20px;
-      }
+      h1 { font-size:20px; }
       .card-section {
         padding:12px 10px 14px;
         border-radius:18px;
@@ -468,15 +458,9 @@
         flex-direction:column;
         align-items:center;
       }
-      .tcard {
-        max-width:100%;
-      }
-      .card-art img {
-        max-height:none;
-      }
-      .cta-line {
-        border-radius:20px;
-      }
+      .tcard { max-width:100%; }
+      .card-art img { max-height:none; }
+      .cta-line { border-radius:20px; }
     }
   </style>
 </head>
@@ -509,6 +493,7 @@
         </div>
 
         <div class="picker">
+          <!-- カードA -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
@@ -521,6 +506,7 @@
             </div>
           </button>
 
+          <!-- カードB -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
@@ -533,6 +519,7 @@
             </div>
           </button>
 
+          <!-- カードC -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
             <div class="card-shell">
               <div class="card-art">
