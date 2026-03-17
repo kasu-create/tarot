@@ -3,52 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>待つべき？動くべき？三択タロット無料鑑定</title>
-  <meta name="description" content="待つべき？動くべき？その迷いに、あなたが選ぶ三択タロット。彼の本音・連絡が来ない理由・復縁の可能性…今のあなたに合う“次の一歩”が見えてきます。" />
+  <title>待つべき？動くべき？｜恋のオラクル三択鑑定</title>
+  <meta name="description" content="生年月日を入れて、3枚のオラクルカードから1枚選ぶだけ。現状・過去・未来・今後の一手を“結論だけ”先に受け取れる無料鑑定。" />
   <style>
-    :root {
-      --bg1:#fff3f7;
-      --bg2:#fff4fc;
-      --card:#ffffff;
+    :root{
+      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
+      --card:#fff;
       --ink:#1f1f1f;
       --muted:#6c6168;
-      --accent:#e25c8d;
-      --accent2:#ffb4d5;
       --line:#f0d6e2;
-      --shadow:0 18px 40px rgba(210,140,180,.45);
-      --shadow-soft:0 10px 24px rgba(0,0,0,.08);
-      --radius-lg:28px;
-      --radius-md:20px;
-      --radius-sm:12px;
+      --accent:#ff6ba5;
+      --accent2:#ff9bc8;
+      --shadow:0 18px 40px rgba(210,140,180,.35);
+      --soft:0 10px 24px rgba(0,0,0,.08);
+      --r-lg:28px;
+      --r-md:20px;
     }
-
-    * { box-sizing:border-box; }
-
-    html,body {
-      margin:0;
-      padding:0;
-    }
-
-    body {
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
+      background:var(--bg);
       color:var(--ink);
-      background:radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
       padding:24px 12px 40px;
     }
-
-    .page {
-      width:100%;
-      max-width:960px;
+    .page{
+      max-width:980px;
       margin:0 auto;
-      background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,245,252,.96));
+      background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,245,252,.97));
       border-radius:32px;
       box-shadow:var(--shadow);
-      padding:24px 20px 32px;
+      padding:22px 18px 28px;
       position:relative;
       overflow:hidden;
     }
-
-    .page::before {
+    .page::before{
       content:"";
       position:absolute;
       inset:-60px -40px auto auto;
@@ -56,684 +45,472 @@
       opacity:.7;
       pointer-events:none;
     }
+    .inner{position:relative;z-index:1}
 
-    .page-inner {
-      position:relative;
-      z-index:1;
-    }
-
-    .chip {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:4px 10px;
-      border-radius:999px;
+    .chip{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:999px;
       background:rgba(255,255,255,.9);
       border:1px solid rgba(255,192,216,.7);
-      font-size:11px;
-      color:#b34a77;
-      margin-bottom:10px;
+      font-size:11px;color:#b34a77;margin-bottom:10px;
     }
-
-    .chip-dot {
-      width:7px;
-      height:7px;
-      border-radius:50%;
+    .dot{width:7px;height:7px;border-radius:50%;
       background:linear-gradient(135deg,#ff77aa,#ffb4e0);
       box-shadow:0 0 8px rgba(255,105,180,.7);
     }
 
-    h1 {
-      margin:0 0 8px;
-      font-size:26px;
-      line-height:1.5;
-      letter-spacing:.04em;
-    }
+    h1{margin:0 0 8px;font-size:26px;line-height:1.5;letter-spacing:.04em}
+    h1 span{display:block}
+    .sub{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.7}
+    .note{margin:0 0 14px;font-size:11px;color:#a08a96;line-height:1.7}
 
-    h1 span { display:block; }
-
-    .sub {
-      margin:0 0 16px;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .hero-note {
-      font-size:11px;
-      color:#a08a96;
-      margin-top:8px;
-    }
-
-    .card-section {
-      margin-top:10px;
-      padding:14px 14px 18px;
-      border-radius:var(--radius-lg);
+    .panel{
       background:rgba(255,255,255,.95);
       border:1px solid rgba(255,210,232,.9);
-      box-shadow:var(--shadow-soft);
+      box-shadow:var(--soft);
+      border-radius:var(--r-lg);
+      padding:14px 14px 16px;
     }
 
-    .card-headline {
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:8px;
-      margin-bottom:10px;
+    .form{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;
       border-bottom:1px dashed var(--line);
-      padding-bottom:8px;
+      padding-bottom:12px;margin-bottom:12px;
     }
-
-    .card-headline-main {
+    label{font-size:12px;color:#4a3941;font-weight:600}
+    .field{display:flex;flex-direction:column;gap:6px}
+    input{
+      width:180px;max-width:100%;
+      padding:9px 10px;border-radius:12px;
+      border:1px solid #f0cde2;background:#fff;
       font-size:14px;
-      font-weight:600;
-      line-height:1.6;
     }
+    .hint{font-size:11px;color:var(--muted);margin-top:2px}
 
-    .card-headline-main span {
-      display:block;
-      font-size:12px;
-      font-weight:500;
-      color:var(--muted);
+    .picker{
+      display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;
+      margin-top:12px;
     }
-
-    .time-chip {
-      font-size:10px;
-      color:#a58a99;
-      padding:4px 8px;
-      border-radius:999px;
-      background:#fff6fb;
-      border:1px solid #f5d7ea;
-      white-space:nowrap;
-    }
-
-    /* PC：3枚横並び */
-    .picker {
-      display:flex;
-      flex-wrap:wrap;
-      gap:20px;
-      margin-top:16px;
-      justify-content:space-between;
-    }
-
-    .tcard {
+    .tcard{
       flex:1 1 30%;
       max-width:300px;
-      border:none;
-      padding:0;
-      background:transparent;
-      cursor:pointer;
-      text-align:left;
+      border:none;background:transparent;padding:0;
+      cursor:pointer;text-align:left;
     }
-
-    .tcard:focus-visible {
-      outline:2px solid #ff9dcf;
-      outline-offset:3px;
-    }
-
-    .card-shell {
+    .tcard:focus-visible{outline:2px solid #ff9dcf;outline-offset:3px}
+    .shell{
       background:var(--card);
-      border-radius:var(--radius-md);
-      box-shadow:var(--shadow-soft);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      height:100%;
-      transition:transform .18s ease,box-shadow .18s ease,border .18s ease;
       border:1px solid rgba(255,210,230,.8);
+      border-radius:var(--r-md);
+      box-shadow:var(--soft);
+      overflow:hidden;
+      transition:transform .18s ease, box-shadow .18s ease, border .18s ease;
+      height:100%;
+      display:flex;flex-direction:column;
     }
-
-    .tcard:hover .card-shell {
-      transform:translateY(-4px);
-      box-shadow:0 18px 38px rgba(0,0,0,.12);
-    }
-
-    .tcard[aria-pressed="true"] .card-shell {
-      transform:translateY(-2px) scale(1.01);
-      box-shadow:0 20px 40px rgba(228,118,162,.45);
+    .tcard:hover .shell{transform:translateY(-3px);box-shadow:0 18px 38px rgba(0,0,0,.12)}
+    .tcard[aria-pressed="true"] .shell{
+      transform:translateY(-1px) scale(1.01);
+      box-shadow:0 20px 40px rgba(228,118,162,.35);
       border:1px solid #ff8fbe;
     }
+    .art{background:#fdf3f8}
+    .art img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
+    .txt{padding:10px 14px 14px}
+    .name{margin:0 0 6px;font-size:14px;font-weight:700}
+    .desc{margin:0;font-size:12px;line-height:1.7;color:var(--muted)}
 
-    .card-art {
-      width:100%;
-      background:#fdf3f8;
-    }
+    .foot{margin-top:10px;font-size:11px;color:#9b8190}
+    .foot b{color:#c25a86}
 
-    .card-art img {
-      display:block;
-      width:100%;
-      height:auto;
-      max-height:320px;
-      object-fit:cover;
-    }
-
-    .card-text {
-      padding:10px 14px 14px;
-    }
-
-    .tname {
-      font-size:14px;
-      font-weight:600;
-      margin:0 0 6px;
-    }
-
-    .tdesc {
-      margin:0;
-      font-size:12px;
-      line-height:1.7;
-      color:var(--muted);
-    }
-
-    .card-footnote {
-      margin-top:10px;
-      font-size:11px;
-      color:#9b8190;
-    }
-
-    .card-footnote span {
-      color:#c25a86;
-      font-weight:600;
-    }
-
-    details.more {
+    .result{
       margin-top:16px;
-      padding:10px 12px 12px;
-      border-radius:var(--radius-md);
-      background:linear-gradient(135deg,rgba(255,245,252,.95),rgba(255,255,255,.95));
-      border:1px dashed #f0cde2;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    details.more summary {
-      cursor:pointer;
-      list-style:none;
-      font-weight:600;
-      color:#b45583;
-    }
-
-    details.more summary::-webkit-details-marker { display:none; }
-
-    details.more summary::after {
-      content:"▼";
-      display:inline-block;
-      font-size:10px;
-      margin-left:6px;
-      transform:translateY(-1px);
-    }
-
-    details.more[open] summary::after { content:"▲"; }
-
-    details.more p {
-      margin:8px 0 0;
-      line-height:1.7;
-    }
-
-    .result {
-      margin-top:20px;
-      padding:16px 14px 18px;
-      border-radius:var(--radius-lg);
-      background:rgba(255,255,255,.97);
-      border:1px solid rgba(229,190,216,.9);
-      box-shadow:var(--shadow-soft);
       display:none;
     }
-
-    .result-title {
-      font-size:15px;
-      font-weight:600;
-      margin:0 0 6px;
-    }
-
-    .result-tag {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-size:11px;
-      color:#b14c7e;
-      margin-bottom:10px;
-    }
-
-    .result-tag-dot {
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      background:conic-gradient(from 160deg,#ff9bc5,#ffc3dd,#ff9bc5);
-      box-shadow:0 0 12px rgba(255,140,190,.65);
-    }
-
-    .result-body {
-      font-size:13px;
-      line-height:1.9;
-      color:var(--ink);
-      margin-bottom:10px;
-    }
-
-    .result-body p { margin:0 0 10px; }
-
-    .result-next {
-      font-size:12px;
-      color:var(--muted);
-      padding:10px 12px;
-      border-radius:var(--radius-md);
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
-      border:1px dashed #efc2de;
-    }
-
-    .cta-line {
-      margin-top:18px;
+    .resultBox{
+      margin-top:12px;
+      border-radius:var(--r-lg);
+      background:rgba(255,255,255,.97);
+      border:1px solid rgba(229,190,216,.9);
+      box-shadow:var(--soft);
       padding:14px 14px 16px;
-      border-radius:var(--radius-lg);
-      background:linear-gradient(135deg,#ffe5f5,#fff2fb);
-      border:1px solid rgba(230,150,189,.9);
-      box-shadow:0 16px 34px rgba(222,120,170,.4);
-      display:flex;
-      flex-direction:column;
+    }
+    .rtag{display:flex;align-items:center;gap:8px;font-size:11px;color:#b14c7e;margin-bottom:8px}
+    .rtag .rdot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 160deg,#ff9bc5,#ffc3dd,#ff9bc5);box-shadow:0 0 12px rgba(255,140,190,.55)}
+    .rtitle{margin:0 0 10px;font-size:15px;font-weight:800}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
       gap:10px;
     }
-
-    .cta-line-title {
-      font-size:14px;
-      font-weight:600;
+    .sec{
+      border:1px dashed #efc2de;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border-radius:16px;
+      padding:10px 12px;
     }
-
-    .cta-line-text {
+    .sec h3{margin:0 0 6px;font-size:12px}
+    .sec p{margin:0;font-size:12px;line-height:1.8;color:#3a2b32}
+    .lock{
+      margin-top:10px;
+      border-radius:16px;
+      border:1px solid #f2d6e6;
+      background:rgba(255,255,255,.95);
+      padding:12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .lock::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.95));
+      pointer-events:none;
+    }
+    .lockInner{
+      filter:blur(6px);
+      opacity:.75;
+      user-select:none;
+      line-height:1.7;
       font-size:12px;
-      line-height:1.8;
-      color:#583d4a;
+      color:#6a5661;
     }
 
-    .cta-btn {
-      align-self:flex-start;
-      padding:9px 16px;
-      border-radius:999px;
-      border:none;
-      background:linear-gradient(135deg,#ff6ba5,#ff9bc8);
-      color:#fff;
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:.05em;
+    .ctaRow{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+      margin-top:12px;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;border-radius:999px;border:none;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;font-weight:800;font-size:13px;letter-spacing:.04em;
       cursor:pointer;
-      box-shadow:0 12px 26px rgba(212,80,140,.55);
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;
+      box-shadow:0 12px 26px rgba(212,80,140,.45);
+      text-decoration:none;
     }
+    .btn::after{content:"▶";font-size:10px;opacity:.9}
+    .mini{font-size:11px;color:#7a626e;line-height:1.7}
+    .mini b{color:#b14c7e}
 
-    .cta-btn span {
-      font-size:11px;
-      opacity:.9;
+    .lineCta{
+      margin-top:14px;
+      padding:14px;
+      border-radius:var(--r-lg);
+      background:linear-gradient(135deg,#ffe5f5,#fff2fb);
+      border:1px solid rgba(230,150,189,.85);
+      box-shadow:0 14px 30px rgba(222,120,170,.28);
     }
-
-    .cta-btn:hover {
-      transform:translateY(-1px);
-      box-shadow:0 15px 32px rgba(212,80,140,.65);
-      filter:brightness(1.02);
+    .lineCta h2{margin:0 0 6px;font-size:14px}
+    .lineCta p{margin:0 0 10px;font-size:12px;line-height:1.8;color:#583d4a}
+    .lineBtn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;border-radius:999px;
+      background:#06C755;color:#fff;font-weight:900;font-size:13px;
+      text-decoration:none;
+      box-shadow:0 12px 26px rgba(0,0,0,.12);
     }
-
-    .cta-btn:active {
-      transform:translateY(1px);
-      box-shadow:0 8px 18px rgba(212,80,140,.5);
-    }
-
-    .cta-btn::after {
-      content:"▶";
-      font-size:10px;
-    }
-
-    .reset-area {
+    .lineBtn::after{content:"▶";font-size:10px;opacity:.9}
+    .reset{
       margin-top:10px;
       text-align:right;
     }
-
-    .reset-btn {
-      border:none;
-      background:transparent;
-      font-size:11px;
-      color:#9a6f8a;
-      text-decoration:underline;
-      cursor:pointer;
-      padding:4px 0;
+    .reset button{
+      border:none;background:transparent;
+      color:#9a6f8a;text-decoration:underline;
+      font-size:11px;cursor:pointer;padding:4px 0;
     }
 
-    .faq {
-      margin-top:24px;
-      padding-top:14px;
-      border-top:1px dashed var(--line);
-    }
+    @media (max-width:768px){
+      body{padding:12px 8px 24px}
+      .page{border-radius:22px;padding:18px 12px 24px}
+      h1{font-size:20px}
+      .form input{width:150px}
 
-    .faq h2 {
-      margin:0 0 10px;
-      font-size:15px;
-    }
-
-    .faq details {
-      border-radius:var(--radius-md);
-      background:rgba(255,255,255,.96);
-      border:1px solid #f2d6e6;
-      padding:9px 11px 10px;
-      font-size:12px;
-      color:var(--ink);
-      margin-bottom:6px;
-    }
-
-    .faq summary {
-      cursor:pointer;
-      font-weight:600;
-      list-style:none;
-    }
-
-    .faq summary::-webkit-details-marker { display:none; }
-
-    .faq p {
-      margin:6px 0 0;
-      line-height:1.7;
-      color:var(--muted);
-    }
-
-    .footer-note {
-      margin-top:12px;
-      font-size:11px;
-      color:#a58d9a;
-      text-align:center;
-    }
-
-    /* スマホでも3枚横並び（小さめ） */
-    @media (max-width:768px) {
-      body {
-        padding:12px 8px 24px;
-      }
-      .page {
-        border-radius:22px;
-        padding:18px 12px 24px;
-      }
-      h1 { font-size:20px; }
-      .card-section {
-        padding:12px 10px 14px;
-        border-radius:18px;
-      }
-
-      .picker {
-        display:flex;
-        flex-wrap:wrap;
-        gap:8px;
-        justify-content:space-between;
-      }
-      .tcard {
+      /* スマホでも3枚横並び（画像小さめ） */
+      .picker{gap:8px}
+      .tcard{
         flex:1 1 30%;
-        max-width:110px;      /* カード横幅（必要ならここを調整） */
+        max-width:110px;
       }
-      .card-art img {
-        max-height:180px;     /* 画像の高さ（必要ならここを調整） */
-      }
-
-      .cta-line { border-radius:20px; }
+      .art img{max-height:170px}
+      .txt{padding:8px 10px 10px}
+      .name{font-size:12px;margin-bottom:4px}
+      .desc{font-size:10.5px}
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="page-inner">
-      <div class="chip">
-        <span class="chip-dot"></span>
-        恋に悩むあなたへ・無料タロット三択鑑定
-      </div>
+    <div class="inner">
+      <div class="chip"><span class="dot"></span>恋に悩むあなたへ・無料オラクル三択鑑定</div>
 
       <h1>
         <span>待つべき？動くべき？</span>
-        <span>その迷いに、あなたが“選ぶ”三択タロット。</span>
+        <span>その迷いに、あなたが“選ぶ”三択オラクル。</span>
       </h1>
 
       <p class="sub">
-        彼の本音、連絡が来ない理由、復縁の可能性…。<br>
-        3つのカードから直感で1枚選ぶだけで、今のあなたに合う「次の一歩」が見えてきます。
+        生年月日と、3枚のカードから1枚。<br>
+        「現状／過去／未来（近未来）／今後どうすればいいか」を、まずは<b>結論だけ</b>受け取れます。
       </p>
-      <p class="hero-note">※占い結果はあくまで「今の状態」をもとにしたメッセージです。現実を強制するものではありません。</p>
+      <p class="note">※結果は「今の状態」をもとにしたメッセージです。現実を強制するものではありません。</p>
 
-      <section class="card-section" id="cards">
-        <div class="card-headline">
-          <div class="card-headline-main">
-            気になる彼のことを思い浮かべて、今のあなたに一番しっくりくる1枚を選んでください。<br>
-            <span>正解・不正解はありません。「これかも」と感じたカードをタップするだけでOKです。</span>
+      <section class="panel" id="cards">
+        <div class="form">
+          <div class="field">
+            <label for="bd">あなたの生年月日</label>
+            <input id="bd" inputmode="numeric" autocomplete="bday" placeholder="例：19990101" maxlength="8" />
+            <div class="hint">8桁（YYYYMMDD）。わからなければ空でもOK</div>
           </div>
-          <div class="time-chip">所要：10秒</div>
+          <div class="field">
+            <label>選び方</label>
+            <div class="hint">直感で「これ」と感じた1枚をタップ</div>
+          </div>
         </div>
 
         <div class="picker">
-          <!-- A -->
           <button class="tcard" type="button" data-card="A" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="0317Acard.png" alt="心を休めるオラクルカード">
-              </div>
-              <div class="card-text">
-                <p class="tname">心を休めるカード</p>
-                <p class="tdesc">今は、彼のことから少しだけ離れて、自分の心をふわっと休ませたいあなたへ。</p>
+            <div class="shell">
+              <div class="art"><img src="0317Acard.png" alt="心を休めるオラクルカード"></div>
+              <div class="txt">
+                <p class="name">心を休めるカード</p>
+                <p class="desc">焦りを止めて、心の回復を最優先にしたいあなたへ。</p>
               </div>
             </div>
           </button>
 
-          <!-- B -->
           <button class="tcard" type="button" data-card="B" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="0317Bcard.png" alt="一歩踏み出すオラクルカード">
-              </div>
-              <div class="card-text">
-                <p class="tname">一歩踏み出すカード</p>
-                <p class="tdesc">本当は、自分から小さくアクションしてみたい気持ちがあるあなたへ。</p>
+            <div class="shell">
+              <div class="art"><img src="0317Bcard.png" alt="一歩踏み出すオラクルカード"></div>
+              <div class="txt">
+                <p class="name">一歩踏み出すカード</p>
+                <p class="desc">待つだけは終わり。小さく動いて流れを変えたいあなたへ。</p>
               </div>
             </div>
           </button>
 
-          <!-- C -->
           <button class="tcard" type="button" data-card="C" aria-pressed="false">
-            <div class="card-shell">
-              <div class="card-art">
-                <img src="0317Ccard.png" alt="新しい朝へ進むオラクルカード">
-              </div>
-              <div class="card-text">
-                <p class="tname">新しい朝へ進むカード</p>
-                <p class="tdesc">この恋をぎゅっと握りしめたままか、そっと手放して自分の朝を迎えるか迷っているあなたへ。</p>
+            <div class="shell">
+              <div class="art"><img src="0317Ccard.png" alt="新しい朝へ進むオラクルカード"></div>
+              <div class="txt">
+                <p class="name">新しい朝へ進むカード</p>
+                <p class="desc">執着をほどいて、自分の未来に軸を戻したいあなたへ。</p>
               </div>
             </div>
           </button>
         </div>
 
-        <p class="card-footnote">
-          ※<span>選んだカードの鑑定結果だけ</span>が表示されます。他のカードの結果は見られない仕組みです。
-        </p>
+        <p class="foot">※<b>選んだカードの結果だけ</b>が表示されます（他は見れません）。</p>
       </section>
-
-      <details class="more">
-        <summary>「この鑑定について」もう少し読む▼</summary>
-        <p>
-          この三択タロットは、YouTubeショートで流れてきた“あの恋愛テーマ”をもとに作られた、<br>
-          恋に悩む女性のための無料ミニ鑑定です。<br>
-          「彼は今どう思っているの？」「待ったほうがいい？それとも、私から動くべき？」と<br>
-          ひとりで抱え込みがちな迷いを、カードのメッセージを通してやさしく整理していきます。
-        </p>
-        <p>
-          本格的な個別鑑定の“入り口”として、まずは気軽に直感で選んでみてください。<br>
-          楽しみながら、今の恋に必要なヒントを受け取れるようデザインしています。
-        </p>
-      </details>
 
       <section class="result" id="result">
-        <div class="result-tag">
-          <span class="result-tag-dot"></span>
-          今、あなたが選んだカードのメッセージ
+        <div class="resultBox">
+          <div class="rtag"><span class="rdot"></span>あなたが選んだカードの「結論」</div>
+          <h2 class="rtitle" id="rtitle"></h2>
+
+          <div class="grid" id="summaryGrid"></div>
+
+          <div class="lock" aria-hidden="true">
+            <div class="lockInner">
+              （ここから先は、理由・背景・具体策が続きます。あなたの状況に合わせて「何を・いつ・どうやって」を深掘りします…）
+            </div>
+          </div>
+
+          <div class="ctaRow">
+            <a class="btn" id="toFull" href="full.html">全表示版で続きを見る（購入後）</a>
+            <div class="mini">
+              - 生年月日・選択は<b>そのまま引き継ぎ</b><br>
+              - 「現状/過去/未来/今後」を<b>全文＋深掘り</b>で表示
+            </div>
+          </div>
+
+          <div class="reset">
+            <button type="button" id="reset">別のカードを選び直す</button>
+          </div>
         </div>
-        <h2 class="result-title" id="result-title"></h2>
-        <div class="result-body" id="result-body"></div>
-        <div class="result-next">
-          「なんでこの結果になったの？」「この先どうなりそう？」と感じた方は、<br>
-          あなたとお相手の状況や生年月日なども踏まえた <strong>あなただけの深掘り鑑定</strong> で、より具体的な流れと対策を一緒に見ていきます。
-        </div>
-        <div class="reset-area">
-          <button type="button" class="reset-btn" id="reset">別のカードを選び直す</button>
+
+        <div class="lineCta">
+          <h2>公式LINEはこちら（無料）</h2>
+          <p>
+            もっと具体的に「いつ動く？何を送る？」まで一緒に整理したい方は、まずLINEにどうぞ。<br>
+            ※押し売りはしません（必要な人だけが有料へ）。
+          </p>
+          <a class="lineBtn" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する</a>
         </div>
       </section>
-
-      <section class="cta-line" id="line-cta">
-        <div class="cta-line-title">もっと自分たちだけの状況で見てほしい方へ</div>
-        <div class="cta-line-text">
-          選んだカードの内容が「当たってるかも…」「これ以上を知りたい」と感じた方には、<br>
-          <strong>公式LINE限定</strong>で、あなたとお相手の性別・生年月日・今の距離感などをお聞きしたうえで、<br>
-          タロットと数秘・西洋占星術を組み合わせた個別深掘り鑑定をご案内しています。
-        </div>
-        <button class="cta-btn" type="button">
-          LINEで個別鑑定の案内を受け取る
-          <span>※まずは無料メッセージから</span>
-        </button>
-      </section>
-
-      <section class="faq">
-        <h2>よくあるご質問</h2>
-
-        <details>
-          <summary>本当に無料ですか？あとから高額請求がきたりしませんか？</summary>
-          <p>
-            このページの三択タロット鑑定は完全無料です。<br>
-            公式LINEにご登録いただいたあと、希望された方にだけ有料の個別鑑定をご案内しています。<br>
-            もちろん「無料の結果だけ見て終わり」でも大丈夫です。
-          </p>
-        </details>
-
-        <details>
-          <summary>どこまで詳しいことがわかりますか？</summary>
-          <p>
-            三択鑑定では、<strong>「今の二人のテーマ」と「次の一歩の方向性」</strong>をメインにお伝えします。<br>
-            具体的な時期や細かい状況の読み取りは、個別鑑定のほうで詳しく視ていきます。
-          </p>
-        </details>
-
-        <details>
-          <summary>どんな人に向いていますか？</summary>
-          <p>
-            ・彼の本音がわからず不安になっている方<br>
-            ・連絡が減った／途切れた理由が知りたい方<br>
-            ・復縁を待つべきか、新しい恋に進むべきか迷っている方 に向けて作っています。
-          </p>
-        </details>
-
-        <details>
-          <summary>LINE登録は必須ですか？</summary>
-          <p>
-            三択タロットの結果は、このページ上で完結しますので、LINE登録は必須ではありません。<br>
-            ただし、「もっと自分たちの状況で見てほしい」と感じた方には、公式LINEからのご相談をお願いしています。
-          </p>
-        </details>
-
-        <details>
-          <summary>有料鑑定は絶対に申し込まないとダメですか？</summary>
-          <p>
-            いいえ、強制ではありません。LINEにご登録いただいたあとも、<br>
-            ご案内の内容を見て「合わない」と感じた場合は、そのままスルーしていただいて大丈夫です。
-          </p>
-        </details>
-
-        <details>
-          <summary>結果が怖い内容だったらどうしよう…</summary>
-          <p>
-            当たる・当たらないよりも、<strong>「どうすれば今より少し楽になれるか」</strong>を大切にお伝えしています。<br>
-            不安をあおるような言い方や、脅すような表現は使いませんのでご安心ください。
-          </p>
-        </details>
-
-        <details>
-          <summary>復縁や音信不通でも見てもらえますか？</summary>
-          <p>
-            はい、むしろそういったご相談が多いです。復縁の可能性や、動くべきタイミングなどを、<br>
-            今の状況をお伺いしながら一緒に整理していきます。
-          </p>
-        </details>
-
-        <details>
-          <summary>個別鑑定ではどんな情報が必要ですか？</summary>
-          <p>
-            お名前（ニックネーム可）、性別、生年月日、お相手との関係性や今の距離感などをお聞きします。<br>
-            いただいた情報は鑑定のためだけに使用し、第三者に共有することはありません。
-          </p>
-        </details>
-      </section>
-
-      <p class="footer-note">
-        ※このタロット鑑定は、医療・法律・投資などの専門的な判断を代替するものではありません。<br>
-        あくまで心の整理と気づきのためのヒントとしてお楽しみください。
-      </p>
     </div>
   </main>
 
   <script>
+    const $ = (s) => document.querySelector(s);
     const cards = document.querySelectorAll(".tcard");
-    const resultBox = document.getElementById("result");
-    const resultTitle = document.getElementById("result-title");
-    const resultBody = document.getElementById("result-body");
-    const resetBtn = document.getElementById("reset");
+    const bdInput = $("#bd");
+    const result = $("#result");
+    const rtitle = $("#rtitle");
+    const grid = $("#summaryGrid");
+    const toFull = $("#toFull");
+    const resetBtn = $("#reset");
 
-    const messages = {
+    // 4項目：結論（無料）＋本文（有料）
+    // トーン：はっきり（背中押し）／未来：近未来
+    const ORACLE = {
       A: {
-        title: "心を休めるカードを選んだあなたへ",
-        html: `
-          <p>今のあなたは、彼のことを考えすぎて、心も身体も少しお疲れ気味かもしれません。</p>
-          <p>カードは、「<strong>いったん立ち止まって、自分の心を最優先にしてあげて</strong>」と伝えています。<br>
-          今すぐに動かないことは、諦めることとは違います。むしろ、落ち着いた自分にもどることで、<br>
-          彼との距離をどうしていきたいのか、本当の気持ちが見えてきそうです。</p>
-          <p>連絡を待つ時間は、不安でいっぱいになりがちですが、<br>
-          その時間を「彼のため」だけでなく、「自分を整える時間」に変えてみてください。<br>
-          睡眠・食事・好きなこと…あなたが満たされるほど、恋の流れも自然と整っていきます。</p>
-        `
+        title: "心を休めるカード｜いまは“整える”が勝ち",
+        sections: {
+          now: {
+            label: "現状",
+            summary: "今は相手より先に、あなたの心が限界。無理に動くほど空回りしやすい。",
+            full: "今のあなたは「彼の反応」に意識が張りついて、心の余白が削れている状態。ここで動くと、言葉が重くなったり、相手の沈黙を“拒絶”に変換してしまいがちです。まずは気持ちを落ち着けて、判断の精度を戻すことが最優先。"
+          },
+          past: {
+            label: "過去",
+            summary: "頑張りすぎた分だけ、受け取れない苦しさが溜まっている。",
+            full: "これまで「私がどうにかしなきゃ」で踏ん張ってきたはず。その努力自体は間違いじゃない。でも、努力の量と相手の温度が釣り合わないと心が擦り減ります。過去の“頑張り癖”を一度手放すと、恋の見え方が変わります。"
+          },
+          future: {
+            label: "未来（近未来）",
+            summary: "落ち着けば、相手のほうから“戻ってきやすい余白”が生まれる。",
+            full: "近未来は「あなたが静かに整うほど、相手が安心して近づきやすくなる」流れ。追うほど逃げる相手には、距離を詰めるより“安心感の回復”が効きます。焦りを止めたとき、相手の行動が少し変わり始めます。"
+          },
+          next: {
+            label: "今後どうすればいいか",
+            summary: "まずは3日“恋を休む”。連絡は“要件だけ”に絞る。",
+            full: "やることはシンプル。①3日だけ恋の情報（SNS/過去LINE/占い巡り）を遮断、②睡眠と食事を整える、③連絡するなら“要件だけ・短文”にする。感情の確認をしない。整った状態で次の一手を打つほうが、結果的に最短です。"
+          }
+        }
       },
       B: {
-        title: "一歩踏み出すカードを選んだあなたへ",
-        html: `
-          <p>今のあなたの心の奥には、「本当は私から動きたい」という前向きなエネルギーが灯っています。</p>
-          <p>カードは、「<strong>小さな一歩でいいから、あなた発信のアクションを</strong>」と背中を押しています。<br>
-          いきなり重いメッセージを送る必要はありません。<br>
-          さりげない一言や、近況報告のようなライトな連絡からで十分です。</p>
-          <p>大切なのは、「嫌われないように」ではなく、<br>
-          「<strong>今の自分らしさが伝わるかどうか</strong>」。<br>
-          あなたが自然体でいられる言葉を選ぶほど、相手にも安心感として届いていきます。</p>
-        `
+        title: "一歩踏み出すカード｜小さく動いて流れを変える",
+        sections: {
+          now: {
+            label: "現状",
+            summary: "待つほど不安が増える。いま必要なのは“軽い一手”で空気を動かすこと。",
+            full: "現状は停滞。相手の状況が忙しい・気分が乗らないなど理由はあっても、放置すると関係の温度は下がります。ここで必要なのは重い確認ではなく、空気を入れ替える“軽い一手”。主導権を取り戻すのはあなたです。"
+          },
+          past: {
+            label: "過去",
+            summary: "相手のペースに合わせすぎて、あなたの存在感が薄くなっている。",
+            full: "過去は“待ち”が続いて、あなたの魅力や存在が当たり前になりがち。悪いことではないけど、恋は放っておくと温度が下がる。相手のペースに合わせるだけじゃなく、あなたのペースも見せることで関係は戻ります。"
+          },
+          future: {
+            label: "未来（近未来）",
+            summary: "一通の“軽い連絡”で、反応が返る可能性が上がる（ただし言い方が命）。",
+            full: "近未来は「あなたの一手」で反応が変わるタイミング。ポイントは“圧をかけない”こと。近況・軽い共有・相手が返しやすい質問のどれかにする。反応が薄くても追撃しない。ここで追撃すると流れが止まります。"
+          },
+          next: {
+            label: "今後どうすればいいか",
+            summary: "今日、“短文＋軽い近況”を送る。質問は1つだけ。",
+            full: "おすすめはこの型：『久しぶり！最近○○で（近況）。ふと思い出したよ。元気？』。これでOK。長文・感情の確認・関係の結論を迫るのは禁止。返信が来たら“短く返して会話を1往復”で止める。恋は“少し足りない”が強いです。"
+          }
+        }
       },
       C: {
-        title: "新しい朝へ進むカードを選んだあなたへ",
-        html: `
-          <p>このカードを選んだあなたは、心のどこかで「そろそろこの恋に区切りをつけるべきかも」と感じているのかもしれません。</p>
-          <p>カードは、「<strong>無理に忘れなくていい。でも、自分の未来も同じくらい大切にして</strong>」と伝えています。<br>
-          一度、彼との関係だけでなく、あなた自身の人生全体を見つめ直すことで、<br>
-          新しいご縁やチャンスがスッと入りやすくなっていきます。</p>
-          <p>「この恋を続ける」か「次のステージに進む」か、どちらを選んでも、<br>
-          あなたが自分を雑に扱わない限り、未来はちゃんと開けていきます。<br>
-          まずは、あなた自身が笑顔でいられる時間を少しずつ増やしていきましょう。</p>
-        `
+        title: "新しい朝へ進むカード｜恋より先に“自分の未来”へ",
+        sections: {
+          now: {
+            label: "現状",
+            summary: "この恋があなたの生活を支配してる。いまは軸を自分に戻すべき。",
+            full: "現状は執着が強まりやすい局面。相手の反応で気分が上下しているなら、恋が主役になりすぎです。まず主役をあなたに戻す。恋を捨てる話ではなく、“あなたの未来を優先する”選択です。"
+          },
+          past: {
+            label: "過去",
+            summary: "希望を握りしめて頑張った分、手放す怖さが大きい。",
+            full: "過去の努力は本物。だから簡単に諦められない。でも、努力＝報われるではないのも恋。ここまで抱えた感情を否定しないで、少しずつ“握る力”をゆるめることが次のステージにつながります。"
+          },
+          future: {
+            label: "未来（近未来）",
+            summary: "自分軸に戻すほど、新しい縁やチャンスが入りやすくなる。",
+            full: "近未来は“入れ替え”が起きやすい。恋だけに集中していた分、視野が広がると出会いや仕事、友人関係が動きます。その動きが、結果的に相手との関係にも影響します。あなたが明るくなるほど、相手の態度が変わることもあります。"
+          },
+          next: {
+            label: "今後どうすればいいか",
+            summary: "7日だけ“相手中心の行動”をやめる。予定を自分で埋める。",
+            full: "今後は“行動で軸を戻す”。①連絡頻度を増やさない、②相手のSNSを見ない、③自分の予定を先に入れる。7日やるだけで執着は薄まります。その上で、続けたいなら“軽い一手”、終わらせたいなら“区切りの言葉”も選べます。"
+          }
+        }
       }
     };
 
+    function sanitizeBD(raw) {
+      const v = (raw || "").replace(/\D/g, "").slice(0, 8);
+      return v;
+    }
+
+    function saveState(state) {
+      localStorage.setItem("oracle_state_v1", JSON.stringify(state));
+    }
+
+    function loadState() {
+      try {
+        const s = localStorage.getItem("oracle_state_v1");
+        return s ? JSON.parse(s) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function makePayload(state) {
+      const json = JSON.stringify(state);
+      const b64 = btoa(unescape(encodeURIComponent(json)));
+      return b64;
+    }
+
+    function applyResult(cardKey) {
+      const bd = sanitizeBD(bdInput.value);
+      bdInput.value = bd;
+
+      const data = ORACLE[cardKey];
+      if (!data) return;
+
+      cards.forEach(c => c.setAttribute("aria-pressed", "false"));
+      const active = document.querySelector(`.tcard[data-card="${cardKey}"]`);
+      if (active) active.setAttribute("aria-pressed", "true");
+
+      rtitle.textContent = data.title;
+
+      const secs = data.sections;
+      const items = [
+        {k:"now", label: secs.now.label, summary: secs.now.summary},
+        {k:"past", label: secs.past.label, summary: secs.past.summary},
+        {k:"future", label: secs.future.label, summary: secs.future.summary},
+        {k:"next", label: secs.next.label, summary: secs.next.summary},
+      ];
+
+      grid.innerHTML = items.map(it => `
+        <div class="sec">
+          <h3>${it.label}（結論）</h3>
+          <p>${it.summary}</p>
+        </div>
+      `).join("");
+
+      const state = { v: 1, bd, card: cardKey, ts: Date.now() };
+      saveState(state);
+
+      // full.htmlへ引き継ぎ（hashにpayload）
+      const payload = makePayload(state);
+      toFull.href = `full.html#p=${encodeURIComponent(payload)}`;
+
+      result.style.display = "block";
+      result.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+
     cards.forEach(card => {
-      card.addEventListener("click", () => {
-        const key = card.dataset.card;
-        const msg = messages[key];
-        if (!msg) return;
-
-        cards.forEach(c => c.setAttribute("aria-pressed","false"));
-        card.setAttribute("aria-pressed","true");
-
-        resultTitle.textContent = msg.title;
-        resultBody.innerHTML = msg.html;
-        resultBox.style.display = "block";
-
-        resultBox.scrollIntoView({ behavior:"smooth", block:"start" });
-      });
+      card.addEventListener("click", () => applyResult(card.dataset.card));
     });
 
     resetBtn.addEventListener("click", () => {
-      cards.forEach(c => c.setAttribute("aria-pressed","false"));
-      resultBox.style.display = "none";
+      cards.forEach(c => c.setAttribute("aria-pressed", "false"));
+      result.style.display = "none";
       document.getElementById("cards").scrollIntoView({ behavior:"smooth", block:"start" });
     });
+
+    // 既存の保存があれば復元（同端末でやり直し不要）
+    const saved = loadState();
+    if (saved && saved.card) {
+      if (saved.bd) bdInput.value = sanitizeBD(saved.bd);
+      applyResult(saved.card);
+    }
   </script>
 </body>
 </html>
