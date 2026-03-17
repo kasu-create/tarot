@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>待つべき？動くべき？｜恋のオラクル三択鑑定</title>
-  <meta name="description" content="生年月日を入れて、3枚のオラクルカードから1枚選ぶだけ。現状・過去・未来・今後の一手を“結論だけ”先に受け取れる無料鑑定。" />
+  <meta name="description" content="あなた/お相手の生年月日と関係性を入れて、3枚のオラクルから1枚選ぶだけ。現状・過去・未来（近未来）・今後の一手を“結論だけ”先に受け取れる無料鑑定。" />
   <style>
     :root{
       --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
@@ -77,9 +77,9 @@
       border-bottom:1px dashed var(--line);
       padding-bottom:12px;margin-bottom:12px;
     }
-    label{font-size:12px;color:#4a3941;font-weight:600}
-    .field{display:flex;flex-direction:column;gap:6px}
-    input{
+    label{font-size:12px;color:#4a3941;font-weight:800}
+    .field{display:flex;flex-direction:column;gap:6px;min-width:160px}
+    input,select{
       width:180px;max-width:100%;
       padding:9px 10px;border-radius:12px;
       border:1px solid #f0cde2;background:#fff;
@@ -117,16 +117,13 @@
     .art{background:#fdf3f8}
     .art img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
     .txt{padding:10px 14px 14px}
-    .name{margin:0 0 6px;font-size:14px;font-weight:700}
+    .name{margin:0 0 6px;font-size:14px;font-weight:900}
     .desc{margin:0;font-size:12px;line-height:1.7;color:var(--muted)}
 
     .foot{margin-top:10px;font-size:11px;color:#9b8190}
     .foot b{color:#c25a86}
 
-    .result{
-      margin-top:16px;
-      display:none;
-    }
+    .result{margin-top:16px;display:none}
     .resultBox{
       margin-top:12px;
       border-radius:var(--r-lg);
@@ -137,13 +134,11 @@
     }
     .rtag{display:flex;align-items:center;gap:8px;font-size:11px;color:#b14c7e;margin-bottom:8px}
     .rtag .rdot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 160deg,#ff9bc5,#ffc3dd,#ff9bc5);box-shadow:0 0 12px rgba(255,140,190,.55)}
-    .rtitle{margin:0 0 10px;font-size:15px;font-weight:800}
+    .rtitle{margin:0 0 6px;font-size:15px;font-weight:1000}
+    .rmeta{margin:0 0 10px;font-size:11px;color:#7a626e;line-height:1.7}
+    .rmeta b{color:#b14c7e}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-    }
+    .grid{display:grid;grid-template-columns:1fr;gap:10px}
     .sec{
       border:1px dashed #efc2de;
       background:linear-gradient(120deg,#fff7fc,#fffdfc);
@@ -151,52 +146,34 @@
       padding:10px 12px;
     }
     .sec h3{margin:0 0 6px;font-size:12px}
-    .sec p{margin:0;font-size:12px;line-height:1.8;color:#3a2b32}
+    .sec p{margin:0;font-size:12px;line-height:1.85;color:#3a2b32}
+
     .lock{
-      margin-top:10px;
-      border-radius:16px;
-      border:1px solid #f2d6e6;
-      background:rgba(255,255,255,.95);
-      padding:12px;
-      position:relative;
-      overflow:hidden;
+      margin-top:10px;border-radius:16px;border:1px solid #f2d6e6;background:rgba(255,255,255,.95);
+      padding:12px;position:relative;overflow:hidden;
     }
     .lock::before{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.95));
+      content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.95));
       pointer-events:none;
     }
-    .lockInner{
-      filter:blur(6px);
-      opacity:.75;
-      user-select:none;
-      line-height:1.7;
-      font-size:12px;
-      color:#6a5661;
-    }
+    .lockInner{filter:blur(6px);opacity:.75;user-select:none;line-height:1.7;font-size:12px;color:#6a5661}
 
-    .ctaRow{
-      display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-      margin-top:12px;
-    }
+    .ctaRow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
     .btn{
       display:inline-flex;align-items:center;gap:8px;
       padding:10px 16px;border-radius:999px;border:none;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#fff;font-weight:800;font-size:13px;letter-spacing:.04em;
-      cursor:pointer;
-      box-shadow:0 12px 26px rgba(212,80,140,.45);
+      color:#fff;font-weight:1000;font-size:13px;letter-spacing:.04em;
+      cursor:pointer;box-shadow:0 12px 26px rgba(212,80,140,.45);
       text-decoration:none;
+      white-space:nowrap;
     }
     .btn::after{content:"▶";font-size:10px;opacity:.9}
     .mini{font-size:11px;color:#7a626e;line-height:1.7}
     .mini b{color:#b14c7e}
 
     .lineCta{
-      margin-top:14px;
-      padding:14px;
-      border-radius:var(--r-lg);
+      margin-top:14px;padding:14px;border-radius:var(--r-lg);
       background:linear-gradient(135deg,#ffe5f5,#fff2fb);
       border:1px solid rgba(230,150,189,.85);
       box-shadow:0 14px 30px rgba(222,120,170,.28);
@@ -206,18 +183,14 @@
     .lineBtn{
       display:inline-flex;align-items:center;gap:8px;
       padding:10px 16px;border-radius:999px;
-      background:#06C755;color:#fff;font-weight:900;font-size:13px;
-      text-decoration:none;
-      box-shadow:0 12px 26px rgba(0,0,0,.12);
+      background:#06C755;color:#fff;font-weight:1000;font-size:13px;
+      text-decoration:none;box-shadow:0 12px 26px rgba(0,0,0,.12);
     }
     .lineBtn::after{content:"▶";font-size:10px;opacity:.9}
-    .reset{
-      margin-top:10px;
-      text-align:right;
-    }
+
+    .reset{margin-top:10px;text-align:right}
     .reset button{
-      border:none;background:transparent;
-      color:#9a6f8a;text-decoration:underline;
+      border:none;background:transparent;color:#9a6f8a;text-decoration:underline;
       font-size:11px;cursor:pointer;padding:4px 0;
     }
 
@@ -225,18 +198,16 @@
       body{padding:12px 8px 24px}
       .page{border-radius:22px;padding:18px 12px 24px}
       h1{font-size:20px}
-      .form input{width:150px}
+      input,select{width:150px}
 
       /* スマホでも3枚横並び（画像小さめ） */
       .picker{gap:8px}
-      .tcard{
-        flex:1 1 30%;
-        max-width:110px;
-      }
+      .tcard{flex:1 1 30%;max-width:110px}
       .art img{max-height:170px}
       .txt{padding:8px 10px 10px}
       .name{font-size:12px;margin-bottom:4px}
       .desc{font-size:10.5px}
+      .btn{font-size:12px}
     }
   </style>
 </head>
@@ -251,266 +222,27 @@
       </h1>
 
       <p class="sub">
-        生年月日と、3枚のカードから1枚。<br>
-        「現状／過去／未来（近未来）／今後どうすればいいか」を、まずは<b>結論だけ</b>受け取れます。
+        あなた/お相手の生年月日と関係性、そしてカードを1枚。<br>
+        「現状／過去／未来（近未来）／今後どうすればいいか」を、まずは<b>結論だけ</b>受け取れます（背中押し寄り）。
       </p>
       <p class="note">※結果は「今の状態」をもとにしたメッセージです。現実を強制するものではありません。</p>
 
       <section class="panel" id="cards">
         <div class="form">
           <div class="field">
-            <label for="bd">あなたの生年月日</label>
-            <input id="bd" inputmode="numeric" autocomplete="bday" placeholder="例：19990101" maxlength="8" />
-            <div class="hint">8桁（YYYYMMDD）。わからなければ空でもOK</div>
+            <label for="rel">関係性</label>
+            <select id="rel">
+              <option value="crush">片想い</option>
+              <option value="dating">曖昧/付き合う前</option>
+              <option value="couple">交際中</option>
+              <option value="ex">元彼/元カノ（復縁）</option>
+              <option value="nocontact">音信不通/未読無視</option>
+              <option value="married">夫婦/パートナー</option>
+            </select>
+            <div class="hint">いちばん近いものを選んでOK</div>
           </div>
+
           <div class="field">
-            <label>選び方</label>
-            <div class="hint">直感で「これ」と感じた1枚をタップ</div>
-          </div>
-        </div>
-
-        <div class="picker">
-          <button class="tcard" type="button" data-card="A" aria-pressed="false">
-            <div class="shell">
-              <div class="art"><img src="0317Acard.png" alt="心を休めるオラクルカード"></div>
-              <div class="txt">
-                <p class="name">心を休めるカード</p>
-                <p class="desc">焦りを止めて、心の回復を最優先にしたいあなたへ。</p>
-              </div>
-            </div>
-          </button>
-
-          <button class="tcard" type="button" data-card="B" aria-pressed="false">
-            <div class="shell">
-              <div class="art"><img src="0317Bcard.png" alt="一歩踏み出すオラクルカード"></div>
-              <div class="txt">
-                <p class="name">一歩踏み出すカード</p>
-                <p class="desc">待つだけは終わり。小さく動いて流れを変えたいあなたへ。</p>
-              </div>
-            </div>
-          </button>
-
-          <button class="tcard" type="button" data-card="C" aria-pressed="false">
-            <div class="shell">
-              <div class="art"><img src="0317Ccard.png" alt="新しい朝へ進むオラクルカード"></div>
-              <div class="txt">
-                <p class="name">新しい朝へ進むカード</p>
-                <p class="desc">執着をほどいて、自分の未来に軸を戻したいあなたへ。</p>
-              </div>
-            </div>
-          </button>
-        </div>
-
-        <p class="foot">※<b>選んだカードの結果だけ</b>が表示されます（他は見れません）。</p>
-      </section>
-
-      <section class="result" id="result">
-        <div class="resultBox">
-          <div class="rtag"><span class="rdot"></span>あなたが選んだカードの「結論」</div>
-          <h2 class="rtitle" id="rtitle"></h2>
-
-          <div class="grid" id="summaryGrid"></div>
-
-          <div class="lock" aria-hidden="true">
-            <div class="lockInner">
-              （ここから先は、理由・背景・具体策が続きます。あなたの状況に合わせて「何を・いつ・どうやって」を深掘りします…）
-            </div>
-          </div>
-
-          <div class="ctaRow">
-            <a class="btn" id="toFull" href="full.html">全表示版で続きを見る（購入後）</a>
-            <div class="mini">
-              - 生年月日・選択は<b>そのまま引き継ぎ</b><br>
-              - 「現状/過去/未来/今後」を<b>全文＋深掘り</b>で表示
-            </div>
-          </div>
-
-          <div class="reset">
-            <button type="button" id="reset">別のカードを選び直す</button>
-          </div>
-        </div>
-
-        <div class="lineCta">
-          <h2>公式LINEはこちら（無料）</h2>
-          <p>
-            もっと具体的に「いつ動く？何を送る？」まで一緒に整理したい方は、まずLINEにどうぞ。<br>
-            ※押し売りはしません（必要な人だけが有料へ）。
-          </p>
-          <a class="lineBtn" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する</a>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    const $ = (s) => document.querySelector(s);
-    const cards = document.querySelectorAll(".tcard");
-    const bdInput = $("#bd");
-    const result = $("#result");
-    const rtitle = $("#rtitle");
-    const grid = $("#summaryGrid");
-    const toFull = $("#toFull");
-    const resetBtn = $("#reset");
-
-    // 4項目：結論（無料）＋本文（有料）
-    // トーン：はっきり（背中押し）／未来：近未来
-    const ORACLE = {
-      A: {
-        title: "心を休めるカード｜いまは“整える”が勝ち",
-        sections: {
-          now: {
-            label: "現状",
-            summary: "今は相手より先に、あなたの心が限界。無理に動くほど空回りしやすい。",
-            full: "今のあなたは「彼の反応」に意識が張りついて、心の余白が削れている状態。ここで動くと、言葉が重くなったり、相手の沈黙を“拒絶”に変換してしまいがちです。まずは気持ちを落ち着けて、判断の精度を戻すことが最優先。"
-          },
-          past: {
-            label: "過去",
-            summary: "頑張りすぎた分だけ、受け取れない苦しさが溜まっている。",
-            full: "これまで「私がどうにかしなきゃ」で踏ん張ってきたはず。その努力自体は間違いじゃない。でも、努力の量と相手の温度が釣り合わないと心が擦り減ります。過去の“頑張り癖”を一度手放すと、恋の見え方が変わります。"
-          },
-          future: {
-            label: "未来（近未来）",
-            summary: "落ち着けば、相手のほうから“戻ってきやすい余白”が生まれる。",
-            full: "近未来は「あなたが静かに整うほど、相手が安心して近づきやすくなる」流れ。追うほど逃げる相手には、距離を詰めるより“安心感の回復”が効きます。焦りを止めたとき、相手の行動が少し変わり始めます。"
-          },
-          next: {
-            label: "今後どうすればいいか",
-            summary: "まずは3日“恋を休む”。連絡は“要件だけ”に絞る。",
-            full: "やることはシンプル。①3日だけ恋の情報（SNS/過去LINE/占い巡り）を遮断、②睡眠と食事を整える、③連絡するなら“要件だけ・短文”にする。感情の確認をしない。整った状態で次の一手を打つほうが、結果的に最短です。"
-          }
-        }
-      },
-      B: {
-        title: "一歩踏み出すカード｜小さく動いて流れを変える",
-        sections: {
-          now: {
-            label: "現状",
-            summary: "待つほど不安が増える。いま必要なのは“軽い一手”で空気を動かすこと。",
-            full: "現状は停滞。相手の状況が忙しい・気分が乗らないなど理由はあっても、放置すると関係の温度は下がります。ここで必要なのは重い確認ではなく、空気を入れ替える“軽い一手”。主導権を取り戻すのはあなたです。"
-          },
-          past: {
-            label: "過去",
-            summary: "相手のペースに合わせすぎて、あなたの存在感が薄くなっている。",
-            full: "過去は“待ち”が続いて、あなたの魅力や存在が当たり前になりがち。悪いことではないけど、恋は放っておくと温度が下がる。相手のペースに合わせるだけじゃなく、あなたのペースも見せることで関係は戻ります。"
-          },
-          future: {
-            label: "未来（近未来）",
-            summary: "一通の“軽い連絡”で、反応が返る可能性が上がる（ただし言い方が命）。",
-            full: "近未来は「あなたの一手」で反応が変わるタイミング。ポイントは“圧をかけない”こと。近況・軽い共有・相手が返しやすい質問のどれかにする。反応が薄くても追撃しない。ここで追撃すると流れが止まります。"
-          },
-          next: {
-            label: "今後どうすればいいか",
-            summary: "今日、“短文＋軽い近況”を送る。質問は1つだけ。",
-            full: "おすすめはこの型：『久しぶり！最近○○で（近況）。ふと思い出したよ。元気？』。これでOK。長文・感情の確認・関係の結論を迫るのは禁止。返信が来たら“短く返して会話を1往復”で止める。恋は“少し足りない”が強いです。"
-          }
-        }
-      },
-      C: {
-        title: "新しい朝へ進むカード｜恋より先に“自分の未来”へ",
-        sections: {
-          now: {
-            label: "現状",
-            summary: "この恋があなたの生活を支配してる。いまは軸を自分に戻すべき。",
-            full: "現状は執着が強まりやすい局面。相手の反応で気分が上下しているなら、恋が主役になりすぎです。まず主役をあなたに戻す。恋を捨てる話ではなく、“あなたの未来を優先する”選択です。"
-          },
-          past: {
-            label: "過去",
-            summary: "希望を握りしめて頑張った分、手放す怖さが大きい。",
-            full: "過去の努力は本物。だから簡単に諦められない。でも、努力＝報われるではないのも恋。ここまで抱えた感情を否定しないで、少しずつ“握る力”をゆるめることが次のステージにつながります。"
-          },
-          future: {
-            label: "未来（近未来）",
-            summary: "自分軸に戻すほど、新しい縁やチャンスが入りやすくなる。",
-            full: "近未来は“入れ替え”が起きやすい。恋だけに集中していた分、視野が広がると出会いや仕事、友人関係が動きます。その動きが、結果的に相手との関係にも影響します。あなたが明るくなるほど、相手の態度が変わることもあります。"
-          },
-          next: {
-            label: "今後どうすればいいか",
-            summary: "7日だけ“相手中心の行動”をやめる。予定を自分で埋める。",
-            full: "今後は“行動で軸を戻す”。①連絡頻度を増やさない、②相手のSNSを見ない、③自分の予定を先に入れる。7日やるだけで執着は薄まります。その上で、続けたいなら“軽い一手”、終わらせたいなら“区切りの言葉”も選べます。"
-          }
-        }
-      }
-    };
-
-    function sanitizeBD(raw) {
-      const v = (raw || "").replace(/\D/g, "").slice(0, 8);
-      return v;
-    }
-
-    function saveState(state) {
-      localStorage.setItem("oracle_state_v1", JSON.stringify(state));
-    }
-
-    function loadState() {
-      try {
-        const s = localStorage.getItem("oracle_state_v1");
-        return s ? JSON.parse(s) : null;
-      } catch {
-        return null;
-      }
-    }
-
-    function makePayload(state) {
-      const json = JSON.stringify(state);
-      const b64 = btoa(unescape(encodeURIComponent(json)));
-      return b64;
-    }
-
-    function applyResult(cardKey) {
-      const bd = sanitizeBD(bdInput.value);
-      bdInput.value = bd;
-
-      const data = ORACLE[cardKey];
-      if (!data) return;
-
-      cards.forEach(c => c.setAttribute("aria-pressed", "false"));
-      const active = document.querySelector(`.tcard[data-card="${cardKey}"]`);
-      if (active) active.setAttribute("aria-pressed", "true");
-
-      rtitle.textContent = data.title;
-
-      const secs = data.sections;
-      const items = [
-        {k:"now", label: secs.now.label, summary: secs.now.summary},
-        {k:"past", label: secs.past.label, summary: secs.past.summary},
-        {k:"future", label: secs.future.label, summary: secs.future.summary},
-        {k:"next", label: secs.next.label, summary: secs.next.summary},
-      ];
-
-      grid.innerHTML = items.map(it => `
-        <div class="sec">
-          <h3>${it.label}（結論）</h3>
-          <p>${it.summary}</p>
-        </div>
-      `).join("");
-
-      const state = { v: 1, bd, card: cardKey, ts: Date.now() };
-      saveState(state);
-
-      // full.htmlへ引き継ぎ（hashにpayload）
-      const payload = makePayload(state);
-      toFull.href = `full.html#p=${encodeURIComponent(payload)}`;
-
-      result.style.display = "block";
-      result.scrollIntoView({ behavior:"smooth", block:"start" });
-    }
-
-    cards.forEach(card => {
-      card.addEventListener("click", () => applyResult(card.dataset.card));
-    });
-
-    resetBtn.addEventListener("click", () => {
-      cards.forEach(c => c.setAttribute("aria-pressed", "false"));
-      result.style.display = "none";
-      document.getElementById("cards").scrollIntoView({ behavior:"smooth", block:"start" });
-    });
-
-    // 既存の保存があれば復元（同端末でやり直し不要）
-    const saved = loadState();
-    if (saved && saved.card) {
-      if (saved.bd) bdInput.value = sanitizeBD(saved.bd);
-      applyResult(saved.card);
-    }
-  </script>
-</body>
-</html>
+            <label for="bdYou">あなたの生年月日</label>
+            <input id="bdYou" inputmode="numeric" autocomplete="bday" placeholder="例：19990101" maxlength="8" />
+            <div class="hint">8桁（
