@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全表示版｜恋のオラクル鑑定</title>
+  <meta name="description" content="現状・過去・未来（近未来）・今後の一手を全文表示するオラクル鑑定ページ。" />
+  <style>
+    :root{
+      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
+      --paper: linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,245,252,.97));
+      --ink:#1f1f1f;
+      --muted:#6c6168;
+      --accent:#ff6ba5;
+      --accent2:#ff9bc8;
+      --ok:#06C755;
+      --shadow:0 18px 40px rgba(210,140,180,.35);
+      --soft:0 10px 24px rgba(0,0,0,.08);
+      --r-xl:32px;
+      --r-lg:28px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      padding:22px 12px 40px;
+    }
+    .page{
+      max-width:920px;margin:0 auto;
+      background:var(--paper);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow);
+      padding:20px 18px 28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:-70px -50px auto auto;
+      background:radial-gradient(circle at top,#ffe7f7 0,transparent 60%);
+      opacity:.75;
+      pointer-events:none;
+    }
+    .inner{position:relative;z-index:1}
+    h1{margin:0 0 8px;font-size:22px;line-height:1.5}
+    .sub{margin:0 0 14px;font-size:12px;color:var(--muted);line-height:1.8}
 
+    .box{
+      background:rgba(255,255,255,.97);
+      border:1px solid rgba(229,190,216,.9);
+      box-shadow:var(--soft);
+      border-radius:var(--r-lg);
+      padding:14px 14px 16px;
+    }
+    .meta{
+      display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+      font-size:11px;color:#7a626e;margin-bottom:10px;
+    }
+    .pill{
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(255,192,216,.7);
+      background:rgba(255,255,255,.9);
+      color:#b34a77;font-weight:1000;
+    }
+
+    .sec{
+      margin-top:10px;
+      border-radius:18px;
+      border:1px dashed #efc2de;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      padding:12px 12px;
+    }
+    .sec h2{margin:0 0 6px;font-size:13px}
+    .sec p{margin:0;font-size:12.5px;line-height:1.95;color:#2a1f25}
+
+    .actions{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+      margin-top:12px;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:11px 16px;border-radius:999px;border:none;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;font-weight:1000;font-size:13px;letter-spacing:.04em;
+      cursor:pointer;text-decoration:none;
+      box-shadow:0 12px 26px rgba(212,80,140,.25);
+      white-space:nowrap;
+    }
+    .btn::after{content:"▶";font-size:10px;opacity:.9}
+    .btn.ghost{background:transparent;border:1px solid #f0cde2;color:#8a5a72;box-shadow:none}
+    .btn.line{background:var(--ok);box-shadow:0 12px 26px rgba(0,0,0,.12)}
+    .warn{margin-top:12px;font-size:11px;color:#8b7280;line-height:1.7}
+
+    @media (max-width:768px){
+      body{padding:12px 8px 24px}
+      .page{border-radius:22px;padding:18px 12px 24px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="inner">
+      <h1>全表示版｜あなたのオラクル鑑定</h1>
+      <p class="sub">
+        これは「現状／過去／未来（近未来）／今後どうすればいいか」を全文表示します。<br>
+        ※引き継ぎが無い場合は無料ページに戻って、入力してカードを選び直してください。
+      </p>
+
+      <section class="box" id="content" style="display:none;">
+        <div class="meta">
+          <span class="pill" id="cardPill"></span>
+          <span class="pill" id="relPill"></span>
+          <span class="pill" id="compPill"></span>
+        </div>
+
+        <div class="sec">
+          <h2>現状</h2>
+          <p id="nowFull"></p>
+        </div>
+
+        <div class="sec">
+          <h2>過去</h2>
+          <p id="pastFull"></p>
+        </div>
+
+        <div class="sec">
+          <h2>未来（近未来）</h2>
+          <p id="futureFull"></p>
+        </div>
+
+        <div class="sec">
+          <h2>今後どうすればいいか</h2>
+          <p id="nextFull"></p>
+        </div>
+
+        <div class="actions">
+          <a class="btn ghost" href="./">無料ページに戻る</a>
+          <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEで深掘り相談</a>
+        </div>
+
+        <p class="warn">※この内容は「今の状態」に基づくメッセージです。あなたの意思と行動が未来を変えます。</p>
+      </section>
+
+      <section class="box" id="empty">
+        <div style="font-weight:1000;margin-bottom:6px;">引き継ぎ情報がありません</div>
+        <div style="font-size:12px;color:#6c6168;line-height:1.8;">
+          無料ページ（`/tarot/`）で関係性と生年月日を入力し、カードを選んでください。<br>
+          その後「全表示版を開く（購入後）」から開くと、再入力なしで表示できます。
+        </div>
+        <div class="actions" style="justify-content:flex-start;">
+          <a class="btn" href="./">無料ページへ</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+
+    function digitsOnly8(raw){ return (raw||"").replace(/\D/g,"").slice(0,8); }
+    function sumDigits(s){ return (s||"").split("").reduce((a,c)=>a + (c>="0"&&c<="9"?Number(c):0),0); }
+    function reduceLifePath(n){ while(n>9){ n=sumDigits(String(n)); } return n||null; }
+    function lifePath(yyyymmdd){ const v=digitsOnly8(yyyymmdd); if(v.length!==8) return null; return reduceLifePath(sumDigits(v)); }
+    function compatBand(lpYou, lpThem){
+      if(!lpYou || !lpThem) return "unknown";
+      const d=Math.abs(lpYou-lpThem);
+      if(d===0) return "high";
+      if(d<=2) return "mid";
+      return "low";
+    }
+
+    const REL_LABEL = {
+      crush:"片想い",
+      dating:"曖昧/付き合う前",
+      couple:"交際中",
+      ex:"元彼/元カノ（復縁）",
+      nocontact:"音信不通/未読無視",
+      married:"夫婦/パートナー",
+    };
+
+    const COMP = {
+      high:    { label:"相性：近い（合わせやすい）", add:"合えば早い。迷うなら即決でOK。" },
+      mid:     { label:"相性：普通（調整で伸びる）", add:"言い方とタイミングで勝てる。" },
+      low:     { label:"相性：違いが大きい（工夫が必要）", add:"短文・具体で衝突回避が鍵。" },
+      unknown: { label:"相性：算出なし", add:"不明でもOK。型で整える。" },
+    };
+
+    const REL_TONE = {
+      crush:     { add:"片想いは“重さ”が失点。軽さで勝つ。", nudge:"返しやすい入口を作る。" },
+      dating:    { add:"曖昧期は主導権が命。様子見を終わらせる。", nudge:"短く誘導し、判断させすぎない。" },
+      couple:    { add:"交際中は察してが破綻。要点だけ言う。", nudge:"不満より要望を1つだけ。" },
+      ex:        { add:"復縁は過去の続きで失敗。新しい関係で出直す。", nudge:"未消化より『今どうしたい』で話す。" },
+      nocontact: { add:"音信不通は追撃が致命傷。軽さ＋間隔が命。", nudge:"一通送ったら待つ。追撃しない。" },
+      married:   { add:"長期は積み重ねが効く。感情より行動の設計。", nudge:"摩擦を1つだけ減らす。" },
+    };
+
+    const BASE = {
+      A: {
+        title: "心を休めるカード｜整えてからが勝ち",
+        now:    "今の状態で動くほど空回りしやすい局面です。焦りが言葉に乗ると、相手は重く感じやすい。まずは心のノイズを落として判断の精度を戻すのが最優先。",
+        past:   "ここまで我慢と努力で繋いできたはず。その頑張りが悪いわけじゃない。ただ“頑張り続ける”は破綻しやすい。いま必要なのは努力の追加ではなく回復。",
+        future: "近未来はあなたの落ち着きが空気を変えます。追うより、安心できる距離感を作る方が効果的。あなたが整えば、相手の温度が戻りやすい。",
+        next:   "①3日SNS/過去LINE/占い巡りを止める ②睡眠を優先 ③連絡するなら要件だけ短文。感情確認はしない。整った状態で次の一手を打つ方が最短です。",
+      },
+      B: {
+        title: "一歩踏み出すカード｜小さく動いて流れを変える",
+        now:    "停滞は放置すると温度が下がります。必要なのは重い確認ではなく、返しやすい軽い連絡で空気を動かすこと。主導権は取り戻せます。",
+        past:   "待つ・合わせるが続くと、あなたの魅力が“当たり前”になりやすい。関係はあなたのペースも見せるほど戻りやすい。小さく動くのは“重くする”の逆。",
+        future: "近未来はあなたの一手で反応が変わりやすい。近況共有/軽い質問のどれかに絞って送る。反応が薄くても追撃はしない。追撃が流れを止めます。",
+        next:   "型：『久しぶり！最近○○で。ふと思い出した。元気？』。長文・感情確認・結論迫りは禁止。返ってきたら短く1往復で止める。“少し足りない”が効きます。",
+      },
+      C: {
+        title: "新しい朝へ進むカード｜恋より先に自分の未来へ",
+        now:    "相手の反応で気分が上下しているなら、恋が主役になりすぎ。捨てる話じゃなく“あなたの未来を優先する”選択です。軸を戻すほど状況は動きます。",
+        past:   "努力は本物。だから簡単に諦められない。けれど努力＝報われるではないのも恋。否定せず、握る力をゆるめることが次のステージに繋がります。",
+        future: "近未来は“入れ替え”が起きやすい。仕事・友人・新しい出会いが動くほど、相手との関係にも影響します。あなたが明るくなるほど相手が変わることも。",
+        next:   "①連絡頻度を増やさない ②SNSを見ない ③自分の予定を先に入れる。7日で執着は薄まる。続ける/区切るの判断が“自分軸”でできるようになります。",
+      }
+    };
+
+    function decodePayload(b64){
+      const json = decodeURIComponent(escape(atob(b64)));
+      return JSON.parse(json);
+    }
+
+    function loadState(){
+      const h = location.hash || "";
+      const m = h.match(/p=([^&]+)/);
+      if (m && m[1]) { try { return decodePayload(decodeURIComponent(m[1])); } catch {} }
+      // fallback: localStorage
+      try{
+        return JSON.parse(localStorage.getItem("oracle_state_v3") || "null");
+      }catch{
+        return null;
+      }
+    }
+
+    function buildFull(state){
+      const relKey = state.rel || "crush";
+      const cardKey = state.card;
+      const base = BASE[cardKey];
+      const relTone = REL_TONE[relKey] || REL_TONE.crush;
+
+      const lpYou = lifePath(state.you || "");
+      const lpThem = lifePath(state.them || "");
+      const band = compatBand(lpYou, lpThem);
+      const comp = COMP[band];
+
+      return {
+        title: base.title,
+        relLabel: REL_LABEL[relKey] || "関係性",
+        compLabel: comp.label,
+        lpYou, lpThem,
+        now:    base.now + " " + relTone.add + " " + comp.add,
+        past:   base.past + " " + relTone.add,
+        future: base.future + " " + comp.add,
+        next:   base.next + " " + relTone.nudge,
+      };
+    }
+
+    const state = loadState();
+    if (!state || !state.card || !BASE[state.card]) {
+      $("#content").style.display = "none";
+      $("#empty").style.display = "block";
+    } else {
+      const v = buildFull(state);
+      $("#cardPill").textContent = `${state.card}｜全表示`;
+      $("#relPill").textContent = `関係性：${v.relLabel}`;
+      $("#compPill").textContent =
+        v.compLabel +
+        (v.lpYou ? `（あなた:${v.lpYou}` : "") +
+        (v.lpYou && v.lpThem ? `・相手:${v.lpThem}` : (v.lpYou ? "）" : "")) +
+        (v.lpYou && v.lpThem ? "）" : "");
+
+      $("#nowFull").textContent = v.now;
+      $("#pastFull").textContent = v.past;
+      $("#futureFull").textContent = v.future;
+      $("#nextFull").textContent = v.next;
+
+      $("#empty").style.display = "none";
+      $("#content").style.display = "block";
+    }
+  </script>
+</body>
+</html>
