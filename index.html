@@ -245,4 +245,312 @@
           <div class="field">
             <label for="bdYou">あなたの生年月日</label>
             <input id="bdYou" inputmode="numeric" autocomplete="bday" placeholder="例：19990101" maxlength="8" />
-            <div class="hint">8桁（
+            <div class="hint">8桁（YYYYMMDD）</div>
+          </div>
+
+          <div class="field">
+            <label for="bdThem">お相手の生年月日</label>
+            <input id="bdThem" inputmode="numeric" placeholder="例：19981231" maxlength="8" />
+            <div class="hint">不明なら空でもOK</div>
+          </div>
+
+          <div class="field">
+            <label>選び方</label>
+            <div class="hint">直感で「これ」と感じた1枚をタップ</div>
+          </div>
+        </div>
+
+        <div class="picker">
+          <button class="tcard" type="button" data-card="A" aria-pressed="false">
+            <div class="shell">
+              <div class="art"><img src="0317Acard.png" alt="心を休めるオラクルカード"></div>
+              <div class="txt">
+                <p class="name">心を休めるカード</p>
+                <p class="desc">焦りを止めて、整えてから動く。</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="tcard" type="button" data-card="B" aria-pressed="false">
+            <div class="shell">
+              <div class="art"><img src="0317Bcard.png" alt="一歩踏み出すオラクルカード"></div>
+              <div class="txt">
+                <p class="name">一歩踏み出すカード</p>
+                <p class="desc">小さく動いて、流れを変える。</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="tcard" type="button" data-card="C" aria-pressed="false">
+            <div class="shell">
+              <div class="art"><img src="0317Ccard.png" alt="新しい朝へ進むオラクルカード"></div>
+              <div class="txt">
+                <p class="name">新しい朝へ進むカード</p>
+                <p class="desc">恋より先に、自分の未来へ。</p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <p class="foot">※<b>選んだカードの結果だけ</b>が表示されます（他は見れません）。</p>
+      </section>
+
+      <section class="result" id="result">
+        <div class="resultBox">
+          <div class="rtag"><span class="rdot"></span>あなた向けに整えた「結論」</div>
+          <h2 class="rtitle" id="rtitle"></h2>
+          <p class="rmeta" id="rmeta"></p>
+
+          <div class="grid" id="summaryGrid"></div>
+
+          <div class="lock" aria-hidden="true">
+            <div class="lockInner">
+              （ここから先は、理由・背景・具体策が続きます。あなたの関係性と相性の傾向に合わせて「何を・いつ・どうやって」を深掘りします…）
+            </div>
+          </div>
+
+          <div class="ctaRow">
+            <a class="btn" id="toFull" href="full.html">全表示版で続きを見る（購入後）</a>
+            <div class="mini">
+              - 入力と選択は<b>そのまま引き継ぎ</b><br>
+              - 4項目を<b>全文＋深掘り</b>で表示
+            </div>
+          </div>
+
+          <div class="reset">
+            <button type="button" id="reset">別のカードを選び直す</button>
+          </div>
+        </div>
+
+        <div class="lineCta">
+          <h2>公式LINEはこちら（無料）</h2>
+          <p>
+            「送るなら何を？」「いつ動く？」まで詰めたい人だけ、LINEで。<br>
+            ※押し売りはしません（必要な人だけが有料へ）。
+          </p>
+          <a class="lineBtn" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const cards = document.querySelectorAll(".tcard");
+    const relSel = $("#rel");
+    const bdYou = $("#bdYou");
+    const bdThem = $("#bdThem");
+    const result = $("#result");
+    const rtitle = $("#rtitle");
+    const rmeta = $("#rmeta");
+    const grid = $("#summaryGrid");
+    const toFull = $("#toFull");
+    const resetBtn = $("#reset");
+
+    // --- ユーティリティ ---
+    function digitsOnly8(raw){
+      return (raw || "").replace(/\D/g,"").slice(0,8);
+    }
+    function sumDigits(s){
+      return (s || "").split("").reduce((a,c)=>a + (c>="0"&&c<="9"?Number(c):0),0);
+    }
+    function reduceLifePath(n){
+      // 1-9に縮約（11/22を使いたいならここを拡張）
+      while (n > 9){
+        n = sumDigits(String(n));
+      }
+      return n || null;
+    }
+    function lifePath(yyyymmdd){
+      const v = digitsOnly8(yyyymmdd);
+      if (v.length !== 8) return null;
+      return reduceLifePath(sumDigits(v));
+    }
+    function compatBand(lpYou, lpThem){
+      if (!lpYou || !lpThem) return "unknown";
+      const d = Math.abs(lpYou - lpThem);
+      if (d === 0) return "high";
+      if (d <= 2) return "mid";
+      return "low";
+    }
+    const REL_LABEL = {
+      crush:"片想い",
+      dating:"曖昧/付き合う前",
+      couple:"交際中",
+      ex:"元彼/元カノ（復縁）",
+      nocontact:"音信不通/未読無視",
+      married:"夫婦/パートナー",
+    };
+
+    // --- ベース（カードごとの骨格：背中押し寄り／近未来） ---
+    const BASE = {
+      A: {
+        title: "心を休めるカード｜整えてからが勝ち",
+        now:    { s:"いまは判断がブレやすい。動くなら“整ってから”が正解。", f:"今の状態で動くほど空回りしやすい局面です。焦りが言葉に乗ると、相手は重く感じやすい。まずは睡眠・食事・情報遮断で心のノイズを落とし、判断の精度を戻すのが最優先。" },
+        past:   { s:"頑張りすぎた反動が出てる。ここで無理すると崩れる。", f:"ここまで我慢と努力で繋いできたはず。その頑張りが悪いわけじゃない。ただ“頑張り続ける”は長期的に破綻しやすい。いま必要なのは努力の追加ではなく回復です。" },
+        future: { s:"整うほど、相手が戻りやすい“余白”が生まれる。", f:"近未来はあなたの落ち着きが空気を変えます。追うより、安心できる距離感を作る方が効果的。あなたが整えば、相手の態度や連絡の温度が少しずつ戻りやすい。" },
+        next:   { s:"3日だけ恋を休む→連絡は“要件だけ”。", f:"①3日SNS/過去LINE/占い巡りを止める ②睡眠を優先 ③連絡するなら要件だけ短文。感情確認はしない。整った状態で次の一手を打つ方が最短です。" },
+      },
+      B: {
+        title: "一歩踏み出すカード｜小さく動いて流れを変える",
+        now:    { s:"待つほど不安が増える。いま必要なのは“軽い一手”。", f:"停滞は放置すると温度が下がります。ここで必要なのは重い確認ではなく、返しやすい軽い連絡で空気を動かすこと。主導権は取り戻せます。" },
+        past:   { s:"相手ペースに合わせすぎて、あなたの存在感が薄い。", f:"待つ・合わせるが続くと、あなたの魅力が“当たり前”になりやすい。関係はあなたのペースも見せるほど戻りやすい。小さく動くのは“重くする”の逆です。" },
+        future: { s:"一通で反応が変わる可能性がある（圧はNG）。", f:"近未来はあなたの一手で反応が変わりやすい。近況共有/軽い質問のどれかに絞って送る。反応が薄くても追撃はしない。追撃が流れを止めます。" },
+        next:   { s:"今日、短文＋近況。質問は1つだけ。", f:"型：『久しぶり！最近○○で。ふと思い出した。元気？』。長文・感情確認・結論迫りは禁止。返ってきたら短く1往復で止める。“少し足りない”が効きます。" },
+      },
+      C: {
+        title: "新しい朝へ進むカード｜恋より先に自分の未来へ",
+        now:    { s:"相手中心で心が揺れてる。軸を自分に戻すべき。", f:"相手の反応で気分が上下しているなら、恋が主役になりすぎ。捨てる話じゃなく“あなたの未来を優先する”選択です。軸を戻すほど状況は動きます。" },
+        past:   { s:"頑張った分だけ手放すのが怖い。でも握り続けると苦しい。", f:"努力は本物。だから簡単に諦められない。けれど努力＝報われるではないのも恋。否定せず、握る力をゆるめることが次のステージに繋がります。" },
+        future: { s:"自分軸に戻すほど、新しい縁やチャンスが入りやすい。", f:"近未来は“入れ替え”が起きやすい。仕事・友人・新しい出会いが動くほど、相手との関係にも影響します。あなたが明るくなるほど相手が変わることも。" },
+        next:   { s:"7日だけ相手中心をやめる。予定を自分で埋める。", f:"①連絡頻度を増やさない ②SNSを見ない ③自分の予定を先に入れる。7日で執着は薄まる。続ける/区切るの判断が“自分軸”でできるようになります。" },
+      }
+    };
+
+    // --- 関係性での追記（結論にも反映） ---
+    const REL_TONE = {
+      crush:     { add:"片想いは“重さ”が一番の失点。軽さで勝てる。",      nudge:"相手が返しやすい入口を作る。" },
+      dating:    { add:"曖昧期は“様子見”が長引くほど不利。主導権を取り返す。", nudge:"短く誘導し、相手に判断させすぎない。" },
+      couple:    { add:"交際中は“察して”が破綻しやすい。要点だけ言う。",      nudge:"不満より要望を1つだけ伝える。" },
+      ex:        { add:"復縁は“過去の続き”をやると失敗する。新しい関係で出直す。", nudge:"未消化より『今どうしたい』で話す。" },
+      nocontact: { add:"音信不通は追撃が致命傷。動くなら“軽さ＋間隔”が命。",    nudge:"一通送ったら待つ。追撃しない。" },
+      married:   { add:"夫婦/長期は“積み重ね”が効く。感情より行動の設計。",      nudge:"生活の摩擦を1つだけ減らす。" },
+    };
+
+    // --- 相性バンドでの追記（誕生日から簡易算出） ---
+    const COMP_TONE = {
+      high:    { label:"相性：近い（合わせやすい）", add:"方向が合えば一気に進む。迷うなら即決でOK。"},
+      mid:     { label:"相性：普通（調整で伸びる）", add:"言い方とタイミングで差が出る。やり方で勝てる。"},
+      low:     { label:"相性：違いが大きい（工夫が必要）", add:"価値観の違いが出やすい。短文・具体で衝突回避。"},
+      unknown: { label:"相性：算出なし", add:"お相手の誕生日が不明でも大丈夫。行動の型で整える。"},
+    };
+
+    function buildReading(cardKey, relKey, youBD, themBD){
+      const base = BASE[cardKey];
+      const rel = REL_TONE[relKey] || REL_TONE.crush;
+
+      const lpYou = lifePath(youBD);
+      const lpThem = lifePath(themBD);
+      const band = compatBand(lpYou, lpThem);
+      const comp = COMP_TONE[band];
+
+      const meta = {
+        relLabel: REL_LABEL[relKey] || "関係性",
+        compLabel: comp.label,
+        lpYou, lpThem,
+      };
+
+      function mixSummary(sec){
+        // 「結論」＝ベース結論 + 関係性の一言 + 相性の一言（短く）
+        const parts = [
+          sec.s,
+          rel.add,
+          comp.add,
+        ];
+        return parts.join(" ");
+      }
+
+      // 無料で見せる「結論だけ」
+      const summary = {
+        now:    { label:"現状", summary: mixSummary(base.now) },
+        past:   { label:"過去", summary: mixSummary(base.past) },
+        future: { label:"未来（近未来）", summary: mixSummary(base.future) },
+        next:   { label:"今後どうすればいいか", summary: base.next.s + " " + rel.nudge + " " + comp.add },
+      };
+
+      // 有料（full）で使う「本文」は、ベース本文に関係性と相性を軽く織り込む
+      const full = {
+        title: base.title,
+        now:    base.now.f + " " + rel.add + " " + comp.add,
+        past:   base.past.f + " " + rel.add,
+        future: base.future.f + " " + comp.add,
+        next:   base.next.f + " " + rel.nudge,
+      };
+
+      return { meta, summary, full };
+    }
+
+    function saveState(state){
+      localStorage.setItem("oracle_state_v2", JSON.stringify(state));
+    }
+    function loadState(){
+      try{
+        const s = localStorage.getItem("oracle_state_v2");
+        return s ? JSON.parse(s) : null;
+      }catch{return null}
+    }
+    function makePayload(state){
+      const json = JSON.stringify(state);
+      const b64 = btoa(unescape(encodeURIComponent(json)));
+      return b64;
+    }
+
+    function applyResult(cardKey){
+      const relKey = relSel.value;
+      bdYou.value = digitsOnly8(bdYou.value);
+      bdThem.value = digitsOnly8(bdThem.value);
+
+      const reading = buildReading(cardKey, relKey, bdYou.value, bdThem.value);
+
+      cards.forEach(c => c.setAttribute("aria-pressed","false"));
+      const active = document.querySelector(`.tcard[data-card="${cardKey}"]`);
+      if (active) active.setAttribute("aria-pressed","true");
+
+      rtitle.textContent = reading.full.title;
+      rmeta.innerHTML = `関係性：<b>${reading.meta.relLabel}</b> ／ ${reading.meta.compLabel}` +
+        (reading.meta.lpYou ? `（あなた：${reading.meta.lpYou}` : "") +
+        (reading.meta.lpYou && reading.meta.lpThem ? `・相手：${reading.meta.lpThem}` : (reading.meta.lpYou ? "）" : "")) +
+        (reading.meta.lpYou && reading.meta.lpThem ? "）" : "");
+
+      const items = [
+        reading.summary.now,
+        reading.summary.past,
+        reading.summary.future,
+        reading.summary.next,
+      ];
+
+      grid.innerHTML = items.map(it => `
+        <div class="sec">
+          <h3>${it.label}（結論）</h3>
+          <p>${it.summary}</p>
+        </div>
+      `).join("");
+
+      const state = {
+        v: 2,
+        rel: relKey,
+        you: bdYou.value || "",
+        them: bdThem.value || "",
+        card: cardKey,
+        ts: Date.now()
+      };
+      saveState(state);
+
+      const payload = makePayload(state);
+      toFull.href = `full.html#p=${encodeURIComponent(payload)}`;
+
+      result.style.display = "block";
+      result.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => applyResult(card.dataset.card));
+    });
+
+    resetBtn.addEventListener("click", () => {
+      cards.forEach(c => c.setAttribute("aria-pressed","false"));
+      result.style.display = "none";
+      document.getElementById("cards").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    // 同端末で引き継ぎ（再入力なし）
+    const saved = loadState();
+    if (saved && saved.card){
+      relSel.value = saved.rel || "crush";
+      bdYou.value = saved.you || "";
+      bdThem.value = saved.them || "";
+      applyResult(saved.card);
+    }
+  </script>
+</body>
+</html>
