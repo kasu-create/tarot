@@ -583,14 +583,16 @@
     }
 
     async function registerCodeToGAS({ code, payload }) {
-      if (!GAS_REGISTER_URL) return { ok:false };
-      const res = await fetch(GAS_REGISTER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, payload, createdAt: Date.now() }),
-      });
-      return { ok: res.ok };
-    }
+  if (!GAS_REGISTER_URL) return;
+
+  // CORS回避：text/plain + no-cors（GAS側は e.postData.contents を読める）
+  await fetch(GAS_REGISTER_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ code, payload, createdAt: Date.now() }),
+  });
+}
 
     function buildReading(cardKey, relKey, youBD, themBD){
       const base = BASE[cardKey];
