@@ -138,7 +138,7 @@
 
         <div class="actions">
           <a class="btn ghost" href="./">無料ページに戻る</a>
-          <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEで深掘り相談</a>
+          <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（無料）</a>
         </div>
 
         <p class="warn">※この内容は「今の状態」に基づくメッセージです。あなたの意思と行動が未来を変えます。</p>
@@ -148,7 +148,8 @@
         <div style="font-weight:1000;margin-bottom:6px;">引き継ぎ情報がありません</div>
         <div style="font-size:12px;color:#6c6168;line-height:1.8;">
           無料ページ（`/tarot/`）で関係性と生年月日を入力し、カードを選んでください。<br>
-          その後「全表示版を開く（購入後）」から開くと、再入力なしで表示できます。
+          その後「全表示版を開く（購入後）」から開くと、再入力なしで表示できます。<br><br>
+          ※別のアプリ内ブラウザ（LINE等）で購入した場合は、「引き継ぎリンク」を開くのが確実です。
         </div>
         <div class="actions" style="justify-content:flex-start;">
           <a class="btn" href="./">無料ページへ</a>
@@ -225,17 +226,11 @@
       const json = decodeURIComponent(escape(atob(b64)));
       return JSON.parse(json);
     }
-
     function loadState(){
       const h = location.hash || "";
       const m = h.match(/p=([^&]+)/);
       if (m && m[1]) { try { return decodePayload(decodeURIComponent(m[1])); } catch {} }
-      // fallback: localStorage
-      try{
-        return JSON.parse(localStorage.getItem("oracle_state_v3") || "null");
-      }catch{
-        return null;
-      }
+      try{ return JSON.parse(localStorage.getItem("oracle_state_v3") || "null"); }catch{ return null; }
     }
 
     function buildFull(state){
