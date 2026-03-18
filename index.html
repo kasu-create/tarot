@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>無料鑑定｜待つべき？動くべき？恋のオラクル三択</title>
-  <meta name="description" content="あなた/お相手の生年月日と関係性を入れて、3枚のオラクルから1枚選ぶだけ。現状・過去・未来（近未来）・今後の一手を“結論だけ”無料で先出し。" />
+  <title>無料鑑定｜恋のオラクル三択</title>
+  <meta name="description" content="生年月日と関係性を入れて、3枚のオラクルから1枚選ぶだけ。現状・過去・未来（近未来）・今後の一手を“結論だけ”無料で先出し。" />
   <style>
     :root{
       --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
@@ -125,9 +125,7 @@
       background:var(--ok);
       box-shadow:0 12px 26px rgba(0,0,0,.12);
     }
-    .mini{
-      font-size:11px;color:#7a626e;line-height:1.7;
-    }
+    .mini{font-size:11px;color:#7a626e;line-height:1.7}
     .mini b{color:#b14c7e}
 
     .stage{display:none;margin-top:14px}
@@ -208,9 +206,47 @@
     .metaLine b{color:#b14c7e}
 
     .divider{height:1px;background:rgba(240,214,226,.9);margin:14px 0}
-
     .resetRow{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
-    .resetRow button{cursor:pointer}
+
+    /* 専用コードUI */
+    .codeBox{
+      margin-top:12px;
+      border-radius:16px;
+      border:1px solid #f2d6e6;
+      background:rgba(255,255,255,.95);
+      padding:12px;
+    }
+    .codeHead{
+      font-size:12px;
+      font-weight:1000;
+      color:#2a1f25;
+      margin-bottom:8px;
+    }
+    .codeRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .code{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-weight:1000;
+      letter-spacing:.18em;
+      font-size:18px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border:1px dashed #efc2de;
+      min-width:160px;
+      text-align:center;
+    }
+    .codeNote{
+      margin-top:8px;
+      font-size:11px;
+      color:#6c6168;
+      line-height:1.7;
+    }
 
     @media (max-width:768px){
       body{padding:12px 8px 24px}
@@ -225,6 +261,7 @@
       .name{font-size:12px;margin-bottom:4px}
       .desc{font-size:10.5px}
       .btn{font-size:12px}
+      .code{font-size:16px;min-width:150px}
     }
   </style>
 </head>
@@ -302,7 +339,7 @@
             <div class="grid" id="tendencyGrid"></div>
             <div class="actionsRow">
               <button class="btn" id="toCardsBtn" type="button">次へ：オラクル三択へ</button>
-              <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（無料）</a>
+              <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（タップ）</a>
             </div>
           </div>
         </div>
@@ -361,7 +398,6 @@
 
             <div class="divider"></div>
 
-            <!-- 失礼にならない“有料で得られるもの”案内 -->
             <div class="sec" aria-label="ここから先（有料）で分かること">
               <h3>ここから先（有料）で分かること</h3>
               <p>
@@ -369,6 +405,25 @@
                 <b>「なぜそう出たのか（理由）」「相手の心理の読み方」「あなたが取るべき具体行動（今夜/3日/7日）」</b>まで、<br>
                 あなたの<b>関係性</b>と<b>生年月日</b>に合わせて整理してお渡しします。
               </p>
+            </div>
+
+            <!-- 専用コード（LINEに送る用） -->
+            <div class="codeBox" id="codeBox" style="display:none;">
+              <div class="codeHead">LINEに送る専用コード</div>
+              <div class="codeRow">
+                <div class="code" id="oracleCode">------</div>
+                <button class="btn ghost" type="button" id="copyCodeBtn">コードをコピー</button>
+              </div>
+              <div class="codeNote">
+                LINEを追加して、トークに <b>このコードだけ</b> 送ってください。<br>
+                自動返信で「全文が読めるページ」が届きます。
+              </div>
+              <div class="actionsRow" style="margin-top:10px;">
+                <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（タップ）</a>
+              </div>
+              <div class="mini" style="margin-top:10px;">
+                ※もし自動返信がうまくいかない場合は、下の「引き継ぎリンク」でも開けます。
+              </div>
             </div>
 
             <div class="actionsRow" style="margin-top:12px;">
@@ -384,7 +439,6 @@
             <div class="divider"></div>
 
             <div class="actionsRow">
-              <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（無料）</a>
               <button class="btn ghost" id="copyLinkBtn" type="button">引き継ぎリンクをコピー</button>
             </div>
 
@@ -405,11 +459,16 @@
   </main>
 
   <script>
-    // ====== 設定（ここだけ差し替え） ======
-    const PAY_URL = "PAY_URL_HERE"; // STORES「全文鑑定」商品URL
+    // ====== ここだけ後で差し替え ======
+    const PAY_URL = "PAY_URL_HERE"; // STORES商品URL（後で差し替え）
     const LINE_URL = "https://lin.ee/7J33z1I";
 
+    // ★ ここが探してたやつ（GAS /exec を入れてある）
+    const GAS_REGISTER_URL = "https://script.google.com/macros/s/AKfycbw_8fI8MT669odYHvN2IfJ8X3o1hbAO_Agk_8TSjojG4ZxbqJu774sK1LVZYEqXfJ14aA/exec";
+
+    // ====== ここから下は触らなくてOK ======
     const $ = (s) => document.querySelector(s);
+
     const rel = $("#rel");
     const bdYou = $("#bdYou");
     const bdThem = $("#bdThem");
@@ -436,6 +495,13 @@
 
     const restartBtn = $("#restartBtn");
     const reselectBtn = $("#reselectBtn");
+
+    const codeBox = $("#codeBox");
+    const oracleCodeEl = $("#oracleCode");
+    const copyCodeBtn = $("#copyCodeBtn");
+
+    // LINEリンク差し替え
+    document.querySelectorAll('a[href="https://lin.ee/7J33z1I"]').forEach(a => a.href = LINE_URL);
 
     const STATE_KEY = "oracle_state_v3";
 
@@ -505,6 +571,25 @@
     function makePayload(state){
       const json = JSON.stringify(state);
       return btoa(unescape(encodeURIComponent(json)));
+    }
+
+    function makeCode(len = 6) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let out = "";
+      const arr = new Uint32Array(len);
+      crypto.getRandomValues(arr);
+      for (let i = 0; i < len; i++) out += chars[arr[i] % chars.length];
+      return out;
+    }
+
+    async function registerCodeToGAS({ code, payload }) {
+      if (!GAS_REGISTER_URL) return { ok:false };
+      const res = await fetch(GAS_REGISTER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, payload, createdAt: Date.now() }),
+      });
+      return { ok: res.ok };
     }
 
     function buildReading(cardKey, relKey, youBD, themBD){
@@ -630,17 +715,32 @@
 
         renderSummary(reading);
 
-        // full.htmlへ引き継ぎ
         const payload = makePayload(state);
         const fullUrl = `full.html#p=${encodeURIComponent(payload)}`;
         fullBtn.href = fullUrl;
 
-        // 引き継ぎリンク表示
         carryLinkWrap.style.display = "block";
         carryLink.textContent = location.origin + location.pathname.replace(/index\.html?$/,"") + fullUrl;
 
-        // PAY
         payBtn.href = PAY_URL;
+
+        // 専用コード発行＆表示
+        const code = makeCode(6);
+        oracleCodeEl.textContent = code;
+        codeBox.style.display = "block";
+
+        copyCodeBtn.onclick = async () => {
+          try{
+            await navigator.clipboard.writeText(code);
+            copyCodeBtn.textContent = "コピーしました";
+            setTimeout(()=>copyCodeBtn.textContent="コードをコピー", 1200);
+          }catch{
+            alert("コピーできませんでした。コードを長押ししてコピーしてください。");
+          }
+        };
+
+        // GASへ登録（失敗しても表示は進む）
+        registerCodeToGAS({ code, payload }).catch(()=>{});
 
         show(step5);
         step5.scrollIntoView({behavior:"smooth", block:"start"});
@@ -679,7 +779,6 @@
       bdYou.value = saved.you || "";
       bdThem.value = saved.them || "";
       if (saved.card){
-        // 直接結果まで復元（クリックで描画）
         renderTendency(rel.value, bdYou.value, bdThem.value);
         show(step3);
         show(step4);
