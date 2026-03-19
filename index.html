@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>無料鑑定｜恋のオラクル三択</title>
-  <meta name="description" content="生年月日と関係性を入れて、3枚のオラクルから1枚選ぶだけ。現状・過去・未来（近未来）・今後の一手を“結論だけ”無料で先出し。" />
+  <meta name="description" content="占いたいテーマを選んで、生年月日と関係性を入れてオラクル三択。現状・過去・未来（近未来）・今後の一手を結論だけ無料で。" />
   <style>
     :root{
       --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
@@ -26,242 +26,105 @@
     html,body{margin:0;padding:0}
     body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
+      font-size:16px;
       background:var(--bg);
       color:var(--ink);
       padding:22px 12px 40px;
     }
-    .page{
-      max-width:980px;
-      margin:0 auto;
-      background:var(--paper);
-      border-radius:var(--r-xl);
-      box-shadow:var(--shadow);
-      padding:20px 18px 28px;
-      position:relative;
-      overflow:hidden;
-    }
-    .page::before{
-      content:"";
-      position:absolute;
-      inset:-70px -50px auto auto;
-      background:radial-gradient(circle at top,#ffe7f7 0,transparent 60%);
-      opacity:.75;
-      pointer-events:none;
-    }
-    .inner{position:relative;z-index:1}
+    .page{ max-width:980px; margin:0 auto; background:var(--paper); border-radius:var(--r-xl); box-shadow:var(--shadow); padding:20px 18px 28px; position:relative; overflow:hidden; }
+    .page::before{ content:""; position:absolute; inset:-70px -50px auto auto; background:radial-gradient(circle at top,#ffe7f7 0,transparent 60%); opacity:.75; pointer-events:none; }
+    .inner{ position:relative; z-index:1 }
 
-    .chip{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:4px 10px;border-radius:999px;
-      background:rgba(255,255,255,.9);
-      border:1px solid rgba(255,192,216,.7);
-      font-size:11px;color:#b34a77;margin-bottom:10px;
-    }
-    .dot{
-      width:7px;height:7px;border-radius:50%;
-      background:linear-gradient(135deg,#ff77aa,#ffb4e0);
-      box-shadow:0 0 8px rgba(255,105,180,.65);
-    }
-    h1{margin:0 0 8px;font-size:24px;line-height:1.5;letter-spacing:.04em}
-    h1 span{display:block}
-    .sub{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.75}
-    .note{margin:0 0 14px;font-size:11px;color:#9d8792;line-height:1.75}
+    .chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.9); border:1px solid rgba(255,192,216,.7); font-size:11px; color:#b34a77; margin-bottom:10px; }
+    .dot{ width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,#ff77aa,#ffb4e0); box-shadow:0 0 8px rgba(255,105,180,.65); }
+    h1{ margin:0 0 8px; font-size:24px; line-height:1.5; letter-spacing:.04em }
+    h1 span{ display:block }
+    .sub{ margin:0 0 12px; font-size:15px; color:var(--muted); line-height:1.75 }
+    .note{ margin:0 0 14px; font-size:12px; color:#9d8792; line-height:1.75 }
 
-    .panel{
-      background:rgba(255,255,255,.95);
-      border:1px solid rgba(255,210,232,.9);
-      box-shadow:var(--soft);
-      border-radius:var(--r-lg);
-      padding:14px 14px 16px;
-    }
+    .panel{ background:rgba(255,255,255,.95); border:1px solid rgba(255,210,232,.9); box-shadow:var(--soft); border-radius:var(--r-lg); padding:14px 14px 16px; }
 
-    .form{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:10px;
-      border-bottom:1px dashed var(--line);
-      padding-bottom:12px;
-      margin-bottom:12px;
-    }
-    .field{display:flex;flex-direction:column;gap:6px}
-    label{font-size:12px;font-weight:1000;color:#44323a}
-    input,select{
-      width:100%;
-      padding:10px 10px;
-      border-radius:12px;
-      border:1px solid #f0cde2;
-      background:#fff;
-      font-size:14px;
-    }
-    .hint{font-size:11px;color:var(--muted);line-height:1.6}
+    .form{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; border-bottom:1px dashed var(--line); padding-bottom:12px; margin-bottom:12px; }
+    .field{ display:flex; flex-direction:column; gap:6px }
+    label{ font-size:13px; font-weight:1000; color:#44323a }
+    input,select{ width:100%; padding:10px; border-radius:12px; border:1px solid #f0cde2; background:#fff; font-size:14px; }
+    .hint{ font-size:12px; color:var(--muted); line-height:1.6 }
 
-    .actionsRow{
-      margin-top:10px;
-      display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-    }
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:11px 16px;
-      border-radius:999px;
-      border:none;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#fff;
-      font-weight:1000;
-      font-size:13px;
-      letter-spacing:.04em;
-      cursor:pointer;
-      box-shadow:0 12px 26px rgba(212,80,140,.35);
-      text-decoration:none;
-      white-space:nowrap;
-    }
-    .btn::after{content:"▶";font-size:10px;opacity:.9}
-    .btn.ghost{
-      background:transparent;
-      border:1px solid #f0cde2;
-      box-shadow:none;
-      color:#8a5a72;
-    }
-    .btn.line{
-      background:var(--ok);
-      box-shadow:0 12px 26px rgba(0,0,0,.12);
-    }
-    .mini{font-size:11px;color:#7a626e;line-height:1.7}
-    .mini b{color:#b14c7e}
+    .actionsRow{ margin-top:10px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:11px 16px; border-radius:999px; border:none; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-weight:1000; font-size:13px; letter-spacing:.04em; cursor:pointer; box-shadow:0 12px 26px rgba(212,80,140,.35); text-decoration:none; white-space:nowrap; }
+    .btn::after{ content:"▶"; font-size:10px; opacity:.9 }
+    .btn.ghost{ background:transparent; border:1px solid #f0cde2; box-shadow:none; color:#8a5a72; }
+    .btn.line{ background:var(--ok); box-shadow:0 12px 26px rgba(0,0,0,.12); }
+    .mini{ font-size:11px; color:#7a626e; line-height:1.7 }
+    .mini b{ color:#b14c7e }
 
-    .stage{display:none;margin-top:14px}
-    .stage.show{display:block}
-    .stageTitle{margin:0 0 8px;font-size:14px;font-weight:1000;color:#2a1f25}
+    .stage{ display:none; margin-top:14px }
+    .stage.show{ display:block }
+    .stageTitle{ margin:0 0 8px; font-size:16px; font-weight:1000; color:#2a1f25 }
 
-    .loading{
-      display:flex;align-items:center;gap:10px;
-      padding:12px;
-      border-radius:18px;
-      border:1px dashed #efc2de;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
-    }
-    .spinner{
-      width:16px;height:16px;border-radius:99px;
-      border:3px solid #f1c6dd;border-top-color:#ff86b8;
-      animation:spin 1s linear infinite;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .loading p{margin:0;font-size:12px;color:#5a444f;line-height:1.7}
+    .loading{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:18px; border:1px dashed #efc2de; background:linear-gradient(120deg,#fff7fc,#fffdfc); }
+    .spinner{ width:16px; height:16px; border-radius:99px; border:3px solid #f1c6dd; border-top-color:#ff86b8; animation:spin 1s linear infinite; }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .loading p{ margin:0; font-size:14px; color:#5a444f; line-height:1.7 }
 
-    .grid{display:grid;grid-template-columns:1fr;gap:10px}
-    .sec{
-      border:1px dashed #efc2de;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
-      border-radius:16px;
-      padding:10px 12px;
-    }
-    .sec h3{margin:0 0 6px;font-size:12px}
-    .sec p{margin:0;font-size:12px;line-height:1.9;color:#2f232a}
+    .grid{ display:grid; grid-template-columns:1fr; gap:10px }
+    .sec{ border:1px dashed #efc2de; background:linear-gradient(120deg,#fff7fc,#fffdfc); border-radius:16px; padding:10px 12px; }
+    .sec h3{ margin:0 0 6px; font-size:14px }
+    .sec p{ margin:0; font-size:14px; line-height:1.9; color:#2f232a }
 
-    .cards{
-      display:flex;
-      flex-wrap:wrap;
-      gap:18px;
-      justify-content:space-between;
-      margin-top:10px;
-    }
-    .tcard{
-      flex:1 1 30%;
-      max-width:300px;
-      border:none;background:transparent;padding:0;
-      cursor:pointer;text-align:left;
-    }
-    .tcard:focus-visible{outline:2px solid #ff9dcf;outline-offset:3px}
-    .shell{
-      background:var(--card);
-      border:1px solid rgba(255,210,230,.8);
-      border-radius:var(--r-md);
-      box-shadow:var(--soft);
-      overflow:hidden;
-      transition:transform .18s ease, box-shadow .18s ease, border .18s ease;
-      height:100%;
-      display:flex;flex-direction:column;
-    }
-    .tcard:hover .shell{transform:translateY(-3px);box-shadow:0 18px 38px rgba(0,0,0,.12)}
-    .tcard[aria-pressed="true"] .shell{
-      transform:translateY(-1px) scale(1.01);
-      box-shadow:0 20px 40px rgba(228,118,162,.25);
-      border:1px solid #ff8fbe;
-    }
-    .art{background:#fdf3f8}
-    .art img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
-    .txt{padding:10px 14px 14px}
-    .name{margin:0 0 6px;font-size:14px;font-weight:1000}
-    .desc{margin:0;font-size:12px;line-height:1.7;color:var(--muted)}
-    .foot{margin-top:10px;font-size:11px;color:#9b8190}
-    .foot b{color:#c25a86}
+    .cards{ display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between; margin-top:10px; }
+    .tcard{ flex:1 1 30%; max-width:300px; border:none; background:transparent; padding:0; cursor:pointer; text-align:left; }
+    .tcard:focus-visible{ outline:2px solid #ff9dcf; outline-offset:3px }
+    .shell{ background:var(--card); border:1px solid rgba(255,210,230,.8); border-radius:var(--r-md); box-shadow:var(--soft); overflow:hidden; transition:transform .18s ease, box-shadow .18s ease, border .18s ease; height:100%; display:flex; flex-direction:column; }
+    .tcard:hover .shell{ transform:translateY(-3px); box-shadow:0 18px 38px rgba(0,0,0,.12) }
+    .tcard[aria-pressed="true"] .shell{ transform:translateY(-1px) scale(1.01); box-shadow:0 20px 40px rgba(228,118,162,.25); border:1px solid #ff8fbe; }
+    .art{ background:#fdf3f8 }
+    .art img{ display:block; width:100%; height:auto; max-height:320px; object-fit:cover }
+    .txt{ padding:10px 14px 14px }
+    .name{ margin:0 0 6px; font-size:16px; font-weight:1000 }
+    .desc{ margin:0; font-size:13px; line-height:1.7; color:var(--muted) }
+    .foot{ margin-top:10px; font-size:12px; color:#9b8190 }
+    .foot b{ color:#c25a86 }
 
-    .box{
-      border-radius:var(--r-lg);
-      background:rgba(255,255,255,.97);
-      border:1px solid rgba(229,190,216,.9);
-      box-shadow:var(--soft);
-      padding:14px 14px 16px;
-    }
-    .metaLine{margin:0 0 10px;font-size:11px;color:#7a626e;line-height:1.7}
-    .metaLine b{color:#b14c7e}
+    .box{ border-radius:var(--r-lg); background:rgba(255,255,255,.97); border:1px solid rgba(229,190,216,.9); box-shadow:var(--soft); padding:14px 14px 16px; }
+    .metaLine{ margin:0 0 10px; font-size:13px; color:#7a626e; line-height:1.7 }
+    .metaLine b{ color:#b14c7e }
+    .divider{ height:1px; background:rgba(240,214,226,.9); margin:14px 0 }
+    .resetRow{ margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end }
 
-    .divider{height:1px;background:rgba(240,214,226,.9);margin:14px 0}
-    .resetRow{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .codeBox{ margin-top:12px; border-radius:16px; border:1px solid #f2d6e6; background:rgba(255,255,255,.95); padding:12px; }
+    .codeHead{ font-size:14px; font-weight:1000; color:#2a1f25; margin-bottom:8px; }
+    .codeRow{ display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:1000; letter-spacing:.18em; font-size:18px; padding:10px 12px; border-radius:12px; background:linear-gradient(120deg,#fff7fc,#fffdfc); border:1px dashed #efc2de; min-width:160px; text-align:center; }
+    .codeNote{ margin-top:8px; font-size:12px; color:#6c6168; line-height:1.7; }
 
-    /* 専用コードUI */
-    .codeBox{
-      margin-top:12px;
-      border-radius:16px;
-      border:1px solid #f2d6e6;
-      background:rgba(255,255,255,.95);
-      padding:12px;
-    }
-    .codeHead{
-      font-size:12px;
-      font-weight:1000;
-      color:#2a1f25;
-      margin-bottom:8px;
-    }
-    .codeRow{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .code{
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-      font-weight:1000;
-      letter-spacing:.18em;
-      font-size:18px;
-      padding:10px 12px;
-      border-radius:12px;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
-      border:1px dashed #efc2de;
-      min-width:160px;
-      text-align:center;
-    }
-    .codeNote{
-      margin-top:8px;
-      font-size:11px;
-      color:#6c6168;
-      line-height:1.7;
-    }
+    .themeGrid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; margin-top:12px; }
+    .themeCard{ display:block; width:100%; padding:14px 12px; border-radius:16px; border:1px solid rgba(255,210,232,.9); background:rgba(255,255,255,.95); text-align:left; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease; }
+    .themeCard:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08); }
+    .themeCard.locked{ opacity:.85; cursor:pointer; position:relative; }
+    .themeCard.locked::after{ content:"🔒"; position:absolute; top:8px; right:8px; font-size:14px; }
+    .themeCardName{ font-size:15px; font-weight:1000; margin-bottom:4px; color:#2a1f25; }
+    .themeCardDesc{ font-size:12px; color:#6c6168; line-height:1.5; }
+    .themeCardBadge{ display:inline-block; margin-top:6px; padding:2px 8px; border-radius:999px; font-size:10px; font-weight:1000; background:linear-gradient(135deg,#ff6ba5,#ff9bc8); color:#fff; }
+    .themeLockMsg{ margin-top:14px; padding:12px; border-radius:16px; border:1px dashed #efc2de; background:#fff7fc; font-size:13px; color:#5a444f; }
+    .themeLockMsg .btn{ margin-top:8px; }
 
     @media (max-width:768px){
-      body{padding:12px 8px 24px}
-      .page{border-radius:22px;padding:18px 12px 24px}
-      h1{font-size:20px}
-      .form{grid-template-columns:1fr}
-      /* スマホでも3枚横並び（小さめ） */
-      .cards{gap:8px}
-      .tcard{flex:1 1 30%;max-width:110px}
-      .art img{max-height:170px}
-      .txt{padding:8px 10px 10px}
-      .name{font-size:12px;margin-bottom:4px}
-      .desc{font-size:10.5px}
-      .btn{font-size:12px}
-      .code{font-size:16px;min-width:150px}
+      body{ padding:12px 8px 24px }
+      .page{ border-radius:22px; padding:18px 12px 24px }
+      h1{ font-size:20px }
+      .form{ grid-template-columns:1fr }
+      .cards{ gap:8px }
+      .tcard{ flex:1 1 30%; max-width:110px }
+      .art img{ max-height:170px }
+      .txt{ padding:8px 10px 10px }
+      .name{ font-size:12px; margin-bottom:4px }
+      .desc{ font-size:12px }
+      .btn{ font-size:13px }
+      .code{ font-size:16px; min-width:150px }
+      .themeGrid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+      .themeCard{ padding:12px 10px; }
+      .themeCardName{ font-size:13px; }
     }
   </style>
 </head>
@@ -269,20 +132,22 @@
   <main class="page">
     <div class="inner">
       <div class="chip"><span class="dot"></span>無料鑑定（結論だけ先出し）</div>
+      <h1><span>占いたいテーマを選んで</span><span>オラクルで整理します。</span></h1>
+      <p class="sub">テーマを選ぶ→入力→カード選択で、<b>現状/過去/未来（近未来）/今後の一手</b>を「結論だけ」受け取れます。続きは全表示版で。</p>
+      <p class="note">※結果は「今の状態」をもとにしたメッセージです。医療/法律/投資の判断を代替しません。</p>
 
-      <h1>
-        <span>待つべき？動くべき？</span>
-        <span>あなたとあの人の恋を、オラクルで整理します。</span>
-      </h1>
+      <!-- Step0: テーマ選択 -->
+      <section class="panel show" id="step0">
+        <h2 class="stageTitle">占いたいテーマを選んでください</h2>
+        <div class="themeGrid" id="themeGrid"></div>
+        <div class="themeLockMsg" id="themeLockMsg" style="display:none;">
+          <p>このテーマは有料鑑定でご利用できます。</p>
+          <p><a class="btn" id="themeLockPayBtn" href="PAY_URL_HERE" target="_blank" rel="noopener">全テーマ解放はこちら</a></p>
+        </div>
+      </section>
 
-      <p class="sub">
-        入力→鑑定→カード選択で、<b>現状/過去/未来（近未来）/今後の一手</b>を「結論だけ」先に受け取れます。<br>
-        続き（理由・深掘り・具体策）は<b>全表示版</b>で。
-      </p>
-      <p class="note">※結果は「今の状態」をもとにしたメッセージです。医療/法律/投資などの判断を代替しません。</p>
-
-      <!-- 入力 -->
-      <section class="panel" id="step1">
+      <!-- Step1: 入力 -->
+      <section class="panel stage" id="step1">
         <div class="form">
           <div class="field">
             <label for="rel">関係性</label>
@@ -290,50 +155,39 @@
               <option value="crush">片想い</option>
               <option value="dating">曖昧/付き合う前</option>
               <option value="couple">交際中</option>
-              <option value="ex">元彼/元カノ（復縁）</option>
+              <option value="ex">元彼/元カノ</option>
               <option value="nocontact">音信不通/未読無視</option>
               <option value="married">夫婦/パートナー</option>
             </select>
             <div class="hint">いちばん近いものを選んでOK</div>
           </div>
-
           <div class="field">
             <label for="bdYou">あなたの生年月日</label>
             <input id="bdYou" inputmode="numeric" autocomplete="bday" placeholder="例：19990101" maxlength="8" />
             <div class="hint">8桁（YYYYMMDD）</div>
           </div>
-
           <div class="field">
             <label for="bdThem">お相手の生年月日</label>
             <input id="bdThem" inputmode="numeric" placeholder="例：19981231（不明なら空）" maxlength="8" />
-            <div class="hint">不明でもOK（精度を上げたい人は入力）</div>
+            <div class="hint">不明でもOK</div>
           </div>
         </div>
-
         <div class="actionsRow">
           <button class="btn" id="startBtn" type="button">無料で鑑定する</button>
-          <div class="mini">入力内容は<b>端末に保存</b>されます（戻ってきてもやり直し不要）。</div>
+          <div class="mini">入力内容は<b>端末に保存</b>されます。</div>
         </div>
       </section>
 
-      <!-- 鑑定中 -->
       <section class="stage" id="step2">
         <div class="panel">
           <h2 class="stageTitle">鑑定しています…</h2>
-          <div class="loading" role="status" aria-live="polite">
-            <span class="spinner" aria-hidden="true"></span>
-            <p>
-              あなたとお相手の情報から、相性の傾向を整理しています。<br>
-              そのあと、オラクルで「今の恋の動かし方」を見ていきます。
-            </p>
-          </div>
+          <div class="loading" role="status"><span class="spinner"></span><p>相性の傾向を整理しています。そのあとオラクルで「今の恋の動かし方」を見ていきます。</p></div>
         </div>
       </section>
 
-      <!-- 相性/傾向 -->
       <section class="stage" id="step3">
         <div class="panel">
-          <h2 class="stageTitle">まず、2人の“空気”を確認します（無料）</h2>
+          <h2 class="stageTitle">まず、2人の"空気"を確認します（無料）</h2>
           <div class="box">
             <p class="metaLine" id="metaLine"></p>
             <div class="grid" id="tendencyGrid"></div>
@@ -345,108 +199,59 @@
         </div>
       </section>
 
-      <!-- オラクル三択 -->
       <section class="stage" id="step4">
         <div class="panel">
           <h2 class="stageTitle">3枚のオラクルから、直感で1枚選んでください</h2>
-          <div class="hint">※選んだカードの結果だけ表示されます。</div>
-
           <div class="cards" id="cards">
             <button class="tcard" type="button" data-card="A" aria-pressed="false">
               <div class="shell">
-                <div class="art"><img src="0317Acard.png" alt="心を休めるオラクルカード"></div>
-                <div class="txt">
-                  <p class="name">心を休めるカード</p>
-                  <p class="desc">焦りを止めて、整えてから動く。</p>
-                </div>
+                <div class="art"><img src="0317Acard.png" alt="オラクルA"></div>
+                <div class="txt"><p class="name" id="cardNameA"></p><p class="desc" id="cardDescA"></p></div>
               </div>
             </button>
-
             <button class="tcard" type="button" data-card="B" aria-pressed="false">
               <div class="shell">
-                <div class="art"><img src="0317Bcard.png" alt="一歩踏み出すオラクルカード"></div>
-                <div class="txt">
-                  <p class="name">一歩踏み出すカード</p>
-                  <p class="desc">小さく動いて、流れを変える。</p>
-                </div>
+                <div class="art"><img src="0317Bcard.png" alt="オラクルB"></div>
+                <div class="txt"><p class="name" id="cardNameB"></p><p class="desc" id="cardDescB"></p></div>
               </div>
             </button>
-
             <button class="tcard" type="button" data-card="C" aria-pressed="false">
               <div class="shell">
-                <div class="art"><img src="0317Ccard.png" alt="新しい朝へ進むオラクルカード"></div>
-                <div class="txt">
-                  <p class="name">新しい朝へ進むカード</p>
-                  <p class="desc">恋より先に、自分の未来へ。</p>
-                </div>
+                <div class="art"><img src="0317Ccard.png" alt="オラクルC"></div>
+                <div class="txt"><p class="name" id="cardNameC"></p><p class="desc" id="cardDescC"></p></div>
               </div>
             </button>
           </div>
-
-          <p class="foot">※<b>選んだカードの鑑定結果だけ</b>が表示されます（他のカードは見られません）。</p>
+          <p class="foot">※<b>選んだカードの鑑定結果だけ</b>が表示されます。</p>
         </div>
       </section>
 
-      <!-- 結果（結論だけ） -->
       <section class="stage" id="step5">
         <div class="panel">
           <h2 class="stageTitle">あなた向けに整えた鑑定（無料：結論だけ）</h2>
           <div class="box">
             <p class="metaLine" id="resultMeta"></p>
-
             <div class="grid" id="summaryGrid"></div>
-
             <div class="divider"></div>
-
-            <div class="sec" aria-label="ここから先（有料）で分かること">
-              <h3>ここから先（有料）で分かること</h3>
-              <p>
-                全表示版では、上の4項目それぞれについて<br>
-                <b>「なぜそう出たのか（理由）」「相手の心理の読み方」「あなたが取るべき具体行動（今夜/3日/7日）」</b>まで、<br>
-                あなたの<b>関係性</b>と<b>生年月日</b>に合わせて整理してお渡しします。
-              </p>
-            </div>
-
-            <!-- 専用コード（LINEに送る用） -->
+            <div class="sec"><h3>ここから先（有料）で分かること</h3><p>全表示版では、上の4項目それぞれについて<b>「なぜそう出たのか」「相手の心理」「具体行動（今夜/3日/7日）」</b>まで、関係性と生年月日に合わせてお渡しします。</p></div>
             <div class="codeBox" id="codeBox" style="display:none;">
               <div class="codeHead">LINEに送る専用コード</div>
               <div class="codeRow">
                 <div class="code" id="oracleCode">------</div>
                 <button class="btn ghost" type="button" id="copyCodeBtn">コードをコピー</button>
               </div>
-              <div class="codeNote">
-                LINEを追加して、トークに <b>このコードだけ</b> 送ってください。<br>
-                自動返信で「全文が読めるページ」が届きます。
-              </div>
-              <div class="actionsRow" style="margin-top:10px;">
-                <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（タップ）</a>
-              </div>
-              <div class="mini" style="margin-top:10px;">
-                ※もし自動返信がうまくいかない場合は、下の「引き継ぎリンク」でも開けます。
-              </div>
+              <div class="codeNote">LINEを追加して、トークに<b>このコードだけ</b>送ってください。自動返信で「全文が読めるページ」が届きます。</div>
+              <div class="actionsRow" style="margin-top:10px;"><a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（タップ）</a></div>
+              <div class="mini" style="margin-top:10px;">※自動返信がうまくいかない場合は、下の「引き継ぎリンク」でも開けます。</div>
             </div>
-
             <div class="actionsRow" style="margin-top:12px;">
               <a class="btn" id="payBtn" href="PAY_URL_HERE" target="_blank" rel="noopener noreferrer">購入して全文を読む（有料）</a>
               <a class="btn ghost" id="fullBtn" href="full.html">全表示版を開く（購入後）</a>
             </div>
-
-            <div class="mini" style="margin-top:8px;">
-              - 同じ端末なら<b>再入力なし</b>で全文表示できます<br>
-              - 別端末でも開けるように「引き継ぎリンク」を表示します
-            </div>
-
+            <div class="mini" style="margin-top:8px;">同じ端末なら<b>再入力なし</b>で全文表示。別端末は「引き継ぎリンク」を開いてください。</div>
             <div class="divider"></div>
-
-            <div class="actionsRow">
-              <button class="btn ghost" id="copyLinkBtn" type="button">引き継ぎリンクをコピー</button>
-            </div>
-
-            <div class="mini" id="carryLinkWrap" style="margin-top:10px; word-break:break-all; display:none;">
-              引き継ぎリンク：<br>
-              <b><span id="carryLink"></span></b>
-            </div>
-
+            <div class="actionsRow"><button class="btn ghost" id="copyLinkBtn" type="button">引き継ぎリンクをコピー</button></div>
+            <div class="mini" id="carryLinkWrap" style="margin-top:10px;word-break:break-all;display:none;">引き継ぎリンク：<br><b><span id="carryLink"></span></b></div>
             <div class="resetRow">
               <button class="btn ghost" id="restartBtn" type="button">最初からやり直す</button>
               <button class="btn ghost" id="reselectBtn" type="button">カードだけ選び直す</button>
@@ -454,339 +259,263 @@
           </div>
         </div>
       </section>
-
     </div>
   </main>
 
+  <script src="themes.js"></script>
   <script>
-    // ====== ここだけ後で差し替え ======
-    const PAY_URL = "PAY_URL_HERE"; // STORES商品URL（後で差し替え）
-    const LINE_URL = "https://lin.ee/7J33z1I";
+    var PAY_URL = "PAY_URL_HERE";
+    var GAS_REGISTER_URL = "https://script.google.com/macros/s/AKfycbxlgWxEaW4iiHpRuTNxFuWTp9tQCY9WR01MKITHU4qp-IzVsUVFaTsDBPhKM0olAi3XdA/exec";
+    var STATE_KEY = "oracle_state_v4";
 
-    // ★ ここが探してたやつ（GAS /exec を入れてある）
-    const GAS_REGISTER_URL = "https://script.google.com/macros/s/AKfycbwEow41JB7VxgGfxs2ETKmh2dJi0KPLfe9k81GJzYf13PouLnAbWMUsyXg2NdvBHVSF/exec";
-
-    // ====== ここから下は触らなくてOK ======
-    const $ = (s) => document.querySelector(s);
-
-    const rel = $("#rel");
-    const bdYou = $("#bdYou");
-    const bdThem = $("#bdThem");
-    const startBtn = $("#startBtn");
-
-    const step2 = $("#step2");
-    const step3 = $("#step3");
-    const step4 = $("#step4");
-    const step5 = $("#step5");
-
-    const metaLine = $("#metaLine");
-    const tendencyGrid = $("#tendencyGrid");
-    const toCardsBtn = $("#toCardsBtn");
-
-    const cards = document.querySelectorAll(".tcard");
-    const resultMeta = $("#resultMeta");
-    const summaryGrid = $("#summaryGrid");
-
-    const payBtn = $("#payBtn");
-    const fullBtn = $("#fullBtn");
-    const copyLinkBtn = $("#copyLinkBtn");
-    const carryLinkWrap = $("#carryLinkWrap");
-    const carryLink = $("#carryLink");
-
-    const restartBtn = $("#restartBtn");
-    const reselectBtn = $("#reselectBtn");
-
-    const codeBox = $("#codeBox");
-    const oracleCodeEl = $("#oracleCode");
-    const copyCodeBtn = $("#copyCodeBtn");
-
-    // LINEリンク差し替え
-    document.querySelectorAll('a[href="https://lin.ee/7J33z1I"]').forEach(a => a.href = LINE_URL);
-
-    const STATE_KEY = "oracle_state_v3";
-
-    const REL_LABEL = {
-      crush:"片想い",
-      dating:"曖昧/付き合う前",
-      couple:"交際中",
-      ex:"元彼/元カノ（復縁）",
-      nocontact:"音信不通/未読無視",
-      married:"夫婦/パートナー",
-    };
+    var $ = function(s){ return document.querySelector(s); };
+    var rel = $("#rel"), bdYou = $("#bdYou"), bdThem = $("#bdThem"), startBtn = $("#startBtn");
+    var step0 = $("#step0"), step1 = $("#step1"), step2 = $("#step2"), step3 = $("#step3"), step4 = $("#step4"), step5 = $("#step5");
+    var metaLine = $("#metaLine"), tendencyGrid = $("#tendencyGrid"), toCardsBtn = $("#toCardsBtn");
+    var cards = document.querySelectorAll(".tcard"), resultMeta = $("#resultMeta"), summaryGrid = $("#summaryGrid");
+    var payBtn = $("#payBtn"), fullBtn = $("#fullBtn"), copyLinkBtn = $("#copyLinkBtn"), carryLinkWrap = $("#carryLinkWrap"), carryLink = $("#carryLink");
+    var restartBtn = $("#restartBtn"), reselectBtn = $("#reselectBtn");
+    var codeBox = $("#codeBox"), oracleCodeEl = $("#oracleCode"), copyCodeBtn = $("#copyCodeBtn");
 
     function digitsOnly8(raw){ return (raw||"").replace(/\D/g,"").slice(0,8); }
-    function sumDigits(s){ return (s||"").split("").reduce((a,c)=>a + (c>="0"&&c<="9"?Number(c):0),0); }
+    function sumDigits(s){ return (s||"").split("").reduce(function(a,c){ return a + (c>="0"&&c<="9"?Number(c):0); },0); }
     function reduceLifePath(n){ while(n>9){ n=sumDigits(String(n)); } return n||null; }
-    function lifePath(yyyymmdd){ const v=digitsOnly8(yyyymmdd); if(v.length!==8) return null; return reduceLifePath(sumDigits(v)); }
-    function compatBand(lpYou, lpThem){
-      if(!lpYou || !lpThem) return "unknown";
-      const d=Math.abs(lpYou-lpThem);
-      if(d===0) return "high";
-      if(d<=2) return "mid";
-      return "low";
-    }
+    function lifePath(yyyymmdd){ var v=digitsOnly8(yyyymmdd); if(v.length!==8) return null; return reduceLifePath(sumDigits(v)); }
+    function compatBand(lpYou,lpThem){ if(!lpYou||!lpThem) return "unknown"; var d=Math.abs(lpYou-lpThem); if(d===0) return "high"; if(d<=2) return "mid"; return "low"; }
 
-    const COMP = {
-      high:    { label:"相性：近い（合わせやすい）", add:"合えば早い。迷うなら即決でOK。" },
-      mid:     { label:"相性：普通（調整で伸びる）", add:"言い方とタイミングで勝てる。" },
-      low:     { label:"相性：違いが大きい（工夫が必要）", add:"短文・具体で衝突回避が鍵。" },
-      unknown: { label:"相性：算出なし", add:"不明でもOK。型で整える。" },
-    };
-
-    const REL_TONE = {
-      crush:     { add:"片想いは“重さ”が失点。軽さで勝つ。", nudge:"返しやすい入口を作る。" },
-      dating:    { add:"曖昧期は主導権が命。様子見を終わらせる。", nudge:"短く誘導し、判断させすぎない。" },
-      couple:    { add:"交際中は察してが破綻。要点だけ言う。", nudge:"不満より要望を1つだけ。" },
-      ex:        { add:"復縁は過去の続きで失敗。新しい関係で出直す。", nudge:"未消化より『今どうしたい』で話す。" },
-      nocontact: { add:"音信不通は追撃が致命傷。軽さ＋間隔が命。", nudge:"一通送ったら待つ。追撃しない。" },
-      married:   { add:"長期は積み重ねが効く。感情より行動の設計。", nudge:"摩擦を1つだけ減らす。" },
-    };
-
-    const BASE = {
-      A: {
-        title: "心を休めるカード｜整えてからが勝ち",
-        now:    { s:"いまは判断がブレやすい。動くなら“整ってから”が正解。", f:"今の状態で動くほど空回りしやすい局面です。焦りが言葉に乗ると、相手は重く感じやすい。まずは心のノイズを落として判断の精度を戻すのが最優先。" },
-        past:   { s:"頑張りすぎの反動が出てる。ここで無理すると崩れる。", f:"ここまで我慢と努力で繋いできたはず。その頑張りが悪いわけじゃない。ただ“頑張り続ける”は破綻しやすい。いま必要なのは努力の追加ではなく回復。" },
-        future: { s:"整うほど、相手が戻りやすい“余白”が生まれる。", f:"近未来はあなたの落ち着きが空気を変えます。追うより、安心できる距離感を作る方が効果的。あなたが整えば、相手の温度が戻りやすい。" },
-        next:   { s:"3日だけ恋を休む→連絡は“要件だけ”。", f:"①3日SNS/過去LINE/占い巡りを止める ②睡眠を優先 ③連絡するなら要件だけ短文。感情確認はしない。整った状態で次の一手を打つ方が最短です。" },
-      },
-      B: {
-        title: "一歩踏み出すカード｜小さく動いて流れを変える",
-        now:    { s:"待つほど不安が増える。いま必要なのは“軽い一手”。", f:"停滞は放置すると温度が下がります。必要なのは重い確認ではなく、返しやすい軽い連絡で空気を動かすこと。主導権は取り戻せます。" },
-        past:   { s:"相手ペースに合わせすぎて、あなたの存在感が薄い。", f:"待つ・合わせるが続くと、あなたの魅力が“当たり前”になりやすい。関係はあなたのペースも見せるほど戻りやすい。小さく動くのは“重くする”の逆。" },
-        future: { s:"一通で反応が変わる可能性がある（圧はNG）。", f:"近未来はあなたの一手で反応が変わりやすい。近況共有/軽い質問のどれかに絞って送る。反応が薄くても追撃はしない。追撃が流れを止めます。" },
-        next:   { s:"今日、短文＋近況。質問は1つだけ。", f:"型：『久しぶり！最近○○で。ふと思い出した。元気？』。長文・感情確認・結論迫りは禁止。返ってきたら短く1往復で止める。“少し足りない”が効きます。" },
-      },
-      C: {
-        title: "新しい朝へ進むカード｜恋より先に自分の未来へ",
-        now:    { s:"相手中心で揺れてる。軸を自分に戻すべき。", f:"相手の反応で気分が上下しているなら、恋が主役になりすぎ。捨てる話じゃなく“あなたの未来を優先する”選択です。軸を戻すほど状況は動きます。" },
-        past:   { s:"頑張った分だけ手放すのが怖い。でも握り続けると苦しい。", f:"努力は本物。だから簡単に諦められない。けれど努力＝報われるではないのも恋。否定せず、握る力をゆるめることが次のステージに繋がります。" },
-        future: { s:"自分軸に戻すほど、新しい縁やチャンスが入りやすい。", f:"近未来は“入れ替え”が起きやすい。仕事・友人・新しい出会いが動くほど、相手との関係にも影響します。あなたが明るくなるほど相手が変わることも。" },
-        next:   { s:"7日だけ相手中心をやめる。予定を自分で埋める。", f:"①連絡頻度を増やさない ②SNSを見ない ③自分の予定を先に入れる。7日で執着は薄まる。続ける/区切るの判断が“自分軸”でできるようになります。" },
+    function hashString(str){
+      str = String(str||"");
+      var h = 2166136261;
+      for(var i=0;i<str.length;i++){
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
       }
-    };
-
-    function saveState(s){ localStorage.setItem(STATE_KEY, JSON.stringify(s)); }
-    function loadState(){ try{ return JSON.parse(localStorage.getItem(STATE_KEY)||"null"); }catch{ return null; } }
-    function makePayload(state){
-      const json = JSON.stringify(state);
-      return btoa(unescape(encodeURIComponent(json)));
+      return h>>>0;
+    }
+    function pickVariant(val, idx){
+      if(Array.isArray(val)) return val[idx % val.length];
+      return val;
     }
 
-    function makeCode(len = 6) {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let out = "";
-      const arr = new Uint32Array(len);
-      crypto.getRandomValues(arr);
-      for (let i = 0; i < len; i++) out += chars[arr[i] % chars.length];
-      return out;
+    function saveState(s){ try{ localStorage.setItem(STATE_KEY, JSON.stringify(s)); }catch(e){} }
+    function loadState(){ try{ return JSON.parse(localStorage.getItem(STATE_KEY)||"null"); }catch(e){ return null; } }
+    function makePayload(state){ return btoa(unescape(encodeURIComponent(JSON.stringify(state)))); }
+    function makeCode(len){ len=len||6; var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", out="", arr=new Uint32Array(len); crypto.getRandomValues(arr); for(var i=0;i<len;i++) out+=chars[arr[i]%chars.length]; return out; }
+    function registerCodeToGAS(obj){ if(!GAS_REGISTER_URL) return; fetch(GAS_REGISTER_URL,{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ code:obj.code, payload:obj.payload, createdAt:Date.now() }) }).catch(function(){}); }
+
+    function checkUnlockAll(){ var p=new URLSearchParams(location.search); if(p.get("unlock")==="all") try{ localStorage.setItem("oracle_unlock_all","1"); }catch(e){} }
+
+    function renderThemeGrid(){
+      var grid=$("#themeGrid"), lockMsg=$("#themeLockMsg"), payUrl=( $("#themeLockPayBtn") && $("#themeLockPayBtn").href ) || PAY_URL;
+      if(!grid||typeof THEMES==="undefined") return;
+
+      var unlockAll = false; try{ unlockAll = localStorage.getItem("oracle_unlock_all")==="1"; }catch(e){}
+      grid.innerHTML="";
+      Object.keys(THEMES).forEach(function(id){
+        if(id==="default") return;
+        var t=THEMES[id], canSelect=t.free||unlockAll;
+
+        var card=document.createElement("button");
+        card.type="button";
+        card.className="themeCard"+(canSelect?"":" locked");
+        card.dataset.themeId=id;
+        card.innerHTML="<span class=\"themeCardName\">"+(t.name||id)+"</span><span class=\"themeCardDesc\">"+(t.shortDesc||"")+"</span>"+(t.free?"<span class=\"themeCardBadge\">無料</span>":"");
+
+        card.addEventListener("click",function(){
+          if(canSelect){
+            lockMsg.style.display="none";
+            var state=loadState()||{};
+            state.themeId=id; state.v=4; saveState(state);
+            step0.classList.remove("show"); step1.classList.add("show");
+            step1.scrollIntoView({behavior:"smooth",block:"start"});
+          } else {
+            lockMsg.style.display="block";
+            if($("#themeLockPayBtn")) $("#themeLockPayBtn").href=payUrl;
+          }
+        });
+
+        grid.appendChild(card);
+      });
     }
 
-    async function registerCodeToGAS({ code, payload }) {
-  if (!GAS_REGISTER_URL) return;
+    function applyCardLabels(){
+      var state=loadState(), tid=state&&state.themeId?state.themeId:"default";
+      var theme=THEMES[tid]||THEMES.default;
+      if(!theme||!theme.cards) return;
+      ["A","B","C"].forEach(function(k){
+        var el=$("#cardName"+k), el2=$("#cardDesc"+k);
+        if(el&&theme.cards[k]) el.textContent=theme.cards[k].name;
+        if(el2&&theme.cards[k]) el2.textContent=theme.cards[k].desc;
+      });
+    }
 
-  // CORS回避：text/plain + no-cors（GAS側は e.postData.contents を読める）
-  await fetch(GAS_REGISTER_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ code, payload, createdAt: Date.now() }),
-  });
-}
+    function buildReading(cardKey,relKey,youBD,themBD){
+      var state=loadState(), tid=state&&state.themeId?state.themeId:"default";
+      var theme=THEMES[tid]||THEMES.default, base=theme.base||THEMES.default.base;
+      var relTone=(REL_TONE&&REL_TONE[relKey])||REL_TONE.crush;
+      var lpYou=lifePath(youBD), lpThem=lifePath(themBD);
+      var band=compatBand(lpYou,lpThem), comp=(COMP&&COMP[band])||COMP.unknown;
+      var relLabel=(REL_LABEL&&REL_LABEL[relKey])||"関係性";
+      var meta={ relLabel:relLabel, compLabel:comp.label, lpYou:lpYou, lpThem:lpThem };
 
-    function buildReading(cardKey, relKey, youBD, themBD){
-      const base = BASE[cardKey];
-      const relTone = REL_TONE[relKey] || REL_TONE.crush;
+      var seed = hashString([tid,relKey,cardKey,youBD,themBD].join("|"));
+      var nowS = pickVariant(base[cardKey].now.s, hashString(seed+"|now"));
+      var pastS = pickVariant(base[cardKey].past.s, hashString(seed+"|past"));
+      var futureS = pickVariant(base[cardKey].future.s, hashString(seed+"|future"));
+      var nextS = pickVariant(base[cardKey].next.s, hashString(seed+"|next"));
 
-      const lpYou = lifePath(youBD);
-      const lpThem = lifePath(themBD);
-      const band = compatBand(lpYou, lpThem);
-      const comp = COMP[band];
-
-      const meta = {
-        relLabel: REL_LABEL[relKey] || "関係性",
-        compLabel: comp.label,
-        lpYou, lpThem,
+      var summary={
+        now:{ label:"現状", summary:[nowS, relTone.add, comp.add].join(" ") },
+        past:{ label:"過去", summary:[pastS, relTone.add, comp.add].join(" ") },
+        future:{ label:"未来（近未来）", summary:[futureS, relTone.add, comp.add].join(" ") },
+        next:{ label:"今後どうすればいいか", summary:[nextS, relTone.nudge, comp.add].join(" ") }
       };
-
-      function mixSummary(sec){
-        return [sec.s, relTone.add, comp.add].join(" ");
-      }
-
-      const summary = {
-        now:    { label:"現状", summary: mixSummary(base.now) },
-        past:   { label:"過去", summary: mixSummary(base.past) },
-        future: { label:"未来（近未来）", summary: mixSummary(base.future) },
-        next:   { label:"今後どうすればいいか", summary: base.next.s + " " + relTone.nudge + " " + comp.add },
-      };
-
-      return { meta, summary, title: base.title };
+      return { meta:meta, summary:summary };
     }
 
-    function renderTendency(relKey, youBD, themBD){
-      const lpYou = lifePath(youBD);
-      const lpThem = lifePath(themBD);
-      const band = compatBand(lpYou, lpThem);
-      const comp = COMP[band];
-      const relLabel = REL_LABEL[relKey] || "関係性";
-      const relTone = REL_TONE[relKey] || REL_TONE.crush;
+    function renderTendency(relKey,youBD,themBD){
+      var lpYou=lifePath(youBD), lpThem=lifePath(themBD), band=compatBand(lpYou,lpThem);
+      var comp=(COMP&&COMP[band])||COMP.unknown;
+      var relTone=(REL_TONE&&REL_TONE[relKey])||REL_TONE.crush;
+      var relLabel=(REL_LABEL&&REL_LABEL[relKey])||"関係性";
 
-      metaLine.innerHTML =
-        `関係性：<b>${relLabel}</b> ／ ${comp.label}` +
-        (lpYou ? `（あなた:${lpYou}` : "") +
-        (lpYou && lpThem ? `・相手:${lpThem}` : (lpYou ? "）" : "")) +
-        (lpYou && lpThem ? "）" : "");
-
-      const items = [
-        { h:"2人の空気（無料）", p:`${comp.add}` },
-        { h:"この関係の勝ち筋（無料）", p:`${relTone.add}` },
-        { h:"いま一番やるべきこと（無料）", p:`${relTone.nudge}` },
-      ];
-
-      tendencyGrid.innerHTML = items.map(it=>`
-        <div class="sec">
-          <h3>${it.h}</h3>
-          <p>${it.p}</p>
-        </div>
-      `).join("");
+      metaLine.innerHTML="関係性：<b>"+relLabel+"</b>／"+comp.label+(lpYou?"（あなた:"+lpYou+(lpThem?"・相手:"+lpThem:"")+")":"");
+      tendencyGrid.innerHTML=[
+        { h:"2人の空気（無料）", p:comp.add },
+        { h:"この関係の勝ち筋（無料）", p:relTone.add },
+        { h:"いま一番やるべきこと（無料）", p:relTone.nudge }
+      ].map(function(it){ return "<div class=\"sec\"><h3>"+it.h+"</h3><p>"+it.p+"</p></div>"; }).join("");
     }
 
     function renderSummary(reading){
-      resultMeta.innerHTML =
-        `関係性：<b>${reading.meta.relLabel}</b> ／ ${reading.meta.compLabel}` +
-        (reading.meta.lpYou ? `（あなた:${reading.meta.lpYou}` : "") +
-        (reading.meta.lpYou && reading.meta.lpThem ? `・相手:${reading.meta.lpThem}` : (reading.meta.lpYou ? "）" : "")) +
-        (reading.meta.lpYou && reading.meta.lpThem ? "）" : "");
-
-      const items = [
-        reading.summary.now,
-        reading.summary.past,
-        reading.summary.future,
-        reading.summary.next,
-      ];
-
-      summaryGrid.innerHTML = items.map(it=>`
-        <div class="sec">
-          <h3>${it.label}（結論）</h3>
-          <p>${it.summary}</p>
-        </div>
-      `).join("");
+      var m=reading.meta;
+      resultMeta.innerHTML="関係性：<b>"+m.relLabel+"</b>／"+m.compLabel+(m.lpYou?"（あなた:"+m.lpYou+(m.lpThem?"・相手:"+m.lpThem:"")+")":"");
+      summaryGrid.innerHTML=[ reading.summary.now, reading.summary.past, reading.summary.future, reading.summary.next ]
+        .map(function(it){ return "<div class=\"sec\"><h3>"+it.label+"（結論）</h3><p>"+it.summary+"</p></div>"; }).join("");
     }
 
-    function show(el){ el.classList.add("show"); }
-    function hide(el){ el.classList.remove("show"); }
+    function show(el){ if(el) el.classList.add("show"); }
+    function hide(el){ if(el) el.classList.remove("show"); }
 
-    startBtn.addEventListener("click", async () => {
-      const relKey = rel.value;
-      bdYou.value = digitsOnly8(bdYou.value);
-      bdThem.value = digitsOnly8(bdThem.value);
+    startBtn.addEventListener("click",function(){
+      var relKey=rel.value;
+      bdYou.value=digitsOnly8(bdYou.value);
+      bdThem.value=digitsOnly8(bdThem.value);
 
-      saveState({ v:3, rel: relKey, you: bdYou.value||"", them: bdThem.value||"", card:"", ts: Date.now() });
+      var state=loadState()||{};
+      state.v=4; state.rel=relKey;
+      state.you=bdYou.value||""; state.them=bdThem.value||"";
+      state.card=""; state.ts=Date.now();
+      if(!state.themeId) state.themeId="default";
+      saveState(state);
 
-      show(step2);
-      hide(step3); hide(step4); hide(step5);
-
-      await new Promise(r => setTimeout(r, 1200));
-
-      renderTendency(relKey, bdYou.value, bdThem.value);
-      hide(step2);
-      show(step3);
-      step3.scrollIntoView({behavior:"smooth", block:"start"});
+      show(step2); hide(step3); hide(step4); hide(step5);
+      setTimeout(function(){
+        renderTendency(relKey,bdYou.value,bdThem.value);
+        hide(step2); show(step3);
+        step3.scrollIntoView({behavior:"smooth",block:"start"});
+      },1200);
     });
 
-    toCardsBtn.addEventListener("click", () => {
-      hide(step3);
-      show(step4);
-      step4.scrollIntoView({behavior:"smooth", block:"start"});
+    toCardsBtn.addEventListener("click",function(){
+      hide(step3); applyCardLabels(); show(step4);
+      step4.scrollIntoView({behavior:"smooth",block:"start"});
     });
 
-    cards.forEach(card => {
-      card.addEventListener("click", () => {
-        const relKey = rel.value;
-        bdYou.value = digitsOnly8(bdYou.value);
-        bdThem.value = digitsOnly8(bdThem.value);
+    cards.forEach(function(card){
+      card.addEventListener("click",function(){
+        var relKey=rel.value;
+        bdYou.value=digitsOnly8(bdYou.value);
+        bdThem.value=digitsOnly8(bdThem.value);
 
-        const cardKey = card.dataset.card;
-        const reading = buildReading(cardKey, relKey, bdYou.value, bdThem.value);
+        var cardKey=card.dataset.card;
+        var reading=buildReading(cardKey,relKey,bdYou.value,bdThem.value);
 
-        cards.forEach(c => c.setAttribute("aria-pressed","false"));
+        cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
         card.setAttribute("aria-pressed","true");
 
-        const state = { v:3, rel: relKey, you: bdYou.value||"", them: bdThem.value||"", card: cardKey, ts: Date.now() };
+        var state=loadState()||{};
+        state.v=4; state.rel=relKey;
+        state.you=bdYou.value||""; state.them=bdThem.value||"";
+        state.card=cardKey; state.ts=Date.now();
+        if(!state.themeId) state.themeId="default";
         saveState(state);
 
         renderSummary(reading);
 
-        const payload = makePayload(state);
-        const fullUrl = `full.html#p=${encodeURIComponent(payload)}`;
-        fullBtn.href = fullUrl;
+        var payload=makePayload(state);
+        var fullUrl="full.html#p="+encodeURIComponent(payload);
+        fullBtn.href=fullUrl;
 
-        carryLinkWrap.style.display = "block";
-        carryLink.textContent = location.origin + location.pathname.replace(/index\.html?$/,"") + fullUrl;
+        carryLinkWrap.style.display="block";
+        carryLink.textContent=location.origin+location.pathname.replace(/index\.html?$/,"")+fullUrl;
 
-        payBtn.href = PAY_URL;
+        payBtn.href=PAY_URL;
 
-        // 専用コード発行＆表示
-        const code = makeCode(6);
-        oracleCodeEl.textContent = code;
-        codeBox.style.display = "block";
+        var code=makeCode(6);
+        oracleCodeEl.textContent=code;
+        codeBox.style.display="block";
 
-        copyCodeBtn.onclick = async () => {
-          try{
-            await navigator.clipboard.writeText(code);
-            copyCodeBtn.textContent = "コピーしました";
-            setTimeout(()=>copyCodeBtn.textContent="コードをコピー", 1200);
-          }catch{
+        copyCodeBtn.onclick=function(){
+          navigator.clipboard.writeText(code).then(function(){
+            copyCodeBtn.textContent="コピーしました";
+            setTimeout(function(){ copyCodeBtn.textContent="コードをコピー"; },1200);
+          }).catch(function(){
             alert("コピーできませんでした。コードを長押ししてコピーしてください。");
-          }
+          });
         };
 
-        // GASへ登録（失敗しても表示は進む）
-        registerCodeToGAS({ code, payload }).catch(()=>{});
+        registerCodeToGAS({ code:code, payload:payload });
 
         show(step5);
-        step5.scrollIntoView({behavior:"smooth", block:"start"});
+        step5.scrollIntoView({behavior:"smooth",block:"start"});
       });
     });
 
-    copyLinkBtn.addEventListener("click", async () => {
-      const text = carryLink.textContent || "";
-      try{
-        await navigator.clipboard.writeText(text);
-        copyLinkBtn.textContent = "コピーしました";
-        setTimeout(()=>copyLinkBtn.textContent="引き継ぎリンクをコピー", 1200);
-      }catch{
-        alert("コピーできませんでした。長押ししてコピーしてください。");
-      }
+    copyLinkBtn.addEventListener("click",function(){
+      var t=carryLink.textContent||"";
+      navigator.clipboard.writeText(t).then(function(){
+        copyLinkBtn.textContent="コピーしました";
+        setTimeout(function(){ copyLinkBtn.textContent="引き継ぎリンクをコピー"; },1200);
+      }).catch(function(){ alert("コピーできませんでした。"); });
     });
 
-    restartBtn.addEventListener("click", () => {
-      localStorage.removeItem(STATE_KEY);
-      cards.forEach(c => c.setAttribute("aria-pressed","false"));
+    restartBtn.addEventListener("click",function(){
+      try{ localStorage.removeItem(STATE_KEY); }catch(e){}
+      cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
       hide(step2); hide(step3); hide(step4); hide(step5);
-      document.getElementById("step1").scrollIntoView({behavior:"smooth", block:"start"});
+      show(step0); hide(step1);
+      renderThemeGrid();
+      step0.scrollIntoView({behavior:"smooth",block:"start"});
     });
 
-    reselectBtn.addEventListener("click", () => {
-      cards.forEach(c => c.setAttribute("aria-pressed","false"));
-      hide(step5);
-      show(step4);
-      step4.scrollIntoView({behavior:"smooth", block:"start"});
+    reselectBtn.addEventListener("click",function(){
+      cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+      hide(step5); show(step4);
+      step4.scrollIntoView({behavior:"smooth",block:"start"});
     });
 
-    // 初期復元（同端末）
-    const saved = loadState();
-    if (saved && saved.v === 3){
-      rel.value = saved.rel || "crush";
-      bdYou.value = saved.you || "";
-      bdThem.value = saved.them || "";
-      if (saved.card){
-        renderTendency(rel.value, bdYou.value, bdThem.value);
-        show(step3);
-        show(step4);
-        const btn = document.querySelector(`.tcard[data-card="${saved.card}"]`);
-        if (btn) btn.click();
+    checkUnlockAll();
+    renderThemeGrid();
+
+    var saved=loadState();
+    if(saved&&saved.v===4&&saved.themeId){
+      rel.value=saved.rel||"crush";
+      bdYou.value=saved.you||"";
+      bdThem.value=saved.them||"";
+
+      if(!saved.card){
+        hide(step0); show(step1);
+      } else {
+        hide(step0); show(step1);
+        renderTendency(saved.rel,saved.you,saved.them);
+        show(step3); applyCardLabels(); show(step4);
+        var btn=document.querySelector(".tcard[data-card=\""+saved.card+"\"]");
+        if(btn) btn.click();
       }
+    } else {
+      hide(step1); hide(step2); hide(step3); hide(step4); hide(step5);
+      show(step0);
     }
   </script>
 </body>
