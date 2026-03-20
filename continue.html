@@ -4,24 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>鑑定の続き</title>
-  <meta name="description" content="無料鑑定の続きを確認するページです。">
+  <meta name="description" content="無料鑑定の続きと、より深い個別鑑定のご案内ページです。">
   <style>
     :root{
       --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
       --paper: linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,245,252,.98));
       --ink:#1f1f1f;
       --muted:#6c6168;
-      --line:#f0d6e2;
       --accent:#ff6ba5;
       --accent2:#ff9bc8;
+      --line:#f0d6e2;
+      --ok:#06C755;
       --shadow:0 18px 40px rgba(210,140,180,.35);
       --soft:0 10px 24px rgba(0,0,0,.08);
       --r-xl:32px;
       --r-lg:24px;
       --r-md:18px;
     }
-    *{ box-sizing:border-box; }
-    html,body{ margin:0; padding:0; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
     body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
       background:var(--bg);
@@ -55,18 +56,8 @@
       background:linear-gradient(135deg,#ff77aa,#ffb4e0);
       box-shadow:0 0 8px rgba(255,105,180,.65);
     }
-    h1{
-      margin:0 0 8px;
-      font-size:26px;
-      line-height:1.45;
-      letter-spacing:.04em;
-    }
-    .sub{
-      margin:0 0 14px;
-      font-size:15px;
-      color:var(--muted);
-      line-height:1.8;
-    }
+    h1{margin:0 0 8px;font-size:26px;line-height:1.45}
+    .sub{margin:0 0 14px;font-size:15px;color:var(--muted);line-height:1.8}
     .box{
       border-radius:var(--r-lg);
       background:rgba(255,255,255,.97);
@@ -107,15 +98,8 @@
       animation:spin 1s linear infinite;
       flex:0 0 auto;
     }
-    @keyframes spin{
-      to{ transform:rotate(360deg); }
-    }
-    .loading p{
-      margin:0;
-      font-size:14px;
-      color:#5a444f;
-      line-height:1.7;
-    }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .loading p{margin:0;font-size:14px;color:#5a444f;line-height:1.7}
     .error{
       padding:14px;
       border-radius:18px;
@@ -141,29 +125,40 @@
       color:#fff;
       font-weight:1000;
       font-size:13px;
-      letter-spacing:.04em;
       text-decoration:none;
       cursor:pointer;
-      box-shadow:0 12px 26px rgba(212,80,140,.35);
     }
+    .btn.line{background:var(--ok)}
     .btn.ghost{
       background:transparent;
       border:1px solid #f0cde2;
-      box-shadow:none;
       color:#8a5a72;
     }
-    @media (max-width:768px){
-      body{ padding:12px 8px 24px; }
-      .page{ border-radius:22px; padding:18px 12px 24px; }
-      h1{ font-size:22px; }
+    .strongBox{
+      margin-top:18px;
+      padding:18px;
+      border-radius:22px;
+      background:linear-gradient(135deg,#fff0f7,#fff8fc);
+      border:1px solid #f3cade;
+    }
+    .strongTitle{
+      font-size:18px;
+      font-weight:1000;
+      margin:0 0 8px;
+      color:#8b4366;
+    }
+    .strongText{
+      margin:0;
+      line-height:1.9;
+      color:#4f3743;
     }
   </style>
 </head>
 <body>
   <main class="page">
     <div class="chip"><span class="dot"></span>鑑定の続き</div>
-    <h1>あなたの無料鑑定の続きです</h1>
-    <p class="sub">LINEで届いた専用リンクから開いた方だけ、この続きページを確認できます。</p>
+    <h1>無料鑑定の続きをご案内します</h1>
+    <p class="sub">ここから先は、あなたの恋愛状況に合わせて、より深く整理していくためのページです。</p>
 
     <div id="loading" class="loading">
       <span class="spinner"></span>
@@ -174,26 +169,30 @@
 
     <div id="content" style="display:none;">
       <div class="box">
-        <p class="label">お名前</p>
-        <p class="value" id="name"></p>
-      </div>
-
-      <div class="box">
         <p class="label">テーマ</p>
         <p class="value" id="theme"></p>
       </div>
 
       <div class="box">
-        <p class="label">無料鑑定の結論</p>
-        <p class="value" id="freeResult"></p>
+        <p class="label">関係性</p>
+        <p class="value" id="rel"></p>
       </div>
 
       <div class="box">
-        <p class="label">ご案内</p>
-        <p class="value">このページは専用リンクから何度でも確認できます。必要ならLINEに戻って、やり取りを続けてください。</p>
+        <p class="label">無料鑑定の結果</p>
+        <p class="value" id="freeResult"></p>
+      </div>
+
+      <div class="strongBox">
+        <p class="strongTitle">この続きで分かること</p>
+        <p class="strongText">
+          有料鑑定では、相手の心理、連絡が来やすいタイミング、今やるべき行動、
+          やってはいけない動きまで個別に整理してお伝えします。
+        </p>
       </div>
 
       <div class="btnRow">
+        <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEで相談を続ける</a>
         <a class="btn ghost" href="./">無料鑑定トップへ戻る</a>
       </div>
     </div>
@@ -210,15 +209,21 @@
     }
 
     async function loadResume(){
-      var token = new URLSearchParams(location.search).get("t");
+      var params = new URLSearchParams(location.search);
+      var token = params.get("t");
+      var code = params.get("code");
 
-      if(!token){
-        setError("無効なリンクです。LINEでもう一度リンクを受け取ってください。");
+      if(!token && !code){
+        setError("無効なリンクです。LINEでもう一度案内を受け取ってください。");
         return;
       }
 
+      var url = GAS_URL + "?action=lookupResume";
+      if(token) url += "&t=" + encodeURIComponent(token);
+      if(code) url += "&code=" + encodeURIComponent(code);
+
       try{
-        var res = await fetch(GAS_URL + "?action=lookupResume&t=" + encodeURIComponent(token));
+        var res = await fetch(url);
         var json = await res.json();
 
         if(!json.ok || !json.data){
@@ -227,10 +232,22 @@
         }
 
         var data = json.data;
-        document.getElementById("name").textContent = data.name || "相談者";
         document.getElementById("theme").textContent = data.theme || "恋愛鑑定";
-        document.getElementById("freeResult").textContent = data.freeResult || "";
+        document.getElementById("rel").textContent = data.rel || "未設定";
 
+        var result = data.freeResult || {};
+        var resultText = "";
+        if (typeof result === "string") {
+          resultText = result;
+        } else {
+          resultText =
+            "現状: " + (result.now || "") + "\n\n" +
+            "過去: " + (result.past || "") + "\n\n" +
+            "未来: " + (result.future || "") + "\n\n" +
+            "今後どうすればいいか: " + (result.next || "");
+        }
+
+        document.getElementById("freeResult").textContent = resultText;
         document.getElementById("loading").style.display = "none";
         document.getElementById("content").style.display = "block";
       }catch(error){
