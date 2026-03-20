@@ -3,281 +3,895 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>全表示版｜恋のオラクル鑑定</title>
-  <meta name="description" content="現状・過去・未来（近未来）・今後の一手を全文表示するオラクル鑑定ページ。" />
+  <title>無料鑑定｜恋愛オラクル</title>
+  <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は複数テーマから体験できます。" />
   <style>
     :root{
-      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
-      --paper: linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,245,252,.97));
-      --ink:#1f1f1f;
-      --muted:#6c6168;
+      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 42%,#ffeaf2 100%);
+      --paper: linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,247,252,.98));
+      --ink:#241d22;
+      --muted:#6f636a;
       --accent:#ff6ba5;
       --accent2:#ff9bc8;
-      --ok:#06C755;
-      --shadow:0 18px 40px rgba(210,140,180,.35);
-      --soft:0 10px 24px rgba(0,0,0,.08);
+      --line:#f0d6e2;
+      --shadow:0 18px 40px rgba(210,140,180,.25);
+      --softShadow:0 10px 24px rgba(0,0,0,.08);
       --r-xl:32px;
-      --r-lg:28px;
+      --r-lg:24px;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
+
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; }
+
     body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
       background:var(--bg);
       color:var(--ink);
-      padding:22px 12px 40px;
+      padding:20px 12px 40px;
     }
+
     .page{
-      max-width:920px;margin:0 auto;
+      max-width:980px;
+      margin:0 auto;
       background:var(--paper);
       border-radius:var(--r-xl);
       box-shadow:var(--shadow);
-      padding:20px 18px 28px;
-      position:relative;
-      overflow:hidden;
+      padding:20px 16px 28px;
     }
-    .page::before{
-      content:"";
-      position:absolute;
-      inset:-70px -50px auto auto;
-      background:radial-gradient(circle at top,#ffe7f7 0,transparent 60%);
-      opacity:.75;
-      pointer-events:none;
-    }
-    .inner{position:relative;z-index:1}
-    h1{margin:0 0 8px;font-size:22px;line-height:1.5}
-    .sub{margin:0 0 14px;font-size:12px;color:var(--muted);line-height:1.8}
 
-    .box{
-      background:rgba(255,255,255,.97);
-      border:1px solid rgba(229,190,216,.9);
-      box-shadow:var(--soft);
-      border-radius:var(--r-lg);
-      padding:14px 14px 16px;
-    }
-    .meta{
-      display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-      font-size:11px;color:#7a626e;margin-bottom:10px;
-    }
-    .pill{
-      padding:4px 10px;border-radius:999px;
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:#fff;
       border:1px solid rgba(255,192,216,.7);
-      background:rgba(255,255,255,.9);
-      color:#b34a77;font-weight:1000;
+      font-size:11px;
+      color:#b34a77;
+      margin-bottom:10px;
     }
 
-    .sec{
-      margin-top:10px;
-      border-radius:18px;
-      border:1px dashed #efc2de;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
-      padding:12px 12px;
+    .dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ff77aa,#ffb4e0);
+      box-shadow:0 0 8px rgba(255,105,180,.55);
     }
-    .sec h2{margin:0 0 6px;font-size:13px}
-    .sec p{margin:0;font-size:12.5px;line-height:1.95;color:#2a1f25}
 
-    .actions{
-      display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    h1{
+      margin:0 0 8px;
+      font-size:28px;
+      line-height:1.5;
+    }
+
+    .sub{
+      margin:0 0 16px;
+      font-size:17px;
+      color:var(--muted);
+      line-height:1.95;
+    }
+
+    .panel{
+      display:none;
+      margin-top:14px;
+      background:rgba(255,255,255,.96);
+      border:1px solid rgba(255,210,232,.92);
+      border-radius:var(--r-lg);
+      box-shadow:var(--softShadow);
+      padding:16px 14px 18px;
+    }
+
+    .panel.show{ display:block; }
+
+    .panelTitle{
+      margin:0 0 10px;
+      font-size:20px;
+      font-weight:1000;
+      color:#2a1f25;
+      line-height:1.6;
+    }
+
+    .themeGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
       margin-top:12px;
     }
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:11px 16px;border-radius:999px;border:none;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#fff;font-weight:1000;font-size:13px;letter-spacing:.04em;
-      cursor:pointer;text-decoration:none;
-      box-shadow:0 12px 26px rgba(212,80,140,.25);
-      white-space:nowrap;
+
+    .themeCard{
+      position:relative;
+      border:none;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid rgba(240,210,228,.95);
+      box-shadow:var(--softShadow);
+      padding:16px 14px;
+      text-align:left;
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
     }
-    .btn::after{content:"▶";font-size:10px;opacity:.9}
-    .btn.ghost{background:transparent;border:1px solid #f0cde2;color:#8a5a72;box-shadow:none}
-    .btn.line{background:var(--ok);box-shadow:0 12px 26px rgba(0,0,0,.12)}
-    .warn{margin-top:12px;font-size:11px;color:#8b7280;line-height:1.7}
+
+    .themeCard:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 28px rgba(210,140,180,.18);
+    }
+
+    .themeCard.locked{
+      background:#faf6f8;
+      border:1px solid #e7dbe1;
+      cursor:not-allowed;
+      color:#84767d;
+    }
+
+    .themeCard.locked:hover{
+      transform:none;
+      box-shadow:var(--softShadow);
+    }
+
+    .themeName{
+      font-size:18px;
+      font-weight:1000;
+      margin:0 0 6px;
+      line-height:1.5;
+    }
+
+    .themeDesc{
+      font-size:14px;
+      line-height:1.8;
+      color:var(--muted);
+      margin:0;
+    }
+
+    .badgeRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:60px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      border:1px solid #f2cade;
+      background:#fff6fb;
+      color:#b34979;
+    }
+
+    .badge.lock{
+      background:#f4f1f3;
+      color:#766872;
+      border-color:#ddd1d8;
+    }
+
+    .lockOverlay{
+      position:absolute;
+      top:10px;
+      right:10px;
+      font-size:11px;
+      font-weight:1000;
+      color:#7a6e75;
+      background:#f1ebee;
+      border:1px solid #ddd1d8;
+      padding:4px 8px;
+      border-radius:999px;
+    }
+
+    .lockMessage{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background:#fff7fb;
+      border:1px solid #f1cadc;
+      color:#7a445f;
+      font-size:14px;
+      line-height:1.9;
+    }
+
+    .form{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-size:14px;
+      font-weight:1000;
+      color:#44323a;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:12px 13px;
+      border-radius:12px;
+      border:1px solid #f0cde2;
+      background:#fff;
+      font-size:16px;
+      color:#2d2329;
+    }
+
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .hint{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    .actions{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:13px 18px;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      text-decoration:none;
+      font-size:15px;
+      font-weight:1000;
+      cursor:pointer;
+      min-height:46px;
+    }
+
+    .btn.ghost{
+      background:transparent;
+      border:1px solid #efcfe0;
+      color:#8a5a72;
+    }
+
+    .loading{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:1px dashed #efc2de;
+      border-radius:18px;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      padding:12px;
+    }
+
+    .spinner{
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      border:3px solid #f1c6dd;
+      border-top-color:#ff86b8;
+      animation:spin 1s linear infinite;
+      flex:0 0 auto;
+    }
+
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
+    }
+
+    .summaryGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+
+    .summaryBox{
+      border:1px dashed #efc2de;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border-radius:18px;
+      padding:16px 14px;
+    }
+
+    .summaryBox h3{
+      margin:0 0 8px;
+      font-size:19px;
+      line-height:1.5;
+    }
+
+    .summaryBox p{
+      margin:0;
+      font-size:17px;
+      line-height:2;
+      white-space:pre-wrap;
+      color:#31252d;
+    }
+
+    .cards{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:space-between;
+      margin-top:12px;
+    }
+
+    .cardBtn{
+      flex:1 1 30%;
+      max-width:300px;
+      min-width:110px;
+      padding:0;
+      background:transparent;
+      border:none;
+      cursor:pointer;
+      border-radius:16px;
+    }
+
+    .cardBtn[aria-pressed="true"]{
+      outline:2px solid #ff8fbe;
+      outline-offset:4px;
+    }
+
+    .cardBtn img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:12px;
+      box-shadow:var(--softShadow);
+    }
+
+    .resultHero{
+      border-radius:24px;
+      border:1px solid #f1d3e3;
+      background:linear-gradient(135deg,#fff0f7,#fff8fc);
+      padding:18px 16px;
+      margin-bottom:16px;
+    }
+
+    .resultHeroTitle{
+      margin:0 0 10px;
+      font-size:22px;
+      line-height:1.5;
+      color:#8b4366;
+      font-weight:1000;
+    }
+
+    .resultHeroText{
+      margin:0;
+      line-height:2;
+      color:#503844;
+      white-space:pre-wrap;
+      font-size:17px;
+    }
+
+    .toolGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .toolCard{
+      border:1px solid rgba(235,205,222,.95);
+      background:#fff;
+      border-radius:18px;
+      box-shadow:var(--softShadow);
+      padding:16px;
+    }
+
+    .toolCard h3{
+      margin:0 0 8px;
+      font-size:19px;
+      line-height:1.5;
+    }
+
+    .toolCard p{
+      margin:0 0 14px;
+      font-size:16px;
+      line-height:1.95;
+      color:#5b4752;
+    }
 
     @media (max-width:768px){
-      body{padding:12px 8px 24px}
-      .page{border-radius:22px;padding:18px 12px 24px}
+      body{ padding:12px 8px 24px; }
+      .page{ padding:16px 12px 22px; border-radius:24px; }
+      h1{ font-size:23px; }
+      .sub{ font-size:16px; }
+      .panelTitle{ font-size:19px; }
+      .form{ grid-template-columns:1fr; }
+      .cards{ gap:8px; }
+      .cardBtn{ min-width:92px; }
+      .resultHeroTitle{ font-size:21px; }
+      .resultHeroText{ font-size:17px; }
+      .summaryBox h3{ font-size:18px; }
+      .summaryBox p{ font-size:16.5px; }
+      .toolCard h3{ font-size:18px; }
+      .toolCard p{ font-size:16px; }
+      .btn{ font-size:14px; }
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="inner">
-      <h1>全表示版｜あなたのオラクル鑑定</h1>
-      <p class="sub">
-        これは「現状／過去／未来（近未来）／今後どうすればいいか」を全文表示します。<br>
-        ※引き継ぎが無い場合は無料ページに戻って、入力してカードを選び直してください。
-      </p>
+    <div class="chip"><span class="dot"></span>無料版テーマあり</div>
+    <h1>今の恋愛の流れを、テーマ別に無料で整理できます。</h1>
+    <p class="sub">
+      無料版では5テーマを体験できます。  
+      それ以外のテーマはロック表示にしてあるので、あとから追加しやすい構成です。
+    </p>
 
-      <section class="box" id="content" style="display:none;">
-        <div class="meta">
-          <span class="pill" id="cardPill"></span>
-          <span class="pill" id="relPill"></span>
-          <span class="pill" id="compPill"></span>
+    <section class="panel show" id="step0">
+      <h2 class="panelTitle">テーマを選んでください</h2>
+      <div id="themeGrid" class="themeGrid"></div>
+      <div id="lockMessage" class="lockMessage" style="display:none;"></div>
+    </section>
+
+    <section class="panel" id="step1">
+      <h2 class="panelTitle">内容を入力してください</h2>
+      <div class="form">
+        <div class="field">
+          <label for="rel">関係性</label>
+          <select id="rel">
+            <option value="片想い">片想い</option>
+            <option value="曖昧">曖昧 / 付き合う前</option>
+            <option value="交際中">交際中</option>
+            <option value="元恋人">元恋人</option>
+            <option value="音信不通">音信不通</option>
+            <option value="夫婦">夫婦 / パートナー</option>
+          </select>
         </div>
 
-        <div class="sec">
-          <h2>現状</h2>
-          <p id="nowFull"></p>
+        <div class="field">
+          <label for="timing">いま一番気になること</label>
+          <input id="timing" placeholder="例：連絡が来るか、進展するか" />
         </div>
 
-        <div class="sec">
-          <h2>過去</h2>
-          <p id="pastFull"></p>
+        <div class="field">
+          <label for="bdYou">あなたの生年月日</label>
+          <input id="bdYou" inputmode="numeric" maxlength="8" placeholder="例：19990101" />
         </div>
 
-        <div class="sec">
-          <h2>未来（近未来）</h2>
-          <p id="futureFull"></p>
+        <div class="field">
+          <label for="bdThem">お相手の生年月日</label>
+          <input id="bdThem" inputmode="numeric" maxlength="8" placeholder="不明なら空欄" />
         </div>
 
-        <div class="sec">
-          <h2>今後どうすればいいか</h2>
-          <p id="nextFull"></p>
+        <div class="field full">
+          <label for="memo">補足メモ</label>
+          <textarea id="memo" placeholder="最近の状況や気になることがあれば自由に入力"></textarea>
+          <div class="hint">今の版では生年月日は表示用で、鑑定分岐にはまだ使っていません。今後ここから増やせる構成です。</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="startBtn" type="button">無料で鑑定する</button>
+        <button class="btn ghost" id="backToThemesBtn" type="button">テーマ選択に戻る</button>
+      </div>
+    </section>
+
+    <section class="panel" id="step2">
+      <h2 class="panelTitle">鑑定しています…</h2>
+      <div class="loading">
+        <span class="spinner"></span>
+        <p>テーマに合わせて流れを整理しています…</p>
+      </div>
+    </section>
+
+    <section class="panel" id="step3">
+      <h2 class="panelTitle">まず、今の流れの全体像です</h2>
+      <div class="summaryGrid" id="overviewGrid"></div>
+      <div class="actions">
+        <button class="btn" id="toCardsBtn" type="button">次へ：カードを選ぶ</button>
+        <button class="btn ghost" id="backToFormBtn" type="button">入力に戻る</button>
+      </div>
+    </section>
+
+    <section class="panel" id="step4">
+      <h2 class="panelTitle">3枚のカードから、直感で1枚選んでください</h2>
+      <div class="cards">
+        <button class="cardBtn" type="button" data-card="A" aria-pressed="false">
+          <img src="0317Acard.png" alt="カードA" />
+        </button>
+        <button class="cardBtn" type="button" data-card="B" aria-pressed="false">
+          <img src="0317Bcard.png" alt="カードB" />
+        </button>
+        <button class="cardBtn" type="button" data-card="C" aria-pressed="false">
+          <img src="0317Ccard.png" alt="カードC" />
+        </button>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" id="backToOverviewBtn" type="button">前に戻る</button>
+      </div>
+    </section>
+
+    <section class="panel" id="step5">
+      <h2 class="panelTitle">無料版の鑑定結果</h2>
+
+      <div class="resultHero">
+        <p class="resultHeroTitle" id="finalTitle"></p>
+        <p class="resultHeroText" id="finalLead"></p>
+      </div>
+
+      <div class="summaryGrid" id="resultGrid"></div>
+
+      <div class="toolGrid">
+        <div class="toolCard">
+          <h3>お悩み相談はこちら</h3>
+          <p>いまの気持ちを整理したい時は、こちらの相談ツールから悩みを言葉にして進められます。</p>
+          <a class="btn" href="http://192.168.0.231:8501/" target="_blank" rel="noopener noreferrer">お悩み相談へ進む</a>
         </div>
 
-        <div class="actions">
-          <a class="btn ghost" href="./">無料ページに戻る</a>
-          <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する（タップ）</a>
+        <div class="toolCard">
+          <h3>さらに深掘りしたい方はこちら</h3>
+          <p>もっと詳しく見たい方、今後のメニューや案内を確認したい方は、こちらから進めます。</p>
+          <a class="btn" href="https://lp8hnyu9ebgefokdjdyh.stores.jp/" target="_blank" rel="noopener noreferrer">深掘りメニューを見る</a>
         </div>
+      </div>
 
-        <p class="warn">※この内容は「今の状態」に基づくメッセージです。あなたの意思と行動が未来を変えます。</p>
-      </section>
-
-      <section class="box" id="empty">
-        <div style="font-weight:1000;margin-bottom:6px;">引き継ぎ情報がありません</div>
-        <div style="font-size:12px;color:#6c6168;line-height:1.8;">
-          無料ページ（`/tarot/`）で関係性と生年月日を入力し、カードを選んでください。<br>
-          その後「全表示版を開く（購入後）」から開くと、再入力なしで表示できます。<br><br>
-          ※別のアプリ内ブラウザ（LINE等）で購入した場合は、「引き継ぎリンク」を開くのが確実です。
-        </div>
-        <div class="actions" style="justify-content:flex-start;">
-          <a class="btn" href="./">無料ページへ</a>
-        </div>
-      </section>
-    </div>
+      <div class="actions">
+        <button class="btn ghost" id="restartBtn" type="button">最初からやり直す</button>
+      </div>
+    </section>
   </main>
 
   <script>
-    const $ = (s) => document.querySelector(s);
+    var THEMES = [
+      { id: "crush", name: "片想い", desc: "今の距離感と進め方を見ます", free: true },
+      { id: "reunion", name: "復縁", desc: "離れた相手との流れを見ます", free: true },
+      { id: "silent", name: "音信不通", desc: "連絡の流れや再接点を見ます", free: true },
+      { id: "encounter", name: "出会い", desc: "新しい恋の入り口を見ます", free: true },
+      { id: "lover", name: "恋人関係", desc: "今の関係の深まり方を見ます", free: true },
 
-    function digitsOnly8(raw){ return (raw||"").replace(/\D/g,"").slice(0,8); }
-    function sumDigits(s){ return (s||"").split("").reduce((a,c)=>a + (c>="0"&&c<="9"?Number(c):0),0); }
-    function reduceLifePath(n){ while(n>9){ n=sumDigits(String(n)); } return n||null; }
-    function lifePath(yyyymmdd){ const v=digitsOnly8(yyyymmdd); if(v.length!==8) return null; return reduceLifePath(sumDigits(v)); }
-    function compatBand(lpYou, lpThem){
-      if(!lpYou || !lpThem) return "unknown";
-      const d=Math.abs(lpYou-lpThem);
-      if(d===0) return "high";
-      if(d<=2) return "mid";
-      return "low";
-    }
+      { id: "marriage", name: "結婚", desc: "関係の先と現実面を整理します", free: false },
+      { id: "triangle", name: "複雑恋愛", desc: "言いにくい関係性の流れを見ます", free: false },
+      { id: "distance", name: "遠距離恋愛", desc: "距離がある恋の進め方を見ます", free: false },
+      { id: "married", name: "既婚者の恋", desc: "慎重さが必要な流れを見ます", free: false }
+    ];
 
-    const REL_LABEL = {
-      crush:"片想い",
-      dating:"曖昧/付き合う前",
-      couple:"交際中",
-      ex:"元彼/元カノ（復縁）",
-      nocontact:"音信不通/未読無視",
-      married:"夫婦/パートナー",
-    };
-
-    const COMP = {
-      high:    { label:"相性：近い（合わせやすい）", add:"合えば早い。迷うなら即決でOK。" },
-      mid:     { label:"相性：普通（調整で伸びる）", add:"言い方とタイミングで勝てる。" },
-      low:     { label:"相性：違いが大きい（工夫が必要）", add:"短文・具体で衝突回避が鍵。" },
-      unknown: { label:"相性：算出なし", add:"不明でもOK。型で整える。" },
-    };
-
-    const REL_TONE = {
-      crush:     { add:"片想いは“重さ”が失点。軽さで勝つ。", nudge:"返しやすい入口を作る。" },
-      dating:    { add:"曖昧期は主導権が命。様子見を終わらせる。", nudge:"短く誘導し、判断させすぎない。" },
-      couple:    { add:"交際中は察してが破綻。要点だけ言う。", nudge:"不満より要望を1つだけ。" },
-      ex:        { add:"復縁は過去の続きで失敗。新しい関係で出直す。", nudge:"未消化より『今どうしたい』で話す。" },
-      nocontact: { add:"音信不通は追撃が致命傷。軽さ＋間隔が命。", nudge:"一通送ったら待つ。追撃しない。" },
-      married:   { add:"長期は積み重ねが効く。感情より行動の設計。", nudge:"摩擦を1つだけ減らす。" },
-    };
-
-    const BASE = {
-      A: {
-        title: "心を休めるカード｜整えてからが勝ち",
-        now:    "今の状態で動くほど空回りしやすい局面です。焦りが言葉に乗ると、相手は重く感じやすい。まずは心のノイズを落として判断の精度を戻すのが最優先。",
-        past:   "ここまで我慢と努力で繋いできたはず。その頑張りが悪いわけじゃない。ただ“頑張り続ける”は破綻しやすい。いま必要なのは努力の追加ではなく回復。",
-        future: "近未来はあなたの落ち着きが空気を変えます。追うより、安心できる距離感を作る方が効果的。あなたが整えば、相手の温度が戻りやすい。",
-        next:   "①3日SNS/過去LINE/占い巡りを止める ②睡眠を優先 ③連絡するなら要件だけ短文。感情確認はしない。整った状態で次の一手を打つ方が最短です。",
+    var THEME_TEXT = {
+      crush: {
+        overview: [
+          { title: "今の空気", text: "相手は完全に無関心というより、様子を見ながら距離を測っている状態です。気持ちがゼロというより、まだはっきり動くほど材料が揃っていないように見えます。" },
+          { title: "進みやすい形", text: "強く動くより、相手が返しやすい軽めの接点が流れを作ります。会話の重さを下げるほど、関係の空気はやわらかくなりやすいです。" },
+          { title: "無料版の見どころ", text: "今は押す時か待つ時か、その見極めを中心に整理します。無理に距離を詰めるより、どんな温度感が合うかを確認していきます。" }
+        ],
+        patterns: {
+          A: {
+            self: "お相手のことを強く想っている一方で、「自分ばかり好きなのかも」と不安を感じている様子が出ていますね。少しの反応や言葉に一喜一憂してしまい、気持ちが揺れやすくなっているようです。でもそれだけ真剣に想っている証拠でもあります。",
+            partner: "あなたに対して好印象はしっかりあるものの、まだ恋愛としてはっきり意識していない可能性があります。「一緒にいると楽しい」「話しやすい」という気持ちはあるので、これから関係が深まる余地は十分にありそうです。",
+            advice: "今は焦って距離を縮めるより、「自然な関係づくり」を意識するのがポイントです。笑顔やちょっとした会話を積み重ねることで、相手の中であなたの存在が少しずつ大きくなっていきます。"
+          },
+          B: {
+            self: "「この恋を進めたい」という前向きな気持ちと、「傷つきたくない」というブレーキの気持ちが混ざっているようです。積極的になりたいのに、一歩踏み出す勇気が出ない、そんな繊細な状態が感じられますね。",
+            partner: "お相手はあなたに対して興味や関心を持っている可能性があります。ただし、まだ様子を見ている段階で、自分から強く動くほどの確信は持っていないようです。あなたの出方を少し見ている印象があります。",
+            advice: "ここは少しだけ勇気を出して、「わかりやすい好意」を見せていくことが大切です。褒める、リアクションをしっかりするなど、小さなアクションでも十分です。"
+          },
+          C: {
+            self: "お相手への想いが深くなっている一方で、「このまま進展しないのでは？」という不安や焦りも出てきているようです。好きだからこそ、現状に満足できず、次のステップを求めている状態ですね。",
+            partner: "お相手はあなたに対して安心感や信頼を感じている可能性が高いです。ただ、その居心地の良さに甘えてしまい、恋愛として進める意識が少しゆっくりになっているかもしれません。",
+            advice: "関係を進めるには、「少しだけ変化」を加えることが鍵になります。いつもと違う一面を見せたり、軽く特別感のある誘いをしてみるのも効果的です。"
+          }
+        }
       },
-      B: {
-        title: "一歩踏み出すカード｜小さく動いて流れを変える",
-        now:    "停滞は放置すると温度が下がります。必要なのは重い確認ではなく、返しやすい軽い連絡で空気を動かすこと。主導権は取り戻せます。",
-        past:   "待つ・合わせるが続くと、あなたの魅力が“当たり前”になりやすい。関係はあなたのペースも見せるほど戻りやすい。小さく動くのは“重くする”の逆。",
-        future: "近未来はあなたの一手で反応が変わりやすい。近況共有/軽い質問のどれかに絞って送る。反応が薄くても追撃はしない。追撃が流れを止めます。",
-        next:   "型：『久しぶり！最近○○で。ふと思い出した。元気？』。長文・感情確認・結論迫りは禁止。返ってきたら短く1往復で止める。“少し足りない”が効きます。",
+
+      reunion: {
+        overview: [
+          { title: "今の空気", text: "過去の印象は残っていても、相手は慎重に距離を取っている可能性があります。嫌いだから離れているというより、関わり方を迷っている場合もあります。" },
+          { title: "進みやすい形", text: "感情のぶつけ直しより、安心感を取り戻す流れが大切です。過去を蒸し返すより、今の空気を整える方が復縁にはつながりやすいです。" },
+          { title: "無料版の見どころ", text: "復縁の可能性より先に、今の接点の作り方を整理します。戻るかどうかではなく、戻りやすい空気を作れるかを見る流れです。" }
+        ],
+        patterns: {
+          A: {
+            self: "まだお相手への気持ちが強く残っていて、「もう一度やり直したい」という想いが中心にあるようです。ただ同時に、過去の出来事を思い出して不安になったり、自信を持ちきれない部分も見えています。",
+            partner: "お相手もあなたとの関係を完全に忘れたわけではなく、時々思い出している可能性があります。ただ今は気持ちを整理している段階で、すぐに戻るというより慎重になっている様子です。",
+            advice: "今は「復縁を迫る」よりも、「自然な関係の再構築」を意識しましょう。軽い連絡や共通の話題から距離を縮めることで、ゆっくりと流れが戻ってきます。"
+          },
+          B: {
+            self: "復縁したい気持ちはあるものの、「本当に戻っていいのかな」と迷いも出ている状態です。寂しさと理性の間で揺れているような印象があります。",
+            partner: "お相手はすでに少し気持ちの整理が進んでいて、前に進もうとしている可能性があります。ただし、あなたへの印象が悪いわけではなく、タイミング次第で再び関係が動く余地は残っています。",
+            advice: "一度しっかり距離を取ることが大切なタイミングです。その間に自分を整えることで、再会した時に新しい魅力として伝わります。焦らないことが近道です。"
+          },
+          C: {
+            self: "「やっぱりこの人しかいない」という確信に近い想いがあり、気持ちはかなり固まっているようです。その分、現状が動かないことへのもどかしさも強くなっています。",
+            partner: "お相手もあなたとの関係に未練や情を感じている可能性があります。ただ、過去の問題が引っかかっていて、踏み出せずにいる状態かもしれません。",
+            advice: "復縁の鍵は「過去の改善」です。同じ関係に戻るのではなく、新しい関係を作る意識を持ちましょう。具体的な変化を見せるほど、相手の気持ちも動きやすくなります。"
+          }
+        }
       },
-      C: {
-        title: "新しい朝へ進むカード｜恋より先に自分の未来へ",
-        now:    "相手の反応で気分が上下しているなら、恋が主役になりすぎ。捨てる話じゃなく“あなたの未来を優先する”選択です。軸を戻すほど状況は動きます。",
-        past:   "努力は本物。だから簡単に諦められない。けれど努力＝報われるではないのも恋。否定せず、握る力をゆるめることが次のステージに繋がります。",
-        future: "近未来は“入れ替え”が起きやすい。仕事・友人・新しい出会いが動くほど、相手との関係にも影響します。あなたが明るくなるほど相手が変わることも。",
-        next:   "①連絡頻度を増やさない ②SNSを見ない ③自分の予定を先に入れる。7日で執着は薄まる。続ける/区切るの判断が“自分軸”でできるようになります。",
+
+      silent: {
+        overview: [
+          { title: "今の空気", text: "連絡が止まっている時ほど、表面より相手の事情や心の余白が影響します。見えていない理由があるからこそ、焦って追いすぎないことが重要です。" },
+          { title: "進みやすい形", text: "動くにしても、重さより自然さが鍵になります。返事を迫るより、相手が受け取りやすい軽さの方が流れを戻しやすくなります。" },
+          { title: "無料版の見どころ", text: "焦って追うより、戻りやすい流れをどう作るかを見ます。止まっている理由を責めるより、接点を置き直す視点が大切です。" }
+        ],
+        patterns: {
+          A: {
+            self: "連絡が来ないことで不安や寂しさが大きくなり、「嫌われたのかも」とネガティブに考えてしまっているようです。気持ちが相手中心になりすぎている状態かもしれません。",
+            partner: "お相手はあなたを避けているというより、自分のことで余裕がなくなっている可能性があります。恋愛よりも優先していることがある印象です。",
+            advice: "今は無理に動かず、少し距離を置くことが大切です。あなた自身の時間を充実させることで、自然と流れが変わっていきます。"
+          },
+          B: {
+            self: "「どうして連絡がないの？」という疑問と不満が少しずつ積み重なっているようです。相手を信じたい気持ちと疑う気持ちが混ざっています。",
+            partner: "お相手は連絡を後回しにしてしまうタイプで、悪気はないものの優先順位が下がっている可能性があります。深刻に考えていないケースもありそうです。",
+            advice: "一度、軽いトーンで連絡を入れてみるのも有効です。ただし重い内容は避けること。相手が返信しやすい空気を作ることがポイントです。"
+          },
+          C: {
+            self: "待ち続けることに少し疲れを感じ始めていて、「このままでいいのかな」と冷静に考え始めている状態です。気持ちに変化が出てきています。",
+            partner: "お相手は距離を置くことで関係を曖昧にしている可能性があります。はっきりさせる勇気がなく、自然消滅のような流れにしている場合もありそうです。",
+            advice: "ここは「自分の幸せ基準」で考えることが大切です。待つか手放すか、あなた主体で選びましょう。状況を変えるのはあなたの決断です。"
+          }
+        }
+      },
+
+      encounter: {
+        overview: [
+          { title: "今の空気", text: "恋愛運そのものより、出会いを受け取る姿勢が変化の入口になっています。いまは環境よりも、自分の心の向きが流れを左右しやすい時期です。" },
+          { title: "進みやすい形", text: "自分の軸を整えるほど、相性の良い相手が見えやすくなります。焦って数を追うより、気持ちの輪郭をはっきりさせる方が出会いの質は上がります。" },
+          { title: "無料版の見どころ", text: "出会いの有無だけでなく、どんな流れで恋が動くかを整理します。新しい恋が入る余白があるかどうかも大切な視点です。" }
+        ],
+        patterns: {
+          A: {
+            self: "「いい出会いが欲しい」という前向きな気持ちがありつつも、どこか受け身になっている様子が見えます。タイミングを待っている状態ですね。",
+            partner: "まだ特定の相手は現れていないものの、あなたに興味を持つ人が近くに現れ始めている流れがあります。気づいていないご縁がありそうです。",
+            advice: "行動範囲を少し広げることが鍵になります。新しい場所や人との関わりを増やすことで、出会いのチャンスが一気に広がります。"
+          },
+          B: {
+            self: "恋愛に対して前向きではあるものの、「また傷つくのは嫌だな」という慎重さも感じられます。心を守りながら進もうとしている状態です。",
+            partner: "これから出会う相手は、あなたに対して安心感や落ち着きを求めているタイプの可能性があります。派手さよりも安定を重視するご縁です。",
+            advice: "無理に理想を追いすぎず、「一緒にいて楽な人」を大切にしましょう。自然体でいられる関係が、長く続くご縁につながります。"
+          },
+          C: {
+            self: "恋愛に対するモチベーションが高まり、「次こそはいい恋をしたい」という意欲がしっかり出ています。行動する準備が整っている状態です。",
+            partner: "これから出会う相手は、あなたに強く惹かれる可能性があります。比較的早い段階で好意を示してくるタイプかもしれません。",
+            advice: "チャンスが来たら迷わず動くことが大切です。直感を信じて大丈夫です。スピード感のある恋が始まる可能性があります。"
+          }
+        }
+      },
+
+      lover: {
+        overview: [
+          { title: "今の空気", text: "関係は続いていても、気持ちの見え方や温度差が気になりやすい時期です。安定しているからこそ、言葉にされない部分が不安につながることもあります。" },
+          { title: "進みやすい形", text: "無理に答えを迫るより、お互いが安心して本音を出せる空気を作ることが大切です。責めるより共有する姿勢が流れを整えます。" },
+          { title: "無料版の見どころ", text: "関係の土台はどうなっているのか、今どこでズレやすいのか、そして今後どう深めていけるのかを見ます。" }
+        ],
+        patterns: {
+          A: {
+            self: "お相手のことが大切だからこそ、「もっと愛されたい」「もっと気持ちを見せてほしい」と感じているようです。関係は続いていても、どこか物足りなさや不安が出やすくなっている時かもしれません。",
+            partner: "お相手はあなたとの関係に安心感を抱いていて、そばにいることを自然な幸せとして感じているようです。ただ、その安心感があるぶん、気持ちを言葉や態度でしっかり表すことが少なくなっている可能性があります。",
+            advice: "不安を我慢しすぎず、素直な気持ちをやわらかく伝えてみましょう。責める言い方ではなく、「こうしてくれたら嬉しい」と伝えることで、相手も応えやすくなります。"
+          },
+          B: {
+            self: "今の関係を大事にしたい気持ちは強いものの、少し疲れや迷いも出てきているようです。「私ばかり頑張っていないかな」と感じる場面があるのかもしれませんね。",
+            partner: "お相手はあなたに対してしっかり気持ちはあるものの、今は恋愛以外のことで頭がいっぱいになっている可能性があります。気持ちが冷めたというより、余裕がなくなっている状態に近そうです。",
+            advice: "今は無理に答えを求めるより、少し心の余白を作ることが大切です。相手に合わせすぎず、自分の時間も充実させることで、関係のバランスが整いやすくなります。"
+          },
+          C: {
+            self: "お相手との未来をしっかり考え始めていて、「このまま長く一緒にいたい」という想いが強くなっているようです。だからこそ、関係をもっと安定させたい気持ちが出ていますね。",
+            partner: "お相手もあなたを大切な存在として見ている可能性が高いです。安心感や信頼が育っていて、関係そのものには前向きな気持ちがあるでしょう。ただ、将来については慎重に考えたいタイプかもしれません。",
+            advice: "将来の話をする時は、重くなりすぎない自然な流れを意識しましょう。小さな価値観の共有を重ねることで、お互いの未来像が少しずつ重なっていきます。"
+          }
+        }
       }
     };
 
-    function decodePayload(b64){
-      const json = decodeURIComponent(escape(atob(b64)));
-      return JSON.parse(json);
+    function $(selector){ return document.querySelector(selector); }
+    function show(el){ if (el) el.classList.add("show"); }
+    function hide(el){ if (el) el.classList.remove("show"); }
+
+    var state = {
+      themeId: null,
+      themeName: "",
+      rel: "",
+      timing: "",
+      memo: "",
+      card: ""
+    };
+
+    function renderThemes(){
+      var grid = $("#themeGrid");
+      var lockMessage = $("#lockMessage");
+
+      grid.innerHTML = THEMES.map(function(theme){
+        if(theme.free){
+          return [
+            '<button class="themeCard" type="button" data-theme-id="', theme.id, '">',
+              '<div class="themeName">', theme.name, '</div>',
+              '<p class="themeDesc">', theme.desc, '</p>',
+              '<div class="badgeRow"><span class="badge">無料</span></div>',
+            '</button>'
+          ].join("");
+        }
+
+        return [
+          '<button class="themeCard locked" type="button" data-locked="true" data-theme-name="', theme.name, '">',
+            '<div class="lockOverlay">LOCK</div>',
+            '<div class="themeName">', theme.name, '</div>',
+            '<p class="themeDesc">', theme.desc, '</p>',
+            '<div class="badgeRow"><span class="badge lock">準備中</span></div>',
+          '</button>'
+        ].join("");
+      }).join("");
+
+      grid.querySelectorAll(".themeCard").forEach(function(card){
+        if(card.dataset.locked === "true"){
+          card.addEventListener("click", function(){
+            lockMessage.style.display = "block";
+            lockMessage.textContent = "「" + card.dataset.themeName + "」は現在準備中です。無料版では、表示されている無料テーマのみ利用できます。";
+          });
+          return;
+        }
+
+        card.addEventListener("click", function(){
+          lockMessage.style.display = "none";
+          var themeId = card.dataset.themeId;
+          var theme = THEMES.find(function(item){ return item.id === themeId; });
+          state.themeId = themeId;
+          state.themeName = theme ? theme.name : "";
+          hide($("#step0"));
+          show($("#step1"));
+        });
+      });
     }
-    function loadState(){
-      const h = location.hash || "";
-      const m = h.match(/p=([^&]+)/);
-      if (m && m[1]) { try { return decodePayload(decodeURIComponent(m[1])); } catch {} }
-      try{ return JSON.parse(localStorage.getItem("oracle_state_v3") || "null"); }catch{ return null; }
+
+    function renderOverview(){
+      var themeData = THEME_TEXT[state.themeId];
+      var list = themeData ? themeData.overview : [];
+
+      $("#overviewGrid").innerHTML = list.map(function(item){
+        return [
+          '<div class="summaryBox">',
+            '<h3>', item.title, '</h3>',
+            '<p>', item.text, '</p>',
+          '</div>'
+        ].join("");
+      }).join("");
     }
 
-    function buildFull(state){
-      const relKey = state.rel || "crush";
-      const cardKey = state.card;
-      const base = BASE[cardKey];
-      const relTone = REL_TONE[relKey] || REL_TONE.crush;
+    function renderFinal(cardKey){
+      var themeData = THEME_TEXT[state.themeId];
+      var pattern = themeData.patterns[cardKey];
 
-      const lpYou = lifePath(state.you || "");
-      const lpThem = lifePath(state.them || "");
-      const band = compatBand(lpYou, lpThem);
-      const comp = COMP[band];
+      var introLines = [
+        "テーマは「" + state.themeName + "」、関係性は「" + state.rel + "」で見た時、今回のカードはこの恋の流れをゆっくり映し出しています。"
+      ];
 
-      return {
-        title: base.title,
-        relLabel: REL_LABEL[relKey] || "関係性",
-        compLabel: comp.label,
-        lpYou, lpThem,
-        now:    base.now + " " + relTone.add + " " + comp.add,
-        past:   base.past + " " + relTone.add,
-        future: base.future + " " + comp.add,
-        next:   base.next + " " + relTone.nudge,
+      if (state.timing) {
+        introLines.push("特にあなたが気にしている「" + state.timing + "」については、今の心の動きと相手との温度差を落ち着いて見ていくことが大切なタイミングです。");
+      }
+
+      if (state.memo) {
+        introLines.push("また、入力してくれた内容から見ると、「" + state.memo + "」という感覚の中にも、いま抱えている迷いや期待がよく表れています。");
+      }
+
+      introLines.push("ここでは無料版として、あなたの気持ち、お相手の気持ち、そしてこれからの動き方を整理していきます。");
+
+      $("#finalTitle").textContent = state.themeName + "の無料鑑定結果";
+      $("#finalLead").textContent = introLines.join("\n\n");
+
+      var selfText =
+        pattern.self +
+        "\n\nいまは気持ちが揺れやすい時でもありますが、それだけ本気で向き合っている証でもあります。";
+
+      var partnerText =
+        pattern.partner +
+        "\n\n見えていない部分が多い時ほど、相手の反応を一つだけで決めつけすぎないことも大切です。";
+
+      var adviceText =
+        pattern.advice +
+        "\n\nすぐに答えを出そうとするより、流れに合った行動を選ぶことが、この恋を動かす近道になります。";
+
+      var extraText = state.memo
+        ? "今回の入力内容を見る限り、あなたはかなり真剣にこの状況と向き合っています。だからこそ、焦って白黒つけたくなる場面もあるかもしれません。\n\nでも今は、ひとつずつ空気を整えながら進める方が、結果として納得できる形につながりやすいです。"
+        : "いまの段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。\n\n落ち着いて流れを見るほど、次に取るべき行動も自然と見えやすくなります。";
+
+      $("#resultGrid").innerHTML = [
+        { title: "あなたの気持ち", text: selfText },
+        { title: "お相手の気持ち", text: partnerText },
+        { title: "より良い未来のためのアドバイス", text: adviceText },
+        { title: "今回の補足", text: extraText }
+      ].map(function(item){
+        return [
+          '<div class="summaryBox">',
+            '<h3>', item.title, '</h3>',
+            '<p>', item.text, '</p>',
+          '</div>'
+        ].join("");
+      }).join("");
+    }
+
+    $("#backToThemesBtn").addEventListener("click", function(){
+      hide($("#step1"));
+      show($("#step0"));
+    });
+
+    $("#startBtn").addEventListener("click", function(){
+      state.rel = $("#rel").value;
+      state.timing = $("#timing").value.trim();
+      state.memo = $("#memo").value.trim();
+
+      hide($("#step1"));
+      show($("#step2"));
+
+      setTimeout(function(){
+        hide($("#step2"));
+        renderOverview();
+        show($("#step3"));
+      }, 900);
+    });
+
+    $("#backToFormBtn").addEventListener("click", function(){
+      hide($("#step3"));
+      show($("#step1"));
+    });
+
+    $("#toCardsBtn").addEventListener("click", function(){
+      hide($("#step3"));
+      show($("#step4"));
+    });
+
+    $("#backToOverviewBtn").addEventListener("click", function(){
+      hide($("#step4"));
+      show($("#step3"));
+    });
+
+    document.querySelectorAll(".cardBtn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        document.querySelectorAll(".cardBtn").forEach(function(item){
+          item.setAttribute("aria-pressed", "false");
+        });
+        btn.setAttribute("aria-pressed", "true");
+
+        state.card = btn.dataset.card;
+        renderFinal(state.card);
+
+        hide($("#step4"));
+        show($("#step5"));
+      });
+    });
+
+    $("#restartBtn").addEventListener("click", function(){
+      state = {
+        themeId: null,
+        themeName: "",
+        rel: "",
+        timing: "",
+        memo: "",
+        card: ""
       };
-    }
 
-    const state = loadState();
-    if (!state || !state.card || !BASE[state.card]) {
-      $("#content").style.display = "none";
-      $("#empty").style.display = "block";
-    } else {
-      const v = buildFull(state);
-      $("#cardPill").textContent = `${state.card}｜全表示`;
-      $("#relPill").textContent = `関係性：${v.relLabel}`;
-      $("#compPill").textContent =
-        v.compLabel +
-        (v.lpYou ? `（あなた:${v.lpYou}` : "") +
-        (v.lpYou && v.lpThem ? `・相手:${v.lpThem}` : (v.lpYou ? "）" : "")) +
-        (v.lpYou && v.lpThem ? "）" : "");
+      $("#rel").value = "片想い";
+      $("#timing").value = "";
+      $("#bdYou").value = "";
+      $("#bdThem").value = "";
+      $("#memo").value = "";
 
-      $("#nowFull").textContent = v.now;
-      $("#pastFull").textContent = v.past;
-      $("#futureFull").textContent = v.future;
-      $("#nextFull").textContent = v.next;
+      document.querySelectorAll(".cardBtn").forEach(function(item){
+        item.setAttribute("aria-pressed", "false");
+      });
 
-      $("#empty").style.display = "none";
-      $("#content").style.display = "block";
-    }
+      hide($("#step1"));
+      hide($("#step2"));
+      hide($("#step3"));
+      hide($("#step4"));
+      hide($("#step5"));
+      show($("#step0"));
+    });
+
+    renderThemes();
   </script>
 </body>
 </html>
