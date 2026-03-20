@@ -1,292 +1,496 @@
-<script>
-  var PAY_URL = "PAY_URL_HERE";
-  var GAS_REGISTER_URL = "https://script.google.com/macros/s/AKfycbzSjdhPUH-aliY08WBqHkYOKx88lH_0zCc5QdyjzzltScTIUKaC59-bVGLremUzMe9U/exec";
-  var WEBHOOK_SECRET = "tarot-20260320-secret-9XkP7mL2";
-  var STATE_KEY = "oracle_state_v4";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>無料鑑定｜恋のオラクル三択</title>
+  <meta name="description" content="恋愛テーマを選んで無料鑑定。最後にLINE用コードを発行します。" />
+  <style>
+    :root{
+      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 40%,#ffeaf2 85%);
+      --paper: linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,245,252,.97));
+      --ink:#1f1f1f;
+      --muted:#6c6168;
+      --line:#f0d6e2;
+      --accent:#ff6ba5;
+      --accent2:#ff9bc8;
+      --ok:#06C755;
+      --shadow:0 18px 40px rgba(210,140,180,.35);
+      --soft:0 10px 24px rgba(0,0,0,.08);
+      --r-xl:32px;
+      --r-lg:28px;
+      --r-md:20px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
+      font-size:16px;
+      background:var(--bg);
+      color:var(--ink);
+      padding:22px 12px 40px;
+    }
+    .page{
+      max-width:980px;
+      margin:0 auto;
+      background:var(--paper);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow);
+      padding:20px 18px 28px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(255,192,216,.7);
+      font-size:11px;
+      color:#b34a77;
+      margin-bottom:10px;
+    }
+    .dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ff77aa,#ffb4e0);
+      box-shadow:0 0 8px rgba(255,105,180,.65);
+    }
+    h1{margin:0 0 8px;font-size:24px;line-height:1.5}
+    .sub{margin:0 0 12px;font-size:15px;color:var(--muted);line-height:1.75}
+    .note{margin:0 0 14px;font-size:12px;color:#9d8792;line-height:1.75}
+    .panel{
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(255,210,232,.9);
+      box-shadow:var(--soft);
+      border-radius:var(--r-lg);
+      padding:14px 14px 16px;
+      margin-top:14px;
+    }
+    .stage{display:none}
+    .stage.show{display:block}
+    .stageTitle{margin:0 0 8px;font-size:16px;font-weight:1000;color:#2a1f25}
+    .themeGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .themeCard{
+      display:block;
+      width:100%;
+      padding:14px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,210,232,.9);
+      background:rgba(255,255,255,.95);
+      text-align:left;
+      cursor:pointer;
+    }
+    .themeCardName{font-size:15px;font-weight:1000;margin-bottom:4px;color:#2a1f25}
+    .themeCardDesc{font-size:12px;color:#6c6168;line-height:1.5}
+    .form{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      border-bottom:1px dashed var(--line);
+      padding-bottom:12px;
+      margin-bottom:12px;
+    }
+    .field{display:flex;flex-direction:column;gap:6px}
+    label{font-size:13px;font-weight:1000;color:#44323a}
+    input,select{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid #f0cde2;
+      background:#fff;
+      font-size:14px;
+    }
+    .hint{font-size:12px;color:var(--muted);line-height:1.6}
+    .actionsRow{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:11px 16px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      font-weight:1000;
+      font-size:13px;
+      cursor:pointer;
+      text-decoration:none;
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid #f0cde2;
+      color:#8a5a72;
+    }
+    .btn.line{background:var(--ok)}
+    .loading{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px;
+      border-radius:18px;
+      border:1px dashed #efc2de;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+    }
+    .spinner{
+      width:16px;
+      height:16px;
+      border-radius:99px;
+      border:3px solid #f1c6dd;
+      border-top-color:#ff86b8;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .grid{display:grid;grid-template-columns:1fr;gap:10px}
+    .sec{
+      border:1px dashed #efc2de;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border-radius:16px;
+      padding:10px 12px;
+    }
+    .sec h3{margin:0 0 6px;font-size:14px}
+    .sec p{margin:0;font-size:14px;line-height:1.9;color:#2f232a;white-space:pre-wrap}
+    .cards{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:10px}
+    .tcard{
+      flex:1 1 30%;
+      min-width:120px;
+      border:none;
+      background:#fff;
+      border-radius:16px;
+      padding:16px;
+      cursor:pointer;
+      box-shadow:var(--soft);
+      text-align:center;
+      font-weight:1000;
+    }
+    .tcard[aria-pressed="true"]{outline:2px solid #ff8fbe}
+    .box{
+      border-radius:var(--r-lg);
+      background:rgba(255,255,255,.97);
+      border:1px solid rgba(229,190,216,.9);
+      box-shadow:var(--soft);
+      padding:14px 14px 16px;
+    }
+    .metaLine{margin:0 0 10px;font-size:13px;color:#7a626e;line-height:1.7}
+    .divider{height:1px;background:rgba(240,214,226,.9);margin:14px 0}
+    .codeBox{
+      margin-top:12px;
+      border-radius:16px;
+      border:1px solid #f2d6e6;
+      background:rgba(255,255,255,.95);
+      padding:12px;
+    }
+    .codeHead{font-size:14px;font-weight:1000;color:#2a1f25;margin-bottom:8px}
+    .codeRow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .code{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-weight:1000;
+      letter-spacing:.12em;
+      font-size:18px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border:1px dashed #efc2de;
+      min-width:180px;
+      text-align:center;
+    }
+    .mini{font-size:12px;color:#7a626e;line-height:1.7}
+    @media (max-width:768px){
+      .form{grid-template-columns:1fr}
+      .cards{gap:8px}
+      .tcard{min-width:90px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="chip"><span class="dot"></span>無料鑑定（結論だけ先出し）</div>
+    <h1>占いたいテーマを選んで、オラクルで整理します。</h1>
+    <p class="sub">テーマを選ぶ → 入力 → カード選択で、現状・過去・未来（近未来）・今後の一手を無料で表示します。</p>
+    <p class="note">※結果は今の状態をもとにしたメッセージです。医療・法律・投資の判断を代替しません。</p>
 
-  var THEMES = {
-    default: { name: "恋愛鑑定" },
-    crush: { name: "片想い" },
-    reunion: { name: "復縁" },
-    contact: { name: "音信不通" },
-    marriage: { name: "結婚" }
-  };
+    <section class="panel stage show" id="step0">
+      <h2 class="stageTitle">占いたいテーマを選んでください</h2>
+      <div class="themeGrid" id="themeGrid"></div>
+    </section>
 
-  var $ = function(s){ return document.querySelector(s); };
-  var rel = $("#rel"), bdYou = $("#bdYou"), bdThem = $("#bdThem"), startBtn = $("#startBtn");
-  var step0 = $("#step0"), step1 = $("#step1"), step2 = $("#step2"), step3 = $("#step3"), step4 = $("#step4"), step5 = $("#step5");
-  var metaLine = $("#metaLine"), tendencyGrid = $("#tendencyGrid"), toCardsBtn = $("#toCardsBtn");
-  var cards = document.querySelectorAll(".tcard"), resultMeta = $("#resultMeta"), summaryGrid = $("#summaryGrid");
-  var payBtn = $("#payBtn"), fullBtn = $("#fullBtn"), copyLinkBtn = $("#copyLinkBtn"), carryLinkWrap = $("#carryLinkWrap"), carryLink = $("#carryLink");
-  var restartBtn = $("#restartBtn"), reselectBtn = $("#reselectBtn");
-  var codeBox = $("#codeBox"), oracleCodeEl = $("#oracleCode"), copyCodeBtn = $("#copyCodeBtn");
+    <section class="panel stage" id="step1">
+      <div class="form">
+        <div class="field">
+          <label for="rel">関係性</label>
+          <select id="rel">
+            <option value="片想い">片想い</option>
+            <option value="曖昧">曖昧/付き合う前</option>
+            <option value="交際中">交際中</option>
+            <option value="元恋人">元彼/元カノ</option>
+            <option value="音信不通">音信不通/未読無視</option>
+            <option value="夫婦">夫婦/パートナー</option>
+          </select>
+          <div class="hint">いちばん近いものを選んでOK</div>
+        </div>
+        <div class="field">
+          <label for="bdYou">あなたの生年月日</label>
+          <input id="bdYou" inputmode="numeric" placeholder="例：19990101" maxlength="8" />
+          <div class="hint">8桁（YYYYMMDD）</div>
+        </div>
+        <div class="field">
+          <label for="bdThem">お相手の生年月日</label>
+          <input id="bdThem" inputmode="numeric" placeholder="例：19981231（不明なら空）" maxlength="8" />
+          <div class="hint">不明でもOK</div>
+        </div>
+      </div>
+      <div class="actionsRow">
+        <button class="btn" id="startBtn" type="button">無料で鑑定する</button>
+        <div class="mini">入力内容は端末に保存されます。</div>
+      </div>
+    </section>
 
-  function saveState(s){ try{ localStorage.setItem(STATE_KEY, JSON.stringify(s)); }catch(e){} }
-  function loadState(){ try{ return JSON.parse(localStorage.getItem(STATE_KEY)||"null"); }catch(e){ return null; } }
-  function digitsOnly8(raw){ return (raw||"").replace(/\D/g,"").slice(0,8); }
-  function makePayload(state){ return btoa(unescape(encodeURIComponent(JSON.stringify(state)))); }
-  function show(el){ if(el) el.classList.add("show"); }
-  function hide(el){ if(el) el.classList.remove("show"); }
+    <section class="stage" id="step2">
+      <div class="panel">
+        <h2 class="stageTitle">鑑定しています…</h2>
+        <div class="loading"><span class="spinner"></span><p>相性の傾向を整理しています…</p></div>
+      </div>
+    </section>
 
-  function makeCode(len){
-    len = len || 6;
-    var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    var out = "";
-    var arr = new Uint32Array(len);
-    crypto.getRandomValues(arr);
-    for(var i=0;i<len;i++) out += chars[arr[i] % chars.length];
-    return out;
-  }
+    <section class="stage" id="step3">
+      <div class="panel">
+        <h2 class="stageTitle">まず、2人の空気を確認します</h2>
+        <div class="box">
+          <p class="metaLine" id="metaLine"></p>
+          <div class="grid" id="tendencyGrid"></div>
+          <div class="actionsRow">
+            <button class="btn" id="toCardsBtn" type="button">次へ：オラクル三択へ</button>
+            <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  function registerCodeToGAS(obj){
-    if(!GAS_REGISTER_URL) return Promise.reject(new Error("GAS URL未設定"));
+    <section class="stage" id="step4">
+      <div class="panel">
+        <h2 class="stageTitle">3枚のオラクルから、直感で1枚選んでください</h2>
+        <div class="cards">
+          <button class="tcard" type="button" data-card="A" aria-pressed="false">カード A</button>
+          <button class="tcard" type="button" data-card="B" aria-pressed="false">カード B</button>
+          <button class="tcard" type="button" data-card="C" aria-pressed="false">カード C</button>
+        </div>
+      </div>
+    </section>
 
-    return fetch(GAS_REGISTER_URL, {
-      method: "POST",
-      mode: "cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        secret: WEBHOOK_SECRET,
-        action: "registerCode",
-        code: obj.code,
-        payload: obj.payload
-      })
-    }).then(function(res){
-      return res.json();
-    });
-  }
+    <section class="stage" id="step5">
+      <div class="panel">
+        <h2 class="stageTitle">あなた向けに整えた鑑定（無料）</h2>
+        <div class="box">
+          <p class="metaLine" id="resultMeta"></p>
+          <div class="grid" id="summaryGrid"></div>
+          <div class="divider"></div>
+          <div class="codeBox" id="codeBox">
+            <div class="codeHead">LINEに送る専用コード</div>
+            <div class="codeRow">
+              <div class="code" id="oracleCode">発行中...</div>
+              <button class="btn ghost" type="button" id="copyCodeBtn">コードをコピー</button>
+            </div>
+            <div class="mini" style="margin-top:8px;">LINEを追加して、このコードだけ送ってください。</div>
+            <div class="actionsRow" style="margin-top:10px;">
+              <a class="btn line" href="https://lin.ee/7J33z1I" target="_blank" rel="noopener noreferrer">LINEを追加する</a>
+            </div>
+            <div class="mini" id="carryLinkWrap" style="margin-top:10px;word-break:break-all;">引き継ぎリンク：<br><b><span id="carryLink">発行中...</span></b></div>
+            <div class="actionsRow" style="margin-top:12px;">
+              <button class="btn ghost" id="restartBtn" type="button">最初からやり直す</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  function renderThemeGrid(){
-    var grid=$("#themeGrid");
-    if(!grid) return;
-    grid.innerHTML = [
-      {id:"crush", name:"片想い", desc:"今の距離感と進め方を見る"},
-      {id:"reunion", name:"復縁", desc:"離れた相手との流れを見る"},
-      {id:"contact", name:"音信不通", desc:"連絡の流れを見る"},
-      {id:"marriage", name:"結婚", desc:"関係の先を整理する"}
-    ].map(function(t){
-      return "<button class=\"themeCard\" type=\"button\" data-theme-id=\""+t.id+"\"><span class=\"themeCardName\">"+t.name+"</span><span class=\"themeCardDesc\">"+t.desc+"</span><span class=\"themeCardBadge\">無料</span></button>";
-    }).join("");
+  <script>
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzSjdhPUH-aliY08WBqHkYOKx88lH_0zCc5QdyjzzltScTIUKaC59-bVGLremUzMe9U/exec";
+    var WEBHOOK_SECRET = "tarot-20260320-secret-9XkP7mL2";
 
-    document.querySelectorAll(".themeCard").forEach(function(btn){
-      btn.addEventListener("click", function(){
-        var state = loadState() || {};
-        state.themeId = btn.dataset.themeId;
-        state.v = 4;
-        saveState(state);
-        hide(step0);
-        show(step1);
-      });
-    });
-  }
+    var THEMES = [
+      { id:"復縁", desc:"離れた相手との流れを見ます" },
+      { id:"片想い", desc:"今の距離感と進め方を見ます" },
+      { id:"音信不通", desc:"連絡の流れを見ます" },
+      { id:"出会い", desc:"恋が動く時期を見ます" }
+    ];
 
-  function buildReading(cardKey, relKey){
-    var base = {
+    var CARD_TEXT = {
       A: {
-        now: "今は相手も様子見で、動きたくても慎重になりやすい時期です。",
-        past: "過去に気持ちのすれ違いか、温度差があったようです。",
-        future: "近いうちにやり取りが少しずつ戻る流れがあります。",
-        next: "結論を急がず、軽い接点を作ることが一番大事です。"
+        now:"今は相手も様子見で、動きたくても慎重になりやすい時期です。",
+        past:"過去に気持ちのすれ違いか、温度差があったようです。",
+        future:"近いうちにやり取りが少しずつ戻る流れがあります。",
+        next:"結論を急がず、軽い接点を作ることが一番大事です。"
       },
       B: {
-        now: "今は相手の中であなたの存在感が強まっています。",
-        past: "過去に安心感を与えた関係性が土台になっています。",
-        future: "流れが合えば、距離が縮まりやすいタイミングです。",
-        next: "自分から少しだけ柔らかい言葉を返すのが鍵です。"
+        now:"今は相手の中であなたの存在感が強まっています。",
+        past:"過去に安心感を与えた関係性が土台になっています。",
+        future:"流れが合えば、距離が縮まりやすいタイミングです。",
+        next:"自分から少しだけ柔らかい言葉を返すのが鍵です。"
       },
       C: {
-        now: "今は外側の動きより、心の整理が必要な時期です。",
-        past: "過去の不安が今の受け取り方に影響している可能性があります。",
-        future: "自分の本音が定まるほど、関係の見え方も変わります。",
-        next: "相手の気持ちを追う前に、自分がどうしたいかを整えてください。"
+        now:"今は外側の動きより、心の整理が必要な時期です。",
+        past:"過去の不安が今の受け取り方に影響している可能性があります。",
+        future:"自分の本音が定まるほど、関係の見え方も変わります。",
+        next:"相手の気持ちを追う前に、自分がどうしたいかを整えてください。"
       }
     };
 
-    return {
-      meta: {
-        relLabel: relKey || "恋愛",
-        themeLabel: ((THEMES[(loadState()||{}).themeId] || THEMES.default).name)
-      },
-      summary: {
-        now: { label:"現状", summary: base[cardKey].now },
-        past: { label:"過去", summary: base[cardKey].past },
-        future: { label:"未来（近未来）", summary: base[cardKey].future },
-        next: { label:"今後どうすればいいか", summary: base[cardKey].next }
-      }
-    };
-  }
+    function $(s){ return document.querySelector(s); }
+    function show(el){ if(el) el.classList.add("show"); }
+    function hide(el){ if(el) el.classList.remove("show"); }
 
-  function renderTendency(relKey){
-    metaLine.innerHTML = "関係性：<b>"+relKey+"</b>";
-    tendencyGrid.innerHTML = [
-      { h:"2人の空気（無料）", p:"今は無理に詰めるより、空気を見ながら距離を調整するのが良い時です。" },
-      { h:"この関係の勝ち筋（無料）", p:"感情をぶつけるより、相手が受け取りやすい形に整えることが大切です。" },
-      { h:"いま一番やるべきこと（無料）", p:"自分の不安を整理してから動くと、流れが安定しやすくなります。" }
-    ].map(function(it){
-      return "<div class=\"sec\"><h3>"+it.h+"</h3><p>"+it.p+"</p></div>";
-    }).join("");
-  }
-
-  function renderSummary(reading){
-    resultMeta.innerHTML = "テーマ：<b>"+reading.meta.themeLabel+"</b>／関係性：<b>"+reading.meta.relLabel+"</b>";
-    summaryGrid.innerHTML = [
-      reading.summary.now,
-      reading.summary.past,
-      reading.summary.future,
-      reading.summary.next
-    ].map(function(it){
-      return "<div class=\"sec\"><h3>"+it.label+"（結論）</h3><p>"+it.summary+"</p></div>";
-    }).join("");
-  }
-
-  startBtn.addEventListener("click", function(){
-    var relKey = rel.value;
-    bdYou.value = digitsOnly8(bdYou.value);
-    bdThem.value = digitsOnly8(bdThem.value);
-
-    var state = loadState() || {};
-    state.v = 4;
-    state.rel = relKey;
-    state.you = bdYou.value || "";
-    state.them = bdThem.value || "";
-    state.card = "";
-    state.ts = Date.now();
-    if(!state.themeId) state.themeId = "default";
-    saveState(state);
-
-    show(step2);
-    hide(step3);
-    hide(step4);
-    hide(step5);
-
-    setTimeout(function(){
-      renderTendency(relKey);
-      hide(step2);
-      show(step3);
-    }, 1000);
-  });
-
-  toCardsBtn.addEventListener("click", function(){
-    hide(step3);
-    show(step4);
-  });
-
-  cards.forEach(function(card){
-    card.addEventListener("click", function(){
-      var relKey = rel.value;
-      bdYou.value = digitsOnly8(bdYou.value);
-      bdThem.value = digitsOnly8(bdThem.value);
-
-      var cardKey = card.dataset.card;
-      var reading = buildReading(cardKey, relKey);
-
-      cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
-      card.setAttribute("aria-pressed","true");
-
-      var state = loadState() || {};
-      state.v = 4;
-      state.rel = relKey;
-      state.you = bdYou.value || "";
-      state.them = bdThem.value || "";
-      state.card = cardKey;
-      state.ts = Date.now();
-      if(!state.themeId) state.themeId = "default";
-      saveState(state);
-
-      renderSummary(reading);
-
-      var payload = makePayload({
-        theme: reading.meta.themeLabel,
-        rel: relKey,
-        you: bdYou.value || "",
-        them: bdThem.value || "",
-        result: {
-          now: reading.summary.now.summary,
-          past: reading.summary.past.summary,
-          future: reading.summary.future.summary,
-          next: reading.summary.next.summary
-        }
-      });
-
-      var code = makeCode(6);
-
-      oracleCodeEl.textContent = code;
-      codeBox.style.display = "block";
-      carryLinkWrap.style.display = "block";
-      carryLink.textContent = "発行中...";
-      payBtn.href = PAY_URL;
-
-      copyCodeBtn.onclick = function(){
-        navigator.clipboard.writeText(code).then(function(){
-          copyCodeBtn.textContent = "コピーしました";
-          setTimeout(function(){ copyCodeBtn.textContent = "コードをコピー"; }, 1200);
-        }).catch(function(){
-          alert("コピーできませんでした。コードを長押ししてコピーしてください。");
-        });
-      };
-
-      registerCodeToGAS({
-        code: code,
-        payload: payload
-      }).then(function(json){
-        if(!json.ok){
-          throw new Error(json.message || "保存失敗");
-        }
-        carryLink.textContent = json.resumeUrl || "取得できませんでした";
-      }).catch(function(err){
-        oracleCodeEl.textContent = "発行失敗";
-        carryLink.textContent = "取得できませんでした";
-        alert("コード発行に失敗しました: " + err.message);
-      });
-
-      show(step5);
-    });
-  });
-
-  copyLinkBtn.addEventListener("click", function(){
-    var t = carryLink.textContent || "";
-    navigator.clipboard.writeText(t).then(function(){
-      copyLinkBtn.textContent = "コピーしました";
-      setTimeout(function(){ copyLinkBtn.textContent = "引き継ぎリンクをコピー"; }, 1200);
-    }).catch(function(){
-      alert("コピーできませんでした。");
-    });
-  });
-
-  restartBtn.addEventListener("click", function(){
-    try{ localStorage.removeItem(STATE_KEY); }catch(e){}
-    cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
-    hide(step2); hide(step3); hide(step4); hide(step5);
-    show(step0); hide(step1);
-    renderThemeGrid();
-  });
-
-  reselectBtn.addEventListener("click", function(){
-    cards.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
-    hide(step5);
-    show(step4);
-  });
-
-  renderThemeGrid();
-
-  var saved = loadState();
-  if(saved && saved.v === 4 && saved.themeId){
-    rel.value = saved.rel || "片想い";
-    bdYou.value = saved.you || "";
-    bdThem.value = saved.them || "";
-
-    if(!saved.card){
-      hide(step0);
-      show(step1);
-    } else {
-      hide(step0);
-      show(step1);
-      renderTendency(saved.rel || "片想い");
-      show(step3);
-      show(step4);
+    function makeCode(len){
+      len = len || 6;
+      var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      var out = "";
+      var arr = new Uint32Array(len);
+      crypto.getRandomValues(arr);
+      for(var i=0;i<len;i++) out += chars[arr[i] % chars.length];
+      return out;
     }
-  } else {
-    hide(step1); hide(step2); hide(step3); hide(step4); hide(step5);
-    show(step0);
-  }
-</script>
+
+    function makePayload(data){
+      return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    }
+
+    function registerCodeToGAS(obj){
+      return fetch(GAS_URL, {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          secret: WEBHOOK_SECRET,
+          action: "registerCode",
+          code: obj.code,
+          payload: obj.payload
+        })
+      }).then(function(res){
+        return res.json();
+      });
+    }
+
+    function renderThemes(){
+      var grid = $("#themeGrid");
+      grid.innerHTML = THEMES.map(function(t){
+        return '<button class="themeCard" type="button" data-theme="'+t.id+'"><div class="themeCardName">'+t.id+'</div><div class="themeCardDesc">'+t.desc+'</div></button>';
+      }).join("");
+
+      document.querySelectorAll(".themeCard").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          window.selectedTheme = btn.dataset.theme;
+          hide($("#step0"));
+          show($("#step1"));
+        });
+      });
+    }
+
+    $("#startBtn").addEventListener("click", function(){
+      hide($("#step1"));
+      show($("#step2"));
+
+      setTimeout(function(){
+        var rel = $("#rel").value;
+        $("#metaLine").innerHTML = "テーマ：<b>" + (window.selectedTheme || "恋愛") + "</b> ／ 関係性：<b>" + rel + "</b>";
+        $("#tendencyGrid").innerHTML =
+          '<div class="sec"><h3>2人の空気</h3><p>今は相手の反応を急がず、関係の温度を見極める時です。</p></div>' +
+          '<div class="sec"><h3>この関係の勝ち筋</h3><p>押しすぎず、でも完全に引かない距離感が大切です。</p></div>' +
+          '<div class="sec"><h3>今やるべきこと</h3><p>まずは自分の本音を整理することが流れを変えます。</p></div>';
+        hide($("#step2"));
+        show($("#step3"));
+      }, 1000);
+    });
+
+    $("#toCardsBtn").addEventListener("click", function(){
+      hide($("#step3"));
+      show($("#step4"));
+    });
+
+    document.querySelectorAll(".tcard").forEach(function(card){
+      card.addEventListener("click", function(){
+        document.querySelectorAll(".tcard").forEach(function(c){ c.setAttribute("aria-pressed", "false"); });
+        card.setAttribute("aria-pressed", "true");
+
+        var key = card.dataset.card;
+        var reading = CARD_TEXT[key];
+        var rel = $("#rel").value;
+        var theme = window.selectedTheme || "恋愛鑑定";
+
+        $("#resultMeta").innerHTML = "テーマ：<b>" + theme + "</b> ／ 関係性：<b>" + rel + "</b>";
+        $("#summaryGrid").innerHTML =
+          '<div class="sec"><h3>現状</h3><p>' + reading.now + '</p></div>' +
+          '<div class="sec"><h3>過去</h3><p>' + reading.past + '</p></div>' +
+          '<div class="sec"><h3>未来（近未来）</h3><p>' + reading.future + '</p></div>' +
+          '<div class="sec"><h3>今後どうすればいいか</h3><p>' + reading.next + '</p></div>';
+
+        hide($("#step4"));
+        show($("#step5"));
+
+        var code = makeCode(6);
+        var payload = makePayload({
+          name: "相談者",
+          theme: theme,
+          rel: rel,
+          birthSelf: $("#bdYou").value || "",
+          birthPartner: $("#bdThem").value || "",
+          freeResult: {
+            now: reading.now,
+            past: reading.past,
+            future: reading.future,
+            next: reading.next
+          }
+        });
+
+        $("#oracleCode").textContent = code;
+        $("#carryLink").textContent = "発行中...";
+
+        $("#copyCodeBtn").onclick = function(){
+          navigator.clipboard.writeText(code).then(function(){
+            $("#copyCodeBtn").textContent = "コピーしました";
+            setTimeout(function(){ $("#copyCodeBtn").textContent = "コードをコピー"; }, 1200);
+          }).catch(function(){
+            alert("コピーできませんでした。");
+          });
+        };
+
+        registerCodeToGAS({
+          code: code,
+          payload: payload
+        }).then(function(json){
+          if(!json.ok){
+            throw new Error(json.message || "保存失敗");
+          }
+          $("#carryLink").textContent = json.resumeUrl || "取得できませんでした";
+        }).catch(function(err){
+          $("#oracleCode").textContent = "発行失敗";
+          $("#carryLink").textContent = "取得できませんでした";
+          alert("コード発行に失敗しました: " + err.message);
+        });
+      });
+    });
+
+    $("#restartBtn").addEventListener("click", function(){
+      hide($("#step2"));
+      hide($("#step3"));
+      hide($("#step4"));
+      hide($("#step5"));
+      show($("#step0"));
+    });
+
+    renderThemes();
+  </script>
+</body>
+</html>
