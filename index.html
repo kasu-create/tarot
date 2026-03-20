@@ -383,18 +383,18 @@
     }
 
     function registerCodeToGAS(obj){
-      return new Promise(function(resolve){
-        var url = GAS_URL
-          + "?action=registerCodeGet"
-          + "&secret=" + encodeURIComponent(WEBHOOK_SECRET)
-          + "&code=" + encodeURIComponent(obj.code)
-          + "&payload=" + encodeURIComponent(obj.payload)
-          + "&_=" + Date.now();
+      var url = GAS_URL
+        + "?action=registerCodeGet"
+        + "&secret=" + encodeURIComponent(WEBHOOK_SECRET)
+        + "&code=" + encodeURIComponent(obj.code)
+        + "&payload=" + encodeURIComponent(obj.payload)
+        + "&_=" + Date.now();
 
-        var img = new Image();
-        img.onload = function(){ resolve({ ok: true }); };
-        img.onerror = function(){ resolve({ ok: true }); };
-        img.src = url;
+      return fetch(url, {
+        method: "GET",
+        mode: "cors"
+      }).then(function(res){
+        return res.json();
       });
     }
 
@@ -470,7 +470,7 @@
         });
 
         $("#oracleCode").textContent = code;
-        $("#carryLink").textContent = "https://kasu-create.github.io/tarot/continue.html?code=" + encodeURIComponent(code);
+        $("#carryLink").textContent = "発行中...";
 
         $("#copyCodeBtn").onclick = function(){
           navigator.clipboard.writeText(code).then(function(){
@@ -484,6 +484,15 @@
         registerCodeToGAS({
           code: code,
           payload: payload
+        }).then(function(json){
+          if(!json.ok){
+            throw new Error(json.message || "保存失敗");
+          }
+          $("#carryLink").textContent = json.resumeUrl || ("https://kasu-create.github.io/tarot/continue.html?code=" + encodeURIComponent(code));
+        }).catch(function(err){
+          $("#oracleCode").textContent = "発行失敗";
+          $("#carryLink").textContent = "取得できませんでした";
+          alert("コード発行に失敗しました: " + err.message);
         });
       });
     });
