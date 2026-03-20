@@ -385,7 +385,7 @@
     function registerCodeToGAS(obj){
       return fetch(GAS_URL, {
         method: "POST",
-        mode: "cors",
+        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           secret: WEBHOOK_SECRET,
@@ -393,8 +393,8 @@
           code: obj.code,
           payload: obj.payload
         })
-      }).then(function(res){
-        return res.json();
+      }).then(function(){
+        return { ok: true };
       });
     }
 
@@ -470,7 +470,7 @@
         });
 
         $("#oracleCode").textContent = code;
-        $("#carryLink").textContent = "発行中...";
+        $("#carryLink").textContent = "https://kasu-create.github.io/tarot/continue.html?code=" + encodeURIComponent(code);
 
         $("#copyCodeBtn").onclick = function(){
           navigator.clipboard.writeText(code).then(function(){
@@ -484,15 +484,8 @@
         registerCodeToGAS({
           code: code,
           payload: payload
-        }).then(function(json){
-          if(!json.ok){
-            throw new Error(json.message || "保存失敗");
-          }
-          $("#carryLink").textContent = json.resumeUrl || "取得できませんでした";
         }).catch(function(err){
-          $("#oracleCode").textContent = "発行失敗";
-          $("#carryLink").textContent = "取得できませんでした";
-          alert("コード発行に失敗しました: " + err.message);
+          console.log("register error", err);
         });
       });
     });
