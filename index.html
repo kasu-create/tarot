@@ -4,23 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>無料鑑定｜恋愛オラクル</title>
-  <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は4テーマまで体験できます。" />
+  <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は複数テーマから体験できます。" />
   <style>
     :root{
       --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 42%,#ffeaf2 100%);
-      --paper: linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,247,252,.98));
+      --paper: linear-gradient(145deg,rgba(255,255,255,.95),rgba(255,247,252,.99));
       --ink:#241d22;
       --muted:#6f636a;
       --accent:#ff6ba5;
       --accent2:#ff9bc8;
       --line:#f0d6e2;
-      --soft:#fff9fc;
-      --lock:#c5b4bd;
       --shadow:0 18px 40px rgba(210,140,180,.25);
       --softShadow:0 10px 24px rgba(0,0,0,.08);
       --r-xl:32px;
       --r-lg:24px;
-      --r-md:18px;
     }
 
     *{ box-sizing:border-box; }
@@ -65,21 +62,21 @@
 
     h1{
       margin:0 0 8px;
-      font-size:26px;
-      line-height:1.45;
+      font-size:28px;
+      line-height:1.5;
     }
 
     .sub{
       margin:0 0 16px;
-      font-size:15px;
+      font-size:17px;
       color:var(--muted);
-      line-height:1.85;
+      line-height:1.95;
     }
 
     .panel{
       display:none;
       margin-top:14px;
-      background:rgba(255,255,255,.96);
+      background:rgba(255,255,255,.97);
       border:1px solid rgba(255,210,232,.92);
       border-radius:var(--r-lg);
       box-shadow:var(--softShadow);
@@ -90,9 +87,10 @@
 
     .panelTitle{
       margin:0 0 10px;
-      font-size:17px;
+      font-size:20px;
       font-weight:1000;
       color:#2a1f25;
+      line-height:1.6;
     }
 
     .themeGrid{
@@ -109,7 +107,7 @@
       background:#fff;
       border:1px solid rgba(240,210,228,.95);
       box-shadow:var(--softShadow);
-      padding:14px 12px;
+      padding:16px 14px;
       text-align:left;
       cursor:pointer;
       transition:transform .18s ease, box-shadow .18s ease;
@@ -133,14 +131,15 @@
     }
 
     .themeName{
-      font-size:16px;
+      font-size:18px;
       font-weight:1000;
       margin:0 0 6px;
+      line-height:1.5;
     }
 
     .themeDesc{
-      font-size:13px;
-      line-height:1.65;
+      font-size:14px;
+      line-height:1.8;
       color:var(--muted);
       margin:0;
     }
@@ -185,6 +184,17 @@
       border-radius:999px;
     }
 
+    .lockMessage{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background:#fff7fb;
+      border:1px solid #f1cadc;
+      color:#7a445f;
+      font-size:14px;
+      line-height:1.9;
+    }
+
     .form{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -203,30 +213,30 @@
     }
 
     label{
-      font-size:13px;
+      font-size:14px;
       font-weight:1000;
       color:#44323a;
     }
 
     input,select,textarea{
       width:100%;
-      padding:11px 12px;
+      padding:12px 13px;
       border-radius:12px;
       border:1px solid #f0cde2;
       background:#fff;
-      font-size:14px;
+      font-size:16px;
       color:#2d2329;
     }
 
     textarea{
-      min-height:110px;
+      min-height:120px;
       resize:vertical;
     }
 
     .hint{
-      font-size:12px;
+      font-size:13px;
       color:var(--muted);
-      line-height:1.65;
+      line-height:1.75;
     }
 
     .actions{
@@ -241,16 +251,16 @@
       align-items:center;
       justify-content:center;
       gap:8px;
-      padding:12px 16px;
+      padding:13px 18px;
       border:none;
       border-radius:999px;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       color:#fff;
       text-decoration:none;
-      font-size:13px;
+      font-size:15px;
       font-weight:1000;
       cursor:pointer;
-      min-height:44px;
+      min-height:46px;
     }
 
     .btn.ghost{
@@ -286,26 +296,27 @@
     .summaryGrid{
       display:grid;
       grid-template-columns:1fr;
-      gap:10px;
+      gap:12px;
       margin-top:10px;
     }
 
     .summaryBox{
       border:1px dashed #efc2de;
       background:linear-gradient(120deg,#fff7fc,#fffdfc);
-      border-radius:16px;
-      padding:12px;
+      border-radius:18px;
+      padding:16px 14px;
     }
 
     .summaryBox h3{
-      margin:0 0 6px;
-      font-size:14px;
+      margin:0 0 8px;
+      font-size:19px;
+      line-height:1.5;
     }
 
     .summaryBox p{
       margin:0;
-      font-size:14px;
-      line-height:1.9;
+      font-size:17px;
+      line-height:2;
       white-space:pre-wrap;
       color:#31252d;
     }
@@ -343,25 +354,27 @@
     }
 
     .resultHero{
-      border-radius:20px;
+      border-radius:24px;
       border:1px solid #f1d3e3;
-      background:linear-gradient(135deg,#fff1f8,#fff8fc);
-      padding:16px;
-      margin-bottom:14px;
+      background:linear-gradient(135deg,#fff0f7,#fff8fc);
+      padding:18px 16px;
+      margin-bottom:16px;
     }
 
     .resultHeroTitle{
-      margin:0 0 8px;
-      font-size:18px;
+      margin:0 0 10px;
+      font-size:22px;
+      line-height:1.5;
       color:#8b4366;
       font-weight:1000;
     }
 
     .resultHeroText{
       margin:0;
-      line-height:1.9;
+      line-height:2;
       color:#503844;
       white-space:pre-wrap;
+      font-size:17px;
     }
 
     .toolGrid{
@@ -381,34 +394,33 @@
 
     .toolCard h3{
       margin:0 0 8px;
-      font-size:16px;
+      font-size:19px;
+      line-height:1.5;
     }
 
     .toolCard p{
-      margin:0 0 12px;
-      font-size:14px;
-      line-height:1.8;
+      margin:0 0 14px;
+      font-size:16px;
+      line-height:1.95;
       color:#5b4752;
-    }
-
-    .lockMessage{
-      margin-top:12px;
-      padding:12px;
-      border-radius:16px;
-      background:#fff7fb;
-      border:1px solid #f1cadc;
-      color:#7a445f;
-      font-size:13px;
-      line-height:1.8;
     }
 
     @media (max-width:768px){
       body{ padding:12px 8px 24px; }
       .page{ padding:16px 12px 22px; border-radius:24px; }
-      h1{ font-size:22px; }
+      h1{ font-size:23px; }
+      .sub{ font-size:16px; }
+      .panelTitle{ font-size:19px; }
       .form{ grid-template-columns:1fr; }
       .cards{ gap:8px; }
       .cardBtn{ min-width:92px; }
+      .resultHeroTitle{ font-size:21px; }
+      .resultHeroText{ font-size:17px; }
+      .summaryBox h3{ font-size:18px; }
+      .summaryBox p{ font-size:16.5px; }
+      .toolCard h3{ font-size:18px; }
+      .toolCard p{ font-size:16px; }
+      .btn{ font-size:14px; }
     }
   </style>
 </head>
@@ -417,7 +429,7 @@
     <div class="chip"><span class="dot"></span>無料版テーマあり</div>
     <h1>今の恋愛の流れを、テーマ別に無料で整理できます。</h1>
     <p class="sub">
-      無料版では4テーマまで体験できます。  
+      無料版では5テーマを体験できます。  
       それ以外のテーマはロック表示にしてあるので、あとから追加しやすい構成です。
     </p>
 
@@ -447,20 +459,10 @@
           <input id="timing" placeholder="例：連絡が来るか、進展するか" />
         </div>
 
-        <div class="field">
-          <label for="bdYou">あなたの生年月日</label>
-          <input id="bdYou" inputmode="numeric" maxlength="8" placeholder="例：19990101" />
-        </div>
-
-        <div class="field">
-          <label for="bdThem">お相手の生年月日</label>
-          <input id="bdThem" inputmode="numeric" maxlength="8" placeholder="不明なら空欄" />
-        </div>
-
         <div class="field full">
           <label for="memo">補足メモ</label>
           <textarea id="memo" placeholder="最近の状況や気になることがあれば自由に入力"></textarea>
-          <div class="hint">ここに書いた内容は画面の結果づくりに使います。送信はされません。</div>
+          <div class="hint">生年月日は今の版では使っていないので外してあります。今後必要ならまた足せます。</div>
         </div>
       </div>
 
@@ -517,15 +519,15 @@
 
       <div class="toolGrid">
         <div class="toolCard">
-          <h3>お悩み相談ツール</h3>
-          <p>今の悩みを整理したい時は、こちらの相談ページから続けて確認できます。</p>
+          <h3>お悩み相談はこちら</h3>
+          <p>いまの気持ちを整理したい時は、こちらの相談ツールから悩みを言葉にして進められます。</p>
           <a class="btn" href="http://192.168.0.231:8501/" target="_blank" rel="noopener noreferrer">お悩み相談へ進む</a>
         </div>
 
         <div class="toolCard">
-          <h3>ストアーズ</h3>
-          <p>より深いメニューや今後追加していくサービスは、こちらから確認できます。</p>
-          <a class="btn" href="https://lp8hnyu9ebgefokdjdyh.stores.jp/" target="_blank" rel="noopener noreferrer">STORESを見る</a>
+          <h3>さらに深掘りしたい方はこちら</h3>
+          <p>もっと詳しく見たい方、今後のメニューや案内を確認したい方は、こちらから進めます。</p>
+          <a class="btn" href="https://lp8hnyu9ebgefokdjdyh.stores.jp/" target="_blank" rel="noopener noreferrer">深掘りメニューを見る</a>
         </div>
       </div>
 
@@ -536,16 +538,12 @@
   </main>
 
   <script>
-    /*
-      テーマ追加はここだけ増やせばOKです。
-      free: true なら無料表示
-      free: false ならロック表示
-    */
     var THEMES = [
       { id: "crush", name: "片想い", desc: "今の距離感と進め方を見ます", free: true },
       { id: "reunion", name: "復縁", desc: "離れた相手との流れを見ます", free: true },
       { id: "silent", name: "音信不通", desc: "連絡の流れや再接点を見ます", free: true },
       { id: "encounter", name: "出会い", desc: "新しい恋の入り口を見ます", free: true },
+      { id: "lover", name: "恋人関係", desc: "今の関係の深まり方を見ます", free: true },
 
       { id: "marriage", name: "結婚", desc: "関係の先と現実面を整理します", free: false },
       { id: "triangle", name: "複雑恋愛", desc: "言いにくい関係性の流れを見ます", free: false },
@@ -556,55 +554,127 @@
     var THEME_TEXT = {
       crush: {
         overview: [
-          { title: "今の空気", text: "相手は完全に無関心というより、様子を見ながら距離を測っている状態です。" },
-          { title: "進みやすい形", text: "強く動くより、相手が返しやすい軽めの接点が流れを作ります。" },
-          { title: "無料版の見どころ", text: "今は押す時か待つ時か、その見極めを中心に整理します。" }
-        ]
+          { title: "今の空気", text: "相手は完全に無関心というより、様子を見ながら距離を測っている状態です。気持ちがゼロというより、まだはっきり動くほど材料が揃っていないように見えます。" },
+          { title: "進みやすい形", text: "強く動くより、相手が返しやすい軽めの接点が流れを作ります。会話の重さを下げるほど、関係の空気はやわらかくなりやすいです。" },
+          { title: "無料版の見どころ", text: "今は押す時か待つ時か、その見極めを中心に整理します。無理に距離を詰めるより、どんな温度感が合うかを確認していきます。" }
+        ],
+        patterns: {
+          A: {
+            self: "お相手のことを強く想っている一方で、「自分ばかり好きなのかも」と不安を感じている様子が出ていますね。少しの反応や言葉に一喜一憂してしまい、気持ちが揺れやすくなっているようです。でもそれだけ真剣に想っている証拠でもあります。",
+            partner: "あなたに対して好印象はしっかりあるものの、まだ恋愛としてはっきり意識していない可能性があります。「一緒にいると楽しい」「話しやすい」という気持ちはあるので、これから関係が深まる余地は十分にありそうです。",
+            advice: "今は焦って距離を縮めるより、「自然な関係づくり」を意識するのがポイントです。笑顔やちょっとした会話を積み重ねることで、相手の中であなたの存在が少しずつ大きくなっていきます。"
+          },
+          B: {
+            self: "「この恋を進めたい」という前向きな気持ちと、「傷つきたくない」というブレーキの気持ちが混ざっているようです。積極的になりたいのに、一歩踏み出す勇気が出ない、そんな繊細な状態が感じられますね。",
+            partner: "お相手はあなたに対して興味や関心を持っている可能性があります。ただし、まだ様子を見ている段階で、自分から強く動くほどの確信は持っていないようです。あなたの出方を少し見ている印象があります。",
+            advice: "ここは少しだけ勇気を出して、「わかりやすい好意」を見せていくことが大切です。褒める、リアクションをしっかりするなど、小さなアクションでも十分です。"
+          },
+          C: {
+            self: "お相手への想いが深くなっている一方で、「このまま進展しないのでは？」という不安や焦りも出てきているようです。好きだからこそ、現状に満足できず、次のステップを求めている状態ですね。",
+            partner: "お相手はあなたに対して安心感や信頼を感じている可能性が高いです。ただ、その居心地の良さに甘えてしまい、恋愛として進める意識が少しゆっくりになっているかもしれません。",
+            advice: "関係を進めるには、「少しだけ変化」を加えることが鍵になります。いつもと違う一面を見せたり、軽く特別感のある誘いをしてみるのも効果的です。"
+          }
+        }
       },
+
       reunion: {
         overview: [
-          { title: "今の空気", text: "過去の印象は残っていても、相手は慎重に距離を取っている可能性があります。" },
-          { title: "進みやすい形", text: "感情のぶつけ直しより、安心感を取り戻す流れが大切です。" },
-          { title: "無料版の見どころ", text: "復縁の可能性より先に、今の接点の作り方を整理します。" }
-        ]
+          { title: "今の空気", text: "過去の印象は残っていても、相手は慎重に距離を取っている可能性があります。嫌いだから離れているというより、関わり方を迷っている場合もあります。" },
+          { title: "進みやすい形", text: "感情のぶつけ直しより、安心感を取り戻す流れが大切です。過去を蒸し返すより、今の空気を整える方が復縁にはつながりやすいです。" },
+          { title: "無料版の見どころ", text: "復縁の可能性より先に、今の接点の作り方を整理します。戻るかどうかではなく、戻りやすい空気を作れるかを見る流れです。" }
+        ],
+        patterns: {
+          A: {
+            self: "まだお相手への気持ちが強く残っていて、「もう一度やり直したい」という想いが中心にあるようです。ただ同時に、過去の出来事を思い出して不安になったり、自信を持ちきれない部分も見えています。",
+            partner: "お相手もあなたとの関係を完全に忘れたわけではなく、時々思い出している可能性があります。ただ今は気持ちを整理している段階で、すぐに戻るというより慎重になっている様子です。",
+            advice: "今は「復縁を迫る」よりも、「自然な関係の再構築」を意識しましょう。軽い連絡や共通の話題から距離を縮めることで、ゆっくりと流れが戻ってきます。"
+          },
+          B: {
+            self: "復縁したい気持ちはあるものの、「本当に戻っていいのかな」と迷いも出ている状態です。寂しさと理性の間で揺れているような印象があります。",
+            partner: "お相手はすでに少し気持ちの整理が進んでいて、前に進もうとしている可能性があります。ただし、あなたへの印象が悪いわけではなく、タイミング次第で再び関係が動く余地は残っています。",
+            advice: "一度しっかり距離を取ることが大切なタイミングです。その間に自分を整えることで、再会した時に新しい魅力として伝わります。焦らないことが近道です。"
+          },
+          C: {
+            self: "「やっぱりこの人しかいない」という確信に近い想いがあり、気持ちはかなり固まっているようです。その分、現状が動かないことへのもどかしさも強くなっています。",
+            partner: "お相手もあなたとの関係に未練や情を感じている可能性があります。ただ、過去の問題が引っかかっていて、踏み出せずにいる状態かもしれません。",
+            advice: "復縁の鍵は「過去の改善」です。同じ関係に戻るのではなく、新しい関係を作る意識を持ちましょう。具体的な変化を見せるほど、相手の気持ちも動きやすくなります。"
+          }
+        }
       },
+
       silent: {
         overview: [
-          { title: "今の空気", text: "連絡が止まっている時ほど、表面より相手の事情や心の余白が影響します。" },
-          { title: "進みやすい形", text: "動くにしても、重さより自然さが鍵になります。" },
-          { title: "無料版の見どころ", text: "焦って追うより、戻りやすい流れをどう作るかを見ます。" }
-        ]
+          { title: "今の空気", text: "連絡が止まっている時ほど、表面より相手の事情や心の余白が影響します。見えていない理由があるからこそ、焦って追いすぎないことが重要です。" },
+          { title: "進みやすい形", text: "動くにしても、重さより自然さが鍵になります。返事を迫るより、相手が受け取りやすい軽さの方が流れを戻しやすくなります。" },
+          { title: "無料版の見どころ", text: "焦って追うより、戻りやすい流れをどう作るかを見ます。止まっている理由を責めるより、接点を置き直す視点が大切です。" }
+        ],
+        patterns: {
+          A: {
+            self: "連絡が来ないことで不安や寂しさが大きくなり、「嫌われたのかも」とネガティブに考えてしまっているようです。気持ちが相手中心になりすぎている状態かもしれません。",
+            partner: "お相手はあなたを避けているというより、自分のことで余裕がなくなっている可能性があります。恋愛よりも優先していることがある印象です。",
+            advice: "今は無理に動かず、少し距離を置くことが大切です。あなた自身の時間を充実させることで、自然と流れが変わっていきます。"
+          },
+          B: {
+            self: "「どうして連絡がないの？」という疑問と不満が少しずつ積み重なっているようです。相手を信じたい気持ちと疑う気持ちが混ざっています。",
+            partner: "お相手は連絡を後回しにしてしまうタイプで、悪気はないものの優先順位が下がっている可能性があります。深刻に考えていないケースもありそうです。",
+            advice: "一度、軽いトーンで連絡を入れてみるのも有効です。ただし重い内容は避けること。相手が返信しやすい空気を作ることがポイントです。"
+          },
+          C: {
+            self: "待ち続けることに少し疲れを感じ始めていて、「このままでいいのかな」と冷静に考え始めている状態です。気持ちに変化が出てきています。",
+            partner: "お相手は距離を置くことで関係を曖昧にしている可能性があります。はっきりさせる勇気がなく、自然消滅のような流れにしている場合もありそうです。",
+            advice: "ここは「自分の幸せ基準」で考えることが大切です。待つか手放すか、あなた主体で選びましょう。状況を変えるのはあなたの決断です。"
+          }
+        }
       },
+
       encounter: {
         overview: [
-          { title: "今の空気", text: "恋愛運そのものより、出会いを受け取る姿勢が変化の入口になっています。" },
-          { title: "進みやすい形", text: "自分の軸を整えるほど、相性の良い相手が見えやすくなります。" },
-          { title: "無料版の見どころ", text: "出会いの有無だけでなく、どんな流れで恋が動くかを整理します。" }
-        ]
-      }
-    };
+          { title: "今の空気", text: "恋愛運そのものより、出会いを受け取る姿勢が変化の入口になっています。いまは環境よりも、自分の心の向きが流れを左右しやすい時期です。" },
+          { title: "進みやすい形", text: "自分の軸を整えるほど、相性の良い相手が見えやすくなります。焦って数を追うより、気持ちの輪郭をはっきりさせる方が出会いの質は上がります。" },
+          { title: "無料版の見どころ", text: "出会いの有無だけでなく、どんな流れで恋が動くかを整理します。新しい恋が入る余白があるかどうかも大切な視点です。" }
+        ],
+        patterns: {
+          A: {
+            self: "「いい出会いが欲しい」という前向きな気持ちがありつつも、どこか受け身になっている様子が見えます。タイミングを待っている状態ですね。",
+            partner: "まだ特定の相手は現れていないものの、あなたに興味を持つ人が近くに現れ始めている流れがあります。気づいていないご縁がありそうです。",
+            advice: "行動範囲を少し広げることが鍵になります。新しい場所や人との関わりを増やすことで、出会いのチャンスが一気に広がります。"
+          },
+          B: {
+            self: "恋愛に対して前向きではあるものの、「また傷つくのは嫌だな」という慎重さも感じられます。心を守りながら進もうとしている状態です。",
+            partner: "これから出会う相手は、あなたに対して安心感や落ち着きを求めているタイプの可能性があります。派手さよりも安定を重視するご縁です。",
+            advice: "無理に理想を追いすぎず、「一緒にいて楽な人」を大切にしましょう。自然体でいられる関係が、長く続くご縁につながります。"
+          },
+          C: {
+            self: "恋愛に対するモチベーションが高まり、「次こそはいい恋をしたい」という意欲がしっかり出ています。行動する準備が整っている状態です。",
+            partner: "これから出会う相手は、あなたに強く惹かれる可能性があります。比較的早い段階で好意を示してくるタイプかもしれません。",
+            advice: "チャンスが来たら迷わず動くことが大切です。直感を信じて大丈夫です。スピード感のある恋が始まる可能性があります。"
+          }
+        }
+      },
 
-    var CARD_RESULTS = {
-      A: {
-        tone: "慎重に整える流れ",
-        now: "今は感情を一気に動かすより、相手も自分も落ち着いて見ている時期です。",
-        past: "過去のすれ違いや温度差が、まだ少しだけ今の反応に影響しています。",
-        future: "近いうちに小さなきっかけから流れが戻りやすい兆しがあります。",
-        next: "結論を急がず、まずは相手が受け取りやすい形で接点を作ることが大切です。"
-      },
-      B: {
-        tone: "関係がやわらかく動く流れ",
-        now: "今は見えないところで相手の中の印象が少しずつ育っています。",
-        past: "過去のやり取りの中に、相手が安心していた感覚が残っています。",
-        future: "タイミングが合えば、思ったより自然に距離が縮まりやすい流れです。",
-        next: "重さよりも親しみやすさを優先すると、相手の反応が変わりやすくなります。"
-      },
-      C: {
-        tone: "気持ちの整理が先に必要な流れ",
-        now: "今は外側の変化より、自分の本音や不安の整理が重要な段階です。",
-        past: "過去の傷つきや迷いが、今の受け取り方に少し影響しているようです。",
-        future: "自分の気持ちが整うほど、関係の見え方も自然に変わっていきます。",
-        next: "相手を追う前に、自分が本当に望む形を明確にすることが流れを安定させます。"
+      lover: {
+        overview: [
+          { title: "今の空気", text: "関係は続いていても、気持ちの見え方や温度差が気になりやすい時期です。安定しているからこそ、言葉にされない部分が不安につながることもあります。" },
+          { title: "進みやすい形", text: "無理に答えを迫るより、お互いが安心して本音を出せる空気を作ることが大切です。責めるより共有する姿勢が流れを整えます。" },
+          { title: "無料版の見どころ", text: "関係の土台はどうなっているのか、今どこでズレやすいのか、そして今後どう深めていけるのかを見ます。" }
+        ],
+        patterns: {
+          A: {
+            self: "お相手のことが大切だからこそ、「もっと愛されたい」「もっと気持ちを見せてほしい」と感じているようです。関係は続いていても、どこか物足りなさや不安が出やすくなっている時かもしれません。",
+            partner: "お相手はあなたとの関係に安心感を抱いていて、そばにいることを自然な幸せとして感じているようです。ただ、その安心感があるぶん、気持ちを言葉や態度でしっかり表すことが少なくなっている可能性があります。",
+            advice: "不安を我慢しすぎず、素直な気持ちをやわらかく伝えてみましょう。責める言い方ではなく、「こうしてくれたら嬉しい」と伝えることで、相手も応えやすくなります。"
+          },
+          B: {
+            self: "今の関係を大事にしたい気持ちは強いものの、少し疲れや迷いも出てきているようです。「私ばかり頑張っていないかな」と感じる場面があるのかもしれませんね。",
+            partner: "お相手はあなたに対してしっかり気持ちはあるものの、今は恋愛以外のことで頭がいっぱいになっている可能性があります。気持ちが冷めたというより、余裕がなくなっている状態に近そうです。",
+            advice: "今は無理に答えを求めるより、少し心の余白を作ることが大切です。相手に合わせすぎず、自分の時間も充実させることで、関係のバランスが整いやすくなります。"
+          },
+          C: {
+            self: "お相手との未来をしっかり考え始めていて、「このまま長く一緒にいたい」という想いが強くなっているようです。だからこそ、関係をもっと安定させたい気持ちが出ていますね。",
+            partner: "お相手もあなたを大切な存在として見ている可能性が高いです。安心感や信頼が育っていて、関係そのものには前向きな気持ちがあるでしょう。ただ、将来については慎重に考えたいタイプかもしれません。",
+            advice: "将来の話をする時は、重くなりすぎない自然な流れを意識しましょう。小さな価値観の共有を重ねることで、お互いの未来像が少しずつ重なっていきます。"
+          }
+        }
       }
     };
 
@@ -668,11 +738,8 @@
     }
 
     function renderOverview(){
-      var list = (THEME_TEXT[state.themeId] && THEME_TEXT[state.themeId].overview) || [
-        { title: "今の空気", text: "今は全体の流れを落ち着いて見極める時期です。" },
-        { title: "進みやすい形", text: "感情よりも整ったやり取りが鍵になります。" },
-        { title: "無料版の見どころ", text: "今の状況と今後の一手を整理します。" }
-      ];
+      var themeData = THEME_TEXT[state.themeId];
+      var list = themeData ? themeData.overview : [];
 
       $("#overviewGrid").innerHTML = list.map(function(item){
         return [
@@ -685,28 +752,47 @@
     }
 
     function renderFinal(cardKey){
-      var reading = CARD_RESULTS[cardKey];
-      var finalLead = [
-        "テーマ: " + state.themeName,
-        "関係性: " + state.rel,
-        state.timing ? "いま気になること: " + state.timing : "",
-        "",
-        "今回のカードは「" + reading.tone + "」を示しています。"
-      ].filter(Boolean).join("\n");
+      var themeData = THEME_TEXT[state.themeId];
+      var pattern = themeData.patterns[cardKey];
+
+      var introLines = [
+        "テーマは「" + state.themeName + "」、関係性は「" + state.rel + "」で見た時、今回のカードはこの恋の流れをゆっくり映し出しています。"
+      ];
+
+      if (state.timing) {
+        introLines.push("特にあなたが気にしている「" + state.timing + "」については、今すぐ白黒をつけるより、相手との温度差や空気の流れを丁寧に見ることが大切なタイミングです。");
+      }
+
+      if (state.memo) {
+        introLines.push("また、入力してくれた内容から見ると、「" + state.memo + "」という気がかりの中にも、今の迷いや期待、そして本当はどうしたいかという本音がにじんでいます。");
+      }
+
+      introLines.push("ここでは無料版として、あなたの気持ち、お相手の気持ち、これから意識したい動き方、そして今回の補足まで順番に整理していきます。");
 
       $("#finalTitle").textContent = state.themeName + "の無料鑑定結果";
-      $("#finalLead").textContent = finalLead;
+      $("#finalLead").textContent = introLines.join("\n\n");
 
-      var extras = state.memo
-        ? "補足メモから見ると、「" + state.memo + "」という気がかりは、すぐ答えを出すより流れを整えていく方が合っています。"
-        : "今は気持ちを急いで決めるより、流れを見ながら一手ずつ整える方が結果につながりやすいです。";
+      var selfText =
+        pattern.self +
+        "\n\n今のあなたは、好きだからこそ心が揺れやすくなっているようです。けれど、その揺れは弱さではなく、ちゃんと相手と向き合おうとしている真剣さの表れでもあります。";
+
+      var partnerText =
+        pattern.partner +
+        "\n\n相手の気持ちは言葉や態度ですべて見えるわけではありません。だからこそ、今は一つの反応だけで決めつけず、全体の流れの中で見ていくことが大切です。";
+
+      var adviceText =
+        pattern.advice +
+        "\n\nすぐに大きな結果を求めるよりも、今の流れに合った小さな行動を積み重ねていくことが、この恋を動かす近道になります。";
+
+      var extraText = state.memo
+        ? "今回の入力内容を見る限り、あなたはかなり真剣にこの状況と向き合っています。だからこそ、気持ちが先走ったり、早く答えが欲しくなったりする瞬間もあるかもしれません。\n\nでも今は、焦って結論を取りに行くより、空気を整えながら一歩ずつ進めた方が、最終的にはあなたにとって納得しやすい形へつながっていきます。"
+        : "今の段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。\n\n表面的な言葉よりも、関係の温度や流れを見ていくことで、次に取るべき行動が自然と見えやすくなります。";
 
       $("#resultGrid").innerHTML = [
-        { title: "現状", text: reading.now },
-        { title: "過去", text: reading.past },
-        { title: "未来（近未来）", text: reading.future },
-        { title: "今後どうすればいいか", text: reading.next },
-        { title: "今回の補足", text: extras }
+        { title: "あなたの気持ち", text: selfText },
+        { title: "お相手の気持ち", text: partnerText },
+        { title: "より良い未来のためのアドバイス", text: adviceText },
+        { title: "今回の補足", text: extraText }
       ].map(function(item){
         return [
           '<div class="summaryBox">',
@@ -779,8 +865,6 @@
 
       $("#rel").value = "片想い";
       $("#timing").value = "";
-      $("#bdYou").value = "";
-      $("#bdThem").value = "";
       $("#memo").value = "";
 
       document.querySelectorAll(".cardBtn").forEach(function(item){
