@@ -14,7 +14,6 @@
       --accent:#f85f9d;
       --accent2:#ff9ec5;
       --accent3:#fff0f7;
-      --line:#f2d7e4;
       --shadow:0 18px 40px rgba(210,140,180,.22);
       --softShadow:0 12px 28px rgba(0,0,0,.08);
       --r-xl:34px;
@@ -499,7 +498,7 @@
     <h1>今の恋愛の流れを、テーマ別に無料で整理できます。</h1>
     <p class="sub">
       無料版では5テーマを体験できます。  
-      それ以外のテーマはロック表示にしてあるので、あとから追加しやすい構成です。
+      生年月日も加味して、2人の持つ恋愛傾向や相性の流れまで見ていきます。
     </p>
 
     <section class="panel show" id="step0">
@@ -528,10 +527,20 @@
           <input id="timing" placeholder="例：連絡が来るか、進展するか" />
         </div>
 
+        <div class="field">
+          <label for="bdYou">あなたの生年月日</label>
+          <input id="bdYou" inputmode="numeric" maxlength="8" placeholder="例：19960321" />
+        </div>
+
+        <div class="field">
+          <label for="bdThem">お相手の生年月日</label>
+          <input id="bdThem" inputmode="numeric" maxlength="8" placeholder="例：19981107 / 不明なら空欄" />
+        </div>
+
         <div class="field full">
           <label for="memo">補足メモ</label>
           <textarea id="memo" placeholder="最近の状況や気になることがあれば自由に入力"></textarea>
-          <div class="hint">生年月日は今の版では使っていないので外してあります。今後必要ならまた足せます。</div>
+          <div class="hint">生年月日は、ライフパス数と星座の傾向に変換して鑑定文へ反映します。8桁の半角数字で入力してください。</div>
         </div>
       </div>
 
@@ -545,7 +554,7 @@
       <h2 class="panelTitle">鑑定しています…</h2>
       <div class="loading">
         <span class="spinner"></span>
-        <p>テーマに合わせて流れを整理しています…</p>
+        <p>テーマ・関係性・生年月日の相性を整理しています…</p>
       </div>
     </section>
 
@@ -625,6 +634,39 @@
       { id: "distance", name: "遠距離恋愛", desc: "距離がある恋の進め方を見ます", free: false },
       { id: "married", name: "既婚者の恋", desc: "慎重さが必要な流れを見ます", free: false }
     ];
+
+    var LIFE_PATH_TEXT = {
+      1: "自分の気持ちに正直で、恋では主導権を握りやすいタイプです。好きになると一直線ですが、曖昧さが続くと落ち着かなくなりやすい面もあります。",
+      2: "繊細で空気をよく読むタイプです。相手に合わせる優しさがある一方で、気持ちを飲み込みすぎてしまうことがあります。",
+      3: "感情表現が豊かで、恋愛では親しみやすさと明るさが魅力になります。気持ちが乗ると距離を縮めるのが上手です。",
+      4: "慎重で誠実なタイプです。関係を大切に育てたい思いが強く、軽い関わりよりも信頼を重視します。",
+      5: "変化や刺激に強く、恋では流れを動かす力があります。自由さが魅力ですが、縛られる空気には敏感です。",
+      6: "愛情深く、好きな人にはしっかり尽くすタイプです。安心できる関係を求める気持ちが強く、曖昧な距離感は苦手です。",
+      7: "内面重視で、簡単には本音を見せないタイプです。恋愛では慎重ですが、一度信じると深く相手を見ます。",
+      8: "現実感覚があり、関係をちゃんと形にしたいタイプです。恋でも曖昧さより、進展や確かな手応えを求めやすいです。",
+      9: "包容力があり、相手の気持ちを広く受け止めるタイプです。そのぶん我慢しすぎてしまうこともあります。"
+    };
+
+    var ZODIAC_TEXT = {
+      "おひつじ座": "行動力があり、恋では気持ちが動くと早いタイプです。",
+      "おうし座": "じっくり関係を深めたい安定志向の恋愛傾向があります。",
+      "ふたご座": "会話やテンポ感を大切にし、軽やかなやり取りから関係を育てやすいです。",
+      "かに座": "情が深く、安心感のあるつながりを大切にします。",
+      "しし座": "愛情表現がまっすぐで、好きな相手には分かりやすく熱量が出ます。",
+      "おとめ座": "細やかで慎重、相手をよく見ながら丁寧に関係を進めます。",
+      "てんびん座": "バランス感覚があり、心地よい距離感を作るのが上手です。",
+      "さそり座": "一度心が入ると深く、恋愛では強い集中力を持ちます。",
+      "いて座": "前向きで伸びやか、恋も自由さのある空気の中で育ちやすいです。",
+      "やぎ座": "現実的で誠実、将来につながる関係かどうかを大事にします。",
+      "みずがめ座": "独自の距離感を持ち、気持ちの自由さを保ちながら関係を深めます。",
+      "うお座": "感受性が強く、雰囲気や気持ちの余韻を大切にするタイプです。"
+    };
+
+    var COMPATIBILITY_TEXT = {
+      high: "2人の相性は、自然と惹かれ合いやすい流れがあります。テンポが合いやすく、関係が育つ時は思ったよりスムーズに進みやすい組み合わせです。",
+      middle: "2人の相性は、極端にぶつかるというより、理解の仕方次第で深まりやすい流れです。少しの温度差を丁寧に扱うことで、関係は安定しやすくなります。",
+      low: "2人の相性は、惹かれ合う要素はあっても、距離感や表現方法の違いが出やすい流れです。ただし相性が悪いというより、歩幅の合わせ方が鍵になる関係性です。"
+    };
 
     var THEME_TEXT = {
       crush: {
@@ -763,8 +805,118 @@
       rel: "",
       timing: "",
       memo: "",
-      card: ""
+      card: "",
+      bdYou: "",
+      bdThem: ""
     };
+
+    function normalizeBirthdate(value){
+      var digits = (value || "").replace(/\D/g, "");
+      if(digits.length !== 8) return "";
+      var y = parseInt(digits.slice(0,4), 10);
+      var m = parseInt(digits.slice(4,6), 10);
+      var d = parseInt(digits.slice(6,8), 10);
+      if(y < 1900 || y > 2099) return "";
+      if(m < 1 || m > 12) return "";
+      if(d < 1 || d > 31) return "";
+      return digits;
+    }
+
+    function reduceNumber(num){
+      while(num > 9){
+        num = String(num).split("").reduce(function(sum, n){
+          return sum + parseInt(n, 10);
+        }, 0);
+      }
+      return num;
+    }
+
+    function lifePathFromBirthdate(bd){
+      if(!bd) return null;
+      var sum = bd.split("").reduce(function(acc, n){
+        return acc + parseInt(n, 10);
+      }, 0);
+      return reduceNumber(sum);
+    }
+
+    function zodiacFromBirthdate(bd){
+      if(!bd) return "";
+      var month = parseInt(bd.slice(4,6), 10);
+      var day = parseInt(bd.slice(6,8), 10);
+
+      if((month === 3 && day >= 21) || (month === 4 && day <= 19)) return "おひつじ座";
+      if((month === 4 && day >= 20) || (month === 5 && day <= 20)) return "おうし座";
+      if((month === 5 && day >= 21) || (month === 6 && day <= 21)) return "ふたご座";
+      if((month === 6 && day >= 22) || (month === 7 && day <= 22)) return "かに座";
+      if((month === 7 && day >= 23) || (month === 8 && day <= 22)) return "しし座";
+      if((month === 8 && day >= 23) || (month === 9 && day <= 22)) return "おとめ座";
+      if((month === 9 && day >= 23) || (month === 10 && day <= 23)) return "てんびん座";
+      if((month === 10 && day >= 24) || (month === 11 && day <= 22)) return "さそり座";
+      if((month === 11 && day >= 23) || (month === 12 && day <= 21)) return "いて座";
+      if((month === 12 && day >= 22) || (month === 1 && day <= 19)) return "やぎ座";
+      if((month === 1 && day >= 20) || (month === 2 && day <= 18)) return "みずがめ座";
+      return "うお座";
+    }
+
+    function getBirthProfile(bd){
+      if(!bd){
+        return null;
+      }
+      var lifePath = lifePathFromBirthdate(bd);
+      var zodiac = zodiacFromBirthdate(bd);
+      return {
+        birthdate: bd,
+        lifePath: lifePath,
+        zodiac: zodiac,
+        lifeText: LIFE_PATH_TEXT[lifePath] || "",
+        zodiacText: ZODIAC_TEXT[zodiac] || ""
+      };
+    }
+
+    function getCompatibilityTone(you, them){
+      if(!you || !them){
+        return {
+          key: "middle",
+          text: "生年月日が片方のみ、または未入力のため、相性は一般的な流れとして見ています。今は相手のタイプを決めつけすぎず、関係の空気を丁寧に読むことが大切です。"
+        };
+      }
+
+      var diff = Math.abs(you.lifePath - them.lifePath);
+      if(diff <= 2){
+        return { key: "high", text: COMPATIBILITY_TEXT.high };
+      }
+      if(diff <= 4){
+        return { key: "middle", text: COMPATIBILITY_TEXT.middle };
+      }
+      return { key: "low", text: COMPATIBILITY_TEXT.low };
+    }
+
+    function buildBirthInsightLines(){
+      var you = getBirthProfile(state.bdYou);
+      var them = getBirthProfile(state.bdThem);
+      var comp = getCompatibilityTone(you, them);
+
+      var lines = [];
+
+      if(you){
+        lines.push("あなたはライフパス数「" + you.lifePath + "」、" + you.zodiac + "の傾向を持っています。");
+        lines.push(you.lifeText + " " + you.zodiacText);
+      }
+
+      if(them){
+        lines.push("お相手はライフパス数「" + them.lifePath + "」、" + them.zodiac + "の傾向を持っています。");
+        lines.push(them.lifeText + " " + them.zodiacText);
+      }
+
+      lines.push(comp.text);
+
+      return {
+        you: you,
+        them: them,
+        comp: comp,
+        text: lines.join("\n\n")
+      };
+    }
 
     function renderThemes(){
       var grid = $("#themeGrid");
@@ -814,7 +966,13 @@
 
     function renderOverview(){
       var themeData = THEME_TEXT[state.themeId];
-      var list = themeData ? themeData.overview : [];
+      var list = themeData ? themeData.overview.slice() : [];
+      var birthInsight = buildBirthInsightLines();
+
+      list.push({
+        title: "生年月日から見た2人の流れ",
+        text: birthInsight.text
+      });
 
       $("#overviewGrid").innerHTML = list.map(function(item, index){
         return [
@@ -829,6 +987,7 @@
     function renderFinal(cardKey){
       var themeData = THEME_TEXT[state.themeId];
       var pattern = themeData.patterns[cardKey];
+      var birthInsight = buildBirthInsightLines();
 
       var intro = [
         '<span class="leadStrong">今回の鑑定では、「' + state.themeName + '」の流れを中心に見ています。</span>',
@@ -837,6 +996,14 @@
 
       if (state.timing) {
         intro.push('特に、あなたが気にしている「' + state.timing + '」というテーマは、今の流れを読むうえで大事な焦点になっています。');
+      }
+
+      if (birthInsight.you) {
+        intro.push('あなたはライフパス数「' + birthInsight.you.lifePath + '」の傾向があり、' + birthInsight.you.zodiac + 'らしい恋の受け止め方も強く出やすい時です。');
+      }
+
+      if (birthInsight.them) {
+        intro.push('お相手にはライフパス数「' + birthInsight.them.lifePath + '」と' + birthInsight.them.zodiac + 'の気質が見えるため、感じ方や動き方に独特のペースがあります。');
       }
 
       if (state.memo) {
@@ -850,19 +1017,26 @@
 
       var selfText =
         pattern.self +
+        "\n\n生年月日から見ると、あなたは「" + (birthInsight.you ? birthInsight.you.lifeText : "今は気持ちに敏感になりやすい時期") + "」という傾向を持っています。" +
+        (birthInsight.you ? "\n\nさらに" + birthInsight.you.zodiac + "らしく、" + birthInsight.you.zodiacText : "") +
         "\n\n今のあなたの感情は、とても真剣で、そしてとても繊細です。揺れること自体が悪いのではなく、それだけこの恋と本気で向き合っている証でもあります。";
 
       var partnerText =
         pattern.partner +
+        (birthInsight.them
+          ? "\n\n生年月日から見ると、お相手には「" + birthInsight.them.lifeText + "」という恋愛傾向があります。"
+            + "\n\nまた、" + birthInsight.them.zodiac + "らしく、" + birthInsight.them.zodiacText
+          : "\n\nお相手の生年月日が未入力のため、この部分は現在の流れを中心に見ています。") +
         "\n\n相手の気持ちは、見えにくいからこそ不安になります。けれど、見えないことと、気持ちがないことは同じではありません。今は全体の流れで受け止めることが大切です。";
 
       var adviceText =
         pattern.advice +
+        "\n\n2人の相性の流れとしては、" + birthInsight.comp.text +
         "\n\n大きな結果を急ぐより、いまの流れに合った一手を丁寧に選ぶことが、この恋を良い方向へ動かす近道になります。";
 
       var extraText = state.memo
-        ? "今回の入力内容から見ると、あなたはかなり真剣にこの状況と向き合っています。だからこそ、早く答えが欲しくなったり、気持ちが先走ってしまったりする瞬間もあるはずです。\n\nでも今は、焦って結論を取りに行くより、空気を整えながら少しずつ流れを育てた方が、最終的には納得できる形につながりやすいでしょう。"
-        : "今の段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。\n\n表面的な言葉だけではなく、関係全体の温度や流れを見ていくことで、次に取るべき行動が自然と見えやすくなります。";
+        ? "今回の入力内容と生年月日から見ると、あなたはかなり真剣にこの状況と向き合っています。だからこそ、早く答えが欲しくなったり、気持ちが先走ってしまったりする瞬間もあるはずです。\n\nただ、生年月日から見える2人の流れでは、急いで結論を出すより、相手のペースや表現の違いを理解しながら動く方が、最終的には納得しやすい形につながりやすいでしょう。"
+        : "生年月日から見ると、2人は感じ方や動き方に少し違いがあっても、関わり方次第で印象が大きく変わる組み合わせです。\n\n今の段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。";
 
       $("#resultGrid").innerHTML = [
         { title: "あなたの気持ち", text: selfText },
@@ -888,6 +1062,8 @@
       state.rel = $("#rel").value;
       state.timing = $("#timing").value.trim();
       state.memo = $("#memo").value.trim();
+      state.bdYou = normalizeBirthdate($("#bdYou").value.trim());
+      state.bdThem = normalizeBirthdate($("#bdThem").value.trim());
 
       hide($("#step1"));
       show($("#step2"));
@@ -937,11 +1113,15 @@
         rel: "",
         timing: "",
         memo: "",
-        card: ""
+        card: "",
+        bdYou: "",
+        bdThem: ""
       };
 
       $("#rel").value = "片想い";
       $("#timing").value = "";
+      $("#bdYou").value = "";
+      $("#bdThem").value = "";
       $("#memo").value = "";
 
       document.querySelectorAll(".cardBtn").forEach(function(item){
