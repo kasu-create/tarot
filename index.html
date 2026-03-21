@@ -498,7 +498,7 @@
     <h1>今の恋愛の流れを、テーマ別に無料で整理できます。</h1>
     <p class="sub">
       無料版では5テーマを体験できます。  
-      生年月日も加味して、2人の持つ恋愛傾向や相性の流れまで見ていきます。
+      生年月日も含めて、2人の恋愛の流れや距離感をやさしく読み解いていきます。
     </p>
 
     <section class="panel show" id="step0">
@@ -540,8 +540,8 @@
         <div class="field full">
           <label for="memo">補足メモ</label>
           <textarea id="memo" placeholder="最近の状況や気になることがあれば自由に入力"></textarea>
-          <div class="hint">生年月日は分かる範囲で入力してください。お相手が不明な場合は空欄でも進められます。
-          </div>
+          <div class="hint">生年月日は分かる範囲で入力してください。お相手が不明な場合は空欄でも進められます。</div>
+        </div>
       </div>
 
       <div class="actions">
@@ -554,7 +554,7 @@
       <h2 class="panelTitle">鑑定しています…</h2>
       <div class="loading">
         <span class="spinner"></span>
-        <p>テーマ・関係性・生年月日の相性を整理しています…</p>
+        <p>テーマ・関係性・生年月日の流れを整理しています…</p>
       </div>
     </section>
 
@@ -859,9 +859,7 @@
     }
 
     function getBirthProfile(bd){
-      if(!bd){
-        return null;
-      }
+      if(!bd) return null;
       var lifePath = lifePathFromBirthdate(bd);
       var zodiac = zodiacFromBirthdate(bd);
       return {
@@ -877,7 +875,7 @@
       if(!you || !them){
         return {
           key: "middle",
-          text: "生年月日が片方のみ、または未入力のため、相性は一般的な流れとして見ています。今は相手のタイプを決めつけすぎず、関係の空気を丁寧に読むことが大切です。"
+          text: "片方または両方の生年月日が限られているため、2人の流れは現在の空気を中心に見ています。いまは相手のタイプを決めつけすぎず、関係の温度感を丁寧に読むことが大切です。"
         };
       }
 
@@ -891,6 +889,11 @@
       return { key: "low", text: COMPATIBILITY_TEXT.low };
     }
 
+    function mergeProfileText(profile){
+      if(!profile) return "";
+      return [profile.lifeText, profile.zodiacText].join(" ");
+    }
+
     function buildBirthInsightLines(){
       var you = getBirthProfile(state.bdYou);
       var them = getBirthProfile(state.bdThem);
@@ -899,13 +902,11 @@
       var lines = [];
 
       if(you){
-        lines.push("あなたはライフパス数「" + you.lifePath + "」、" + you.zodiac + "の傾向を持っています。");
-        lines.push(you.lifeText + " " + you.zodiacText);
+        lines.push("あなたは、" + mergeProfileText(you));
       }
 
       if(them){
-        lines.push("お相手はライフパス数「" + them.lifePath + "」、" + them.zodiac + "の傾向を持っています。");
-        lines.push(them.lifeText + " " + them.zodiacText);
+        lines.push("お相手は、" + mergeProfileText(them));
       }
 
       lines.push(comp.text);
@@ -970,7 +971,7 @@
       var birthInsight = buildBirthInsightLines();
 
       list.push({
-        title: "生年月日から見た2人の流れ",
+        title: "2人の恋愛テンポ",
         text: birthInsight.text
       });
 
@@ -999,11 +1000,11 @@
       }
 
       if (birthInsight.you) {
-        intro.push('あなたはライフパス数「' + birthInsight.you.lifePath + '」の傾向があり、' + birthInsight.you.zodiac + 'らしい恋の受け止め方も強く出やすい時です。');
+        intro.push('あなたは恋愛に対して、' + mergeProfileText(birthInsight.you));
       }
 
       if (birthInsight.them) {
-        intro.push('お相手にはライフパス数「' + birthInsight.them.lifePath + '」と' + birthInsight.them.zodiac + 'の気質が見えるため、感じ方や動き方に独特のペースがあります。');
+        intro.push('お相手は恋愛の中で、' + mergeProfileText(birthInsight.them));
       }
 
       if (state.memo) {
@@ -1017,26 +1018,22 @@
 
       var selfText =
         pattern.self +
-        "\n\n生年月日から見ると、あなたは「" + (birthInsight.you ? birthInsight.you.lifeText : "今は気持ちに敏感になりやすい時期") + "」という傾向を持っています。" +
-        (birthInsight.you ? "\n\nさらに" + birthInsight.you.zodiac + "らしく、" + birthInsight.you.zodiacText : "") +
+        (birthInsight.you ? "\n\n生まれ持った恋愛の傾向としては、" + mergeProfileText(birthInsight.you) : "") +
         "\n\n今のあなたの感情は、とても真剣で、そしてとても繊細です。揺れること自体が悪いのではなく、それだけこの恋と本気で向き合っている証でもあります。";
 
       var partnerText =
         pattern.partner +
-        (birthInsight.them
-          ? "\n\n生年月日から見ると、お相手には「" + birthInsight.them.lifeText + "」という恋愛傾向があります。"
-            + "\n\nまた、" + birthInsight.them.zodiac + "らしく、" + birthInsight.them.zodiacText
-          : "\n\nお相手の生年月日が未入力のため、この部分は現在の流れを中心に見ています。") +
+        (birthInsight.them ? "\n\nお相手には、" + mergeProfileText(birthInsight.them) : "\n\nお相手の生年月日が未入力のため、この部分は現在の流れを中心に見ています。") +
         "\n\n相手の気持ちは、見えにくいからこそ不安になります。けれど、見えないことと、気持ちがないことは同じではありません。今は全体の流れで受け止めることが大切です。";
 
       var adviceText =
         pattern.advice +
-        "\n\n2人の相性の流れとしては、" + birthInsight.comp.text +
+        "\n\n2人の流れとしては、" + birthInsight.comp.text +
         "\n\n大きな結果を急ぐより、いまの流れに合った一手を丁寧に選ぶことが、この恋を良い方向へ動かす近道になります。";
 
       var extraText = state.memo
-        ? "今回の入力内容と生年月日から見ると、あなたはかなり真剣にこの状況と向き合っています。だからこそ、早く答えが欲しくなったり、気持ちが先走ってしまったりする瞬間もあるはずです。\n\nただ、生年月日から見える2人の流れでは、急いで結論を出すより、相手のペースや表現の違いを理解しながら動く方が、最終的には納得しやすい形につながりやすいでしょう。"
-        : "生年月日から見ると、2人は感じ方や動き方に少し違いがあっても、関わり方次第で印象が大きく変わる組み合わせです。\n\n今の段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。";
+        ? "今回の入力内容と2人の恋愛傾向から見ると、あなたはかなり真剣にこの状況と向き合っています。だからこそ、早く答えが欲しくなったり、気持ちが先走ってしまったりする瞬間もあるはずです。\n\nでも今は、焦って結論を取りに行くより、相手のペースや空気を読みながら少しずつ流れを整えた方が、最終的には納得しやすい形につながりやすいでしょう。"
+        : "2人は感じ方や動き方に少し違いがあっても、関わり方次第で印象が大きく変わる組み合わせです。\n\n今の段階では、大きな結論を急ぐよりも、小さな変化や相手の反応の質を見ていくことが大切です。";
 
       $("#resultGrid").innerHTML = [
         { title: "あなたの気持ち", text: selfText },
@@ -1102,7 +1099,6 @@
 
         hide($("#step4"));
         show($("#step5"));
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
       });
     });
 
