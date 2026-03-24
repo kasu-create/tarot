@@ -7,17 +7,20 @@
   <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は4テーマまで体験できます。" />
   <style>
     :root{
-      --bg: radial-gradient(circle at top left,#ffe5f3 0,#fff7ff 42%,#ffeaf2 100%);
-      --paper: linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,247,252,.98));
-      --ink:#241d22;
-      --muted:#6f636a;
-      --accent:#ff6ba5;
-      --accent2:#ff9bc8;
-      --line:#f0d6e2;
-      --soft:#fff9fc;
-      --lock:#c5b4bd;
-      --shadow:0 18px 40px rgba(210,140,180,.25);
-      --softShadow:0 10px 24px rgba(0,0,0,.08);
+      --bg:
+        radial-gradient(circle at 16% 12%, rgba(179,140,255,.22) 0, rgba(179,140,255,0) 34%),
+        radial-gradient(circle at 82% 2%, rgba(255,217,138,.14) 0, rgba(255,217,138,0) 30%),
+        linear-gradient(180deg,#0d0717 0,#140c24 100%);
+      --paper: linear-gradient(145deg,rgba(23,14,39,.95),rgba(31,20,52,.96));
+      --ink:#f3e9ff;
+      --muted:#b9a8d1;
+      --accent:#9d76ff;
+      --accent2:#c49cff;
+      --line:#4f3a7d;
+      --soft:#1e1434;
+      --lock:#7f6a9b;
+      --shadow:0 24px 54px rgba(0,0,0,.42);
+      --softShadow:0 12px 28px rgba(0,0,0,.28);
       --r-xl:32px;
       --r-lg:24px;
       --r-md:18px;
@@ -48,10 +51,10 @@
       gap:6px;
       padding:4px 10px;
       border-radius:999px;
-      background:#fff;
-      border:1px solid rgba(255,192,216,.7);
+      background:rgba(26,17,43,.95);
+      border:1px solid rgba(122,94,186,.75);
       font-size:11px;
-      color:#b34a77;
+      color:#f4d79d;
       margin-bottom:10px;
     }
 
@@ -59,8 +62,8 @@
       width:7px;
       height:7px;
       border-radius:50%;
-      background:linear-gradient(135deg,#ff77aa,#ffb4e0);
-      box-shadow:0 0 8px rgba(255,105,180,.55);
+      background:linear-gradient(135deg,#b38cff,#ffd98a);
+      box-shadow:0 0 10px rgba(179,140,255,.68);
     }
 
     h1{
@@ -79,8 +82,8 @@
     .panel{
       display:none;
       margin-top:14px;
-      background:rgba(255,255,255,.96);
-      border:1px solid rgba(255,210,232,.92);
+      background:rgba(24,15,40,.92);
+      border:1px solid rgba(86,62,140,.92);
       border-radius:var(--r-lg);
       box-shadow:var(--softShadow);
       padding:16px 14px 18px;
@@ -92,7 +95,7 @@
       margin:0 0 10px;
       font-size:17px;
       font-weight:1000;
-      color:#2a1f25;
+      color:#f7ecff;
     }
 
     .themeGrid{
@@ -106,8 +109,8 @@
       position:relative;
       border:none;
       border-radius:18px;
-      background:#fff;
-      border:1px solid rgba(240,210,228,.95);
+      background:rgba(17,10,29,.85);
+      border:1px solid rgba(86,62,140,.95);
       box-shadow:var(--softShadow);
       padding:14px 12px;
       text-align:left;
@@ -117,7 +120,7 @@
 
     .themeCard:hover{
       transform:translateY(-2px);
-      box-shadow:0 14px 28px rgba(210,140,180,.18);
+      box-shadow:0 14px 28px rgba(0,0,0,.3);
     }
 
     .themeCard.locked{
@@ -205,17 +208,17 @@
     label{
       font-size:13px;
       font-weight:1000;
-      color:#44323a;
+      color:#e8dbff;
     }
 
     input,select,textarea{
       width:100%;
       padding:11px 12px;
       border-radius:12px;
-      border:1px solid #f0cde2;
-      background:#fff;
+      border:1px solid #5e4692;
+      background:#120b20;
       font-size:14px;
-      color:#2d2329;
+      color:#f3e9ff;
     }
 
     textarea{
@@ -255,8 +258,8 @@
 
     .btn.ghost{
       background:transparent;
-      border:1px solid #efcfe0;
-      color:#8a5a72;
+      border:1px solid #6c53a3;
+      color:#d8c7f2;
     }
 
     .loading{
@@ -291,8 +294,8 @@
     }
 
     .summaryBox{
-      border:1px dashed #efc2de;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      border:1px dashed #6a4ea9;
+      background:linear-gradient(120deg,#1a1130,#231840);
       border-radius:16px;
       padding:12px;
     }
@@ -307,7 +310,7 @@
       font-size:14px;
       line-height:1.9;
       white-space:pre-wrap;
-      color:#31252d;
+      color:#e8dbff;
     }
 
     .cards{
@@ -340,12 +343,14 @@
       height:auto;
       border-radius:12px;
       box-shadow:var(--softShadow);
+      border:2px solid rgba(72,40,92,.18);
+      background:linear-gradient(145deg,#1a0f24,#2a1835);
     }
 
     .resultHero{
       border-radius:20px;
-      border:1px solid #f1d3e3;
-      background:linear-gradient(135deg,#fff1f8,#fff8fc);
+      border:1px solid #5e4692;
+      background:linear-gradient(135deg,#1a1130,#2a1c4b);
       padding:16px;
       margin-bottom:14px;
     }
@@ -353,14 +358,14 @@
     .resultHeroTitle{
       margin:0 0 8px;
       font-size:18px;
-      color:#8b4366;
+      color:#f4d79d;
       font-weight:1000;
     }
 
     .resultHeroText{
       margin:0;
       line-height:1.9;
-      color:#503844;
+      color:#e8dbff;
       white-space:pre-wrap;
     }
 
@@ -414,8 +419,8 @@
 </head>
 <body>
   <main class="page">
-    <div class="chip"><span class="dot"></span>無料版テーマあり</div>
-    <h1>今の恋愛の流れを、テーマ別に無料で整理できます。</h1>
+    <div class="chip"><span class="dot"></span>REN'S TAROT | 無料版テーマあり</div>
+    <h1>れんの恋愛タロットの世界観で、無料鑑定できます。</h1>
     <p class="sub">
       無料版では4テーマまで体験できます。  
       それ以外のテーマはロック表示にしてあるので、あとから追加しやすい構成です。
@@ -491,13 +496,13 @@
       <h2 class="panelTitle">3枚のカードから、直感で1枚選んでください</h2>
       <div class="cards">
         <button class="cardBtn" type="button" data-card="A" aria-pressed="false">
-          <img src="0317Acard.png" alt="カードA" />
+          <img id="cardImgA" src="assets/cards/c01.svg" alt="カードA（タロット）" />
         </button>
         <button class="cardBtn" type="button" data-card="B" aria-pressed="false">
-          <img src="0317Bcard.png" alt="カードB" />
+          <img id="cardImgB" src="assets/cards/c02.svg" alt="カードB（タロット）" />
         </button>
         <button class="cardBtn" type="button" data-card="C" aria-pressed="false">
-          <img src="0317Ccard.png" alt="カードC" />
+          <img id="cardImgC" src="assets/cards/c03.svg" alt="カードC（タロット）" />
         </button>
       </div>
       <div class="actions">
@@ -583,6 +588,53 @@
         ]
       }
     };
+
+    /** 78枚のカード画像（assets/cards/c01.svg … c78.svg） */
+    var TAROT_DECK_URLS = (function(){
+      var a = [];
+      for (var i = 1; i <= 78; i++) {
+        var n = i < 10 ? "0" + i : String(i);
+        a.push("assets/cards/c" + n + ".svg");
+      }
+      return a;
+    })();
+
+    function shuffleCopy(arr){
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+      }
+      return a;
+    }
+
+    /** カード選択画面に、デッキからランダムで3枚を表示 */
+    function assignThreeRandomCards(){
+      var picks = shuffleCopy(TAROT_DECK_URLS).slice(0, 3);
+      var ids = ["cardImgA", "cardImgB", "cardImgC"];
+      var labels = ["カードA（タロット）", "カードB（タロット）", "カードC（タロット）"];
+      for (var k = 0; k < 3; k++) {
+        var el = document.getElementById(ids[k]);
+        if (el) {
+          el.src = picks[k];
+          el.alt = labels[k];
+        }
+      }
+    }
+
+    function resetCardImagesToDefault(){
+      var defs = [
+        { id: "cardImgA", src: "assets/cards/c01.svg" },
+        { id: "cardImgB", src: "assets/cards/c02.svg" },
+        { id: "cardImgC", src: "assets/cards/c03.svg" }
+      ];
+      defs.forEach(function(d){
+        var el = document.getElementById(d.id);
+        if (el) el.src = d.src;
+      });
+    }
 
     var CARD_RESULTS = {
       A: {
@@ -743,6 +795,7 @@
     });
 
     $("#toCardsBtn").addEventListener("click", function(){
+      assignThreeRandomCards();
       hide($("#step3"));
       show($("#step4"));
     });
@@ -786,6 +839,8 @@
       document.querySelectorAll(".cardBtn").forEach(function(item){
         item.setAttribute("aria-pressed", "false");
       });
+
+      resetCardImagesToDefault();
 
       hide($("#step1"));
       hide($("#step2"));
