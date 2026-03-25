@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>無料鑑定｜恋愛オラクル</title>
-  <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は4テーマまで体験できます。" />
+  <title>無料鑑定（全テーマ開放）｜恋愛オラクル</title>
+  <meta name="description" content="恋愛テーマを選んで無料鑑定（全テーマ開放版）。" />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap");
 
@@ -478,10 +478,10 @@
 </head>
 <body>
   <main class="page">
-    <div class="chip"><span class="dot"></span>無料版</div>
-    <h1>無料鑑定</h1>
+    <div class="chip"><span class="dot"></span>全テーマ開放</div>
+    <h1>無料鑑定（全テーマ）</h1>
     <p class="sub">
-      無料版では4テーマまで体験できます。
+      ここは全テーマを無料で試せるページです。
     </p>
 
     <section class="panel show" id="step0">
@@ -609,13 +609,11 @@
       { id: "reunion", name: "復縁", desc: "離れた相手との流れを見ます", free: true },
       { id: "silent", name: "音信不通", desc: "連絡の流れや再接点を見ます", free: true },
       { id: "reply_cold", name: "返信がそっけない", desc: "温度差の理由と次の一手を見ます", free: true },
-
-      { id: "encounter", name: "出会い", desc: "新しい恋の入り口を見ます", free: false },
-
-      { id: "marriage", name: "結婚", desc: "関係の先と現実面を整理します", free: false },
-      { id: "triangle", name: "複雑恋愛", desc: "言いにくい関係性の流れを見ます", free: false },
-      { id: "distance", name: "遠距離恋愛", desc: "距離がある恋の進め方を見ます", free: false },
-      { id: "married", name: "既婚者の恋", desc: "慎重さが必要な流れを見ます", free: false }
+      { id: "encounter", name: "出会い", desc: "新しい恋の入り口を見ます", free: true },
+      { id: "marriage", name: "結婚", desc: "関係の先と現実面を整理します", free: true },
+      { id: "triangle", name: "複雑恋愛", desc: "言いにくい関係性の流れを見ます", free: true },
+      { id: "distance", name: "遠距離恋愛", desc: "距離がある恋の進め方を見ます", free: true },
+      { id: "married", name: "既婚者の恋", desc: "慎重さが必要な流れを見ます", free: true }
     ];
 
     var THEME_TEXT = {
