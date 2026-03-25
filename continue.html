@@ -6,43 +6,51 @@
   <title>無料鑑定｜恋愛オラクル</title>
   <meta name="description" content="恋愛テーマを選んで無料鑑定。無料版は4テーマまで体験できます。" />
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap");
+
     :root{
+      /* paid-reading.css のトーンに寄せる（黒×金×ブロンズ） */
       --bg:
-        radial-gradient(circle at 16% 12%, rgba(179,140,255,.22) 0, rgba(179,140,255,0) 34%),
-        radial-gradient(circle at 82% 2%, rgba(255,217,138,.14) 0, rgba(255,217,138,0) 30%),
-        linear-gradient(180deg,#0d0717 0,#140c24 100%);
-      --paper: linear-gradient(145deg,rgba(23,14,39,.95),rgba(31,20,52,.96));
-      --ink:#f3e9ff;
-      --muted:#b9a8d1;
-      --accent:#9d76ff;
-      --accent2:#c49cff;
-      --line:#4f3a7d;
-      --soft:#1e1434;
-      --lock:#7f6a9b;
+        radial-gradient(ellipse 900px 500px at 80% -20%, rgba(212, 175, 55, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 700px 400px at 10% 110%, rgba(90, 70, 50, 0.25) 0%, transparent 50%),
+        #0c0b0a;
+      --paper: #1f1c18;
+      --surface: #161311;
+      --soft: #0c0b0a;
+      --ink:#f2ebe3;
+      --muted:#a89b8c;
+      --accent:#d4af37; /* gold */
+      --accent2:#9a7b2c; /* gold-dim */
+      --border:#3d3429;
       --shadow:0 24px 54px rgba(0,0,0,.42);
       --softShadow:0 12px 28px rgba(0,0,0,.28);
-      --r-xl:32px;
-      --r-lg:24px;
-      --r-md:18px;
+      --r-xl:20px;
+      --r-lg:16px;
+      --r-md:12px;
+
+      --font-display: "Shippori Mincho","Hiragino Mincho ProN",serif;
+      --font-body: "Zen Kaku Gothic New","Hiragino Sans",sans-serif;
     }
 
     *{ box-sizing:border-box; }
     html,body{ margin:0; padding:0; }
 
     body{
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic",sans-serif;
+      font-family:var(--font-body);
       background:var(--bg);
       color:var(--ink);
       padding:20px 12px 40px;
+      line-height:1.7;
+      font-size:16px;
     }
 
     .page{
       max-width:980px;
       margin:0 auto;
-      background:var(--paper);
+      background:transparent;
       border-radius:var(--r-xl);
-      box-shadow:var(--shadow);
-      padding:20px 16px 28px;
+      box-shadow:none;
+      padding:18px 14px 28px;
     }
 
     .chip{
@@ -51,25 +59,28 @@
       gap:6px;
       padding:4px 10px;
       border-radius:999px;
-      background:rgba(26,17,43,.95);
-      border:1px solid rgba(122,94,186,.75);
+      background:var(--surface);
+      border:1px solid var(--border);
       font-size:11px;
-      color:#f4d79d;
+      color:var(--muted);
       margin-bottom:10px;
+      letter-spacing:.24em;
     }
 
     .dot{
       width:7px;
       height:7px;
       border-radius:50%;
-      background:linear-gradient(135deg,#b38cff,#ffd98a);
-      box-shadow:0 0 10px rgba(179,140,255,.68);
+      background:linear-gradient(135deg,#e8c76a,var(--accent2));
+      box-shadow:0 0 12px rgba(212,175,55,.35);
     }
 
     h1{
       margin:0 0 8px;
       font-size:26px;
       line-height:1.45;
+      font-family:var(--font-display);
+      letter-spacing:.02em;
     }
 
     .sub{
@@ -82,8 +93,8 @@
     .panel{
       display:none;
       margin-top:14px;
-      background:rgba(24,15,40,.92);
-      border:1px solid rgba(86,62,140,.92);
+      background:var(--paper);
+      border:1px solid var(--border);
       border-radius:var(--r-lg);
       box-shadow:var(--softShadow);
       padding:16px 14px 18px;
@@ -95,7 +106,8 @@
       margin:0 0 10px;
       font-size:17px;
       font-weight:1000;
-      color:#f7ecff;
+      color:var(--ink);
+      font-family:var(--font-display);
     }
 
     .themeGrid{
@@ -109,8 +121,8 @@
       position:relative;
       border:none;
       border-radius:18px;
-      background:rgba(17,10,29,.85);
-      border:1px solid rgba(86,62,140,.95);
+      background:var(--surface);
+      border:1px solid var(--border);
       box-shadow:var(--softShadow);
       padding:14px 12px;
       text-align:left;
@@ -208,17 +220,22 @@
     label{
       font-size:13px;
       font-weight:1000;
-      color:#e8dbff;
+      color:#c9a87a;
     }
 
     input,select,textarea{
       width:100%;
       padding:11px 12px;
-      border-radius:12px;
-      border:1px solid #5e4692;
-      background:#120b20;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--surface);
       font-size:14px;
-      color:#f3e9ff;
+      color:var(--ink);
+    }
+
+    input:focus,select:focus,textarea:focus{
+      outline:2px solid rgba(212,175,55,.45);
+      outline-offset:1px;
     }
 
     textarea{
@@ -247,8 +264,8 @@
       padding:12px 16px;
       border:none;
       border-radius:999px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#fff;
+      background:linear-gradient(135deg,#e8c76a,var(--accent2));
+      color:#1a1408;
       text-decoration:none;
       font-size:13px;
       font-weight:1000;
@@ -258,17 +275,17 @@
 
     .btn.ghost{
       background:transparent;
-      border:1px solid #6c53a3;
-      color:#d8c7f2;
+      border:1px solid var(--border);
+      color:var(--ink);
     }
 
     .loading{
       display:flex;
       align-items:center;
       gap:10px;
-      border:1px dashed #efc2de;
+      border:1px dashed var(--border);
       border-radius:18px;
-      background:linear-gradient(120deg,#fff7fc,#fffdfc);
+      background:var(--surface);
       padding:12px;
     }
 
@@ -276,8 +293,8 @@
       width:16px;
       height:16px;
       border-radius:50%;
-      border:3px solid #f1c6dd;
-      border-top-color:#ff86b8;
+      border:3px solid rgba(212,175,55,.25);
+      border-top-color:var(--accent);
       animation:spin 1s linear infinite;
       flex:0 0 auto;
     }
@@ -294,8 +311,8 @@
     }
 
     .summaryBox{
-      border:1px dashed #6a4ea9;
-      background:linear-gradient(120deg,#1a1130,#231840);
+      border:1px solid var(--border);
+      background:var(--surface);
       border-radius:16px;
       padding:12px;
     }
@@ -310,7 +327,7 @@
       font-size:14px;
       line-height:1.9;
       white-space:pre-wrap;
-      color:#e8dbff;
+      color:var(--ink);
     }
 
     .cards{
@@ -333,7 +350,7 @@
     }
 
     .cardBtn[aria-pressed="true"]{
-      outline:2px solid #ff8fbe;
+      outline:2px solid rgba(212,175,55,.55);
       outline-offset:4px;
     }
 
@@ -343,14 +360,14 @@
       height:auto;
       border-radius:12px;
       box-shadow:var(--softShadow);
-      border:2px solid rgba(72,40,92,.18);
-      background:linear-gradient(145deg,#1a0f24,#2a1835);
+      border:1px solid rgba(61,52,41,.85);
+      background:linear-gradient(160deg,#2e2a22 0%, #141210 100%);
     }
 
     .resultHero{
       border-radius:20px;
-      border:1px solid #5e4692;
-      background:linear-gradient(135deg,#1a1130,#2a1c4b);
+      border:1px solid var(--border);
+      background:var(--surface);
       padding:16px;
       margin-bottom:14px;
     }
@@ -358,14 +375,15 @@
     .resultHeroTitle{
       margin:0 0 8px;
       font-size:18px;
-      color:#f4d79d;
+      color:var(--accent);
       font-weight:1000;
+      font-family:var(--font-display);
     }
 
     .resultHeroText{
       margin:0;
       line-height:1.9;
-      color:#e8dbff;
+      color:var(--ink);
       white-space:pre-wrap;
     }
 
