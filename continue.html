@@ -140,15 +140,23 @@
     }
 
     .themeCard.locked{
-      background:#faf6f8;
-      border:1px solid #e7dbe1;
+      background:linear-gradient(160deg, rgba(31,28,24,.92), rgba(22,19,17,.92));
+      border:1px dashed rgba(61,52,41,.95);
       cursor:not-allowed;
-      color:#84767d;
+      color:var(--muted);
+      opacity:.92;
     }
 
     .themeCard.locked:hover{
       transform:none;
       box-shadow:var(--softShadow);
+    }
+
+    .themeCard.locked .themeName{
+      color:var(--muted);
+    }
+    .themeCard.locked .themeDesc{
+      color:rgba(208,193,176,.92);
     }
 
     .themeName{
@@ -187,9 +195,9 @@
     }
 
     .badge.lock{
-      background:#f4f1f3;
-      color:#766872;
-      border-color:#ddd1d8;
+      background:rgba(212,175,55,.12);
+      color:var(--accent);
+      border-color:rgba(212,175,55,.35);
     }
 
     .lockOverlay{
@@ -198,11 +206,12 @@
       right:10px;
       font-size:11px;
       font-weight:1000;
-      color:#7a6e75;
-      background:#f1ebee;
-      border:1px solid #ddd1d8;
+      color:var(--accent);
+      background:rgba(22,19,17,.88);
+      border:1px solid rgba(212,175,55,.35);
       padding:4px 8px;
       border-radius:999px;
+      letter-spacing:.12em;
     }
 
     .form{
