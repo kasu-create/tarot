@@ -466,6 +466,28 @@
       line-height:1.8;
     }
 
+    .gptReading {
+      line-height: 2;
+      color: var(--ink);
+    }
+    .gptReading .mdH2 {
+      margin: 24px 0 12px;
+      font-size: 18px;
+      color: var(--accent);
+      font-family: var(--font-display);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+    .gptReading .mdH3 {
+      margin: 18px 0 8px;
+      font-size: 15px;
+      color: var(--ink);
+      font-family: var(--font-display);
+    }
+    .gptReading strong {
+      color: var(--accent);
+    }
+
     @media (max-width:768px){
       body{ padding:12px 8px 24px; }
       .page{ padding:16px 12px 22px; border-radius:24px; }
@@ -801,37 +823,103 @@
       }).join("");
     }
 
-    function renderFinal(cardKey){
-      var reading = CARD_RESULTS[cardKey];
-      var finalLead = [
-        "テーマ: " + state.themeName,
-        "関係性: " + state.rel,
-        state.timing ? "いま気になること: " + state.timing : "",
-        "",
-        "今回のカードは「" + reading.tone + "」を示しています。"
-      ].filter(Boolean).join("\n");
+    var TAROT_API_URL = "https://tarot-api.tttttkasu.workers.dev/";
 
-      $("#finalTitle").textContent = state.themeName + "の無料鑑定結果";
-      $("#finalLead").textContent = finalLead;
+    async function callTarotAPI(theme, relation, concern) {
+      try {
+        var response = await fetch(TAROT_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            theme: theme,
+            relation: relation,
+            concern: concern
+          })
+        });
+        if (!response.ok) {
+          throw new Error("API error: " + response.status);
+        }
+        return await response.json();
+      } catch (e) {
+        console.error("Tarot API error:", e);
+        return null;
+      }
+    }
 
-      var extras = state.memo
-        ? "補足メモから見ると、「" + state.memo + "」という気がかりは、すぐ答えを出すより流れを整えていく方が合っています。"
-        : "今は気持ちを急いで決めるより、流れを見ながら一手ずつ整える方が結果につながりやすいです。";
+    function renderMarkdown(text) {
+      if (!text) return "";
+      return text
+        .replace(/^## (.+)$/gm, '<h2 class="mdH2">$1</h2>')
+        .replace(/^### (.+)$/gm, '<h3 class="mdH3">$1</h3>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+    }
 
-      $("#resultGrid").innerHTML = [
-        { title: "現状", text: reading.now },
-        { title: "過去", text: reading.past },
-        { title: "未来（近未来）", text: reading.future },
-        { title: "今後どうすればいいか", text: reading.next },
-        { title: "今回の補足", text: extras }
-      ].map(function(item){
-        return [
-          '<div class="summaryBox">',
-            '<h3>', item.title, '</h3>',
-            '<p>', item.text, '</p>',
+    async function renderFinal(cardKey){
+      $("#finalTitle").textContent = state.themeName + " の鑑定結果";
+      $("#finalLead").textContent = "GPTで鑑定中です…しばらくお待ちください。";
+      $("#resultGrid").innerHTML = '<div class="loading"><span class="spinner"></span><p>AIが鑑定結果を生成しています…</p></div>';
+
+      var apiResult = await callTarotAPI(state.themeName, state.rel, state.timing || state.memo || "");
+
+      if (apiResult && apiResult.success && apiResult.reading) {
+        var mainCard = apiResult.mainCard;
+        var subCards = apiResult.subCards;
+
+        var leadText = [
+          "テーマ: " + state.themeName,
+          "関係性: " + state.rel,
+          state.timing ? "いま気になること: " + state.timing : "",
+          "",
+          "【本鑑定カード】" + (mainCard ? mainCard.name : ""),
+          "【流れを見るカード】",
+          subCards && subCards[0] ? "  過去: " + subCards[0].name : "",
+          subCards && subCards[1] ? "  現在: " + subCards[1].name : "",
+          subCards && subCards[2] ? "  未来: " + subCards[2].name : ""
+        ].filter(Boolean).join("\n");
+
+        $("#finalLead").textContent = leadText;
+
+        $("#resultGrid").innerHTML = [
+          '<div class="summaryBox" style="grid-column:1/-1;">',
+            '<div class="gptReading">', renderMarkdown(apiResult.reading), '</div>',
           '</div>'
         ].join("");
-      }).join("");
+
+      } else {
+        var reading = CARD_RESULTS[cardKey];
+        var finalLead = [
+          "テーマ: " + state.themeName,
+          "関係性: " + state.rel,
+          state.timing ? "いま気になること: " + state.timing : "",
+          "",
+          "今回のカードは「" + reading.tone + "」を示しています。",
+          "",
+          "※ AI鑑定の取得に失敗しました。代わりに簡易鑑定を表示します。"
+        ].filter(Boolean).join("\n");
+
+        $("#finalTitle").textContent = state.themeName + "の鑑定結果";
+        $("#finalLead").textContent = finalLead;
+
+        var extras = state.memo
+          ? "補足メモから見ると、「" + state.memo + "」という気がかりは、すぐ答えを出すより流れを整えていく方が合っています。"
+          : "今は気持ちを急いで決めるより、流れを見ながら一手ずつ整える方が結果につながりやすいです。";
+
+        $("#resultGrid").innerHTML = [
+          { title: "現状", text: reading.now },
+          { title: "過去", text: reading.past },
+          { title: "未来（近未来）", text: reading.future },
+          { title: "今後どうすればいいか", text: reading.next },
+          { title: "今回の補足", text: extras }
+        ].map(function(item){
+          return [
+            '<div class="summaryBox">',
+              '<h3>', item.title, '</h3>',
+              '<p>', item.text, '</p>',
+            '</div>'
+          ].join("");
+        }).join("");
+      }
     }
 
     $("#backToThemesBtn").addEventListener("click", function(){
@@ -871,17 +959,18 @@
     });
 
     document.querySelectorAll(".cardBtn").forEach(function(btn){
-      btn.addEventListener("click", function(){
+      btn.addEventListener("click", async function(){
         document.querySelectorAll(".cardBtn").forEach(function(item){
           item.setAttribute("aria-pressed", "false");
         });
         btn.setAttribute("aria-pressed", "true");
 
         state.card = btn.dataset.card;
-        renderFinal(state.card);
 
         hide($("#step4"));
         show($("#step5"));
+
+        await renderFinal(state.card);
       });
     });
 
